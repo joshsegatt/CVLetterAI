@@ -2,6 +2,30 @@ import { ArrowRight, ShieldCheck, Sparkles, Users } from 'lucide-react';
 import Link from 'next/link';
 import { CheckoutButton } from '@/components/payments/CheckoutButton';
 import { Button } from '@/components/ui/Button';
+import type { PricingPlanId } from '@/services/payments/stripe';
+
+interface LinkCTA {
+  type: 'link';
+  label: string;
+  href: string;
+}
+
+interface CheckoutCTA {
+  type: 'checkout';
+  label: string;
+  planId: PricingPlanId;
+}
+
+type PlanCTA = LinkCTA | CheckoutCTA;
+
+interface Plan {
+  name: string;
+  price: string;
+  description: string;
+  highlights: string[];
+  featured?: boolean;
+  cta: PlanCTA;
+}
 
 const features = [
   {
@@ -24,13 +48,13 @@ const features = [
   }
 ];
 
-const plans = [
+const plans: Plan[] = [
   {
     name: 'Free',
     price: '£0',
     description: 'One CV, letter, and chat session to experience the workflow.',
     highlights: ['Single export per feature', 'Generative suggestions', 'Email support'],
-    cta: { type: 'link' as const, label: 'Start free', href: '/signup' }
+    cta: { type: 'link', label: 'Start free', href: '/signup' }
   },
   {
     name: 'One-Time Access',
@@ -42,14 +66,14 @@ const plans = [
       'Priority response times'
     ],
     featured: true,
-    cta: { type: 'checkout' as const, label: 'Unlock 48h pass', planId: 'price_one_time' }
+    cta: { type: 'checkout', label: 'Unlock 48h pass', planId: 'price_one_time' }
   },
   {
     name: 'Pro Subscription',
     price: '£9.99',
     description: 'Unlimited workflows with live AI guidance and admin controls.',
     highlights: ['Unlimited CV + letters', 'AI advisory chat', 'Multi-language exports'],
-    cta: { type: 'checkout' as const, label: 'Subscribe now', planId: 'price_subscription' }
+    cta: { type: 'checkout', label: 'Subscribe now', planId: 'price_subscription' }
   }
 ];
 
