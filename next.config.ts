@@ -9,7 +9,7 @@ const securityHeaders = [
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' blob: data:",
       "font-src 'self' data:",
-      "connect-src 'self' https://*.supabase.co https://api.stripe.com",
+      "connect-src 'self' https://api.stripe.com",
       "frame-ancestors 'self'",
       "frame-src https://*.stripe.com",
       "base-uri 'self'",

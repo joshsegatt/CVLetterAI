@@ -5,3 +5,5 @@ coverage
 playwright-report
 .env*
 .DS_Store
+
+/generated/prisma

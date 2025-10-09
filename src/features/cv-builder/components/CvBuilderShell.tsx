@@ -326,7 +326,7 @@ export function CvBuilderShell() {
                 transition={{ duration: 0.4, ease: 'easeOut' }}
                 className="mt-6 rounded-2xl border border-accent/40 bg-accent/10 p-4 text-sm text-accent"
               >
-                Preview generated! Proceed to export to download PDF/Word and sync to Supabase storage.
+                Preview generated! Proceed to export to download PDF/Word and sync to Neon storage.
               </motion.div>
             ) : null}
             <div className="mt-6 flex flex-wrap items-center gap-3">
@@ -337,7 +337,7 @@ export function CvBuilderShell() {
                 disabled={isSaving}
                 onClick={handleSaveDraft}
               >
-                {isSaving ? 'Saving…' : 'Save draft to Supabase'}
+                {isSaving ? 'Saving…' : 'Save draft to Neon'}
               </Button>
               {saveStatus === 'success' ? (
                 <span className="text-xs text-accent">Draft synced successfully.</span>

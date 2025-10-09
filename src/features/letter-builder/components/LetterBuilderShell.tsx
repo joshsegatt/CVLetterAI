@@ -166,10 +166,10 @@ export function LetterBuilderShell() {
             disabled={isSaving}
             onClick={handleSaveDraft}
           >
-            {isSaving ? 'Saving…' : 'Save draft to Supabase'}
+            {isSaving ? 'Saving…' : 'Save draft to Neon'}
           </Button>
           {saveStatus === 'success' ? (
-            <span className="text-xs text-accent">Letter saved to Supabase.</span>
+            <span className="text-xs text-accent">Letter saved to Neon.</span>
           ) : null}
           {saveStatus === 'error' ? (
             <span className="text-xs text-rose-300">

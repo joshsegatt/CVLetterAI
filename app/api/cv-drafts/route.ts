@@ -1,51 +1,41 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
+import type { CvBuilderForm } from '@/features/cv-builder/schema';
 import { cvBuilderSchema } from '@/features/cv-builder/schema';
+import { prisma } from '@/lib/prisma';
 import { captureError } from '@/services/platform/observability';
-import { getSupabaseServiceRoleClient } from '@/services/supabase/client';
 
-interface CvDraft {
-  id: string;
-  user_id: string;
-  payload: {
-    summary: string;
-    fullName: string;
-    headline: string;
-    location: string;
-    email: string;
-    phone: string;
-    experience: { title: string; company: string; summary: string }[];
-    skills: string[];
-    id?: string;
-    userId?: string;
-  };
-  updated_at: string;
-}
+const DEFAULT_USER_ID = 'demo-user';
+const MAX_RESULTS = 10;
 
 export const runtime = 'nodejs';
+
+interface CvDraftRecord {
+  id: string;
+  payload: CvBuilderForm;
+  updated_at: string;
+}
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { payload?: unknown };
     const parsed = cvBuilderSchema.parse(body.payload);
 
-    const supabase = getSupabaseServiceRoleClient();
     const draftId = parsed.id ?? randomUUID();
-    const userId = parsed.userId ?? 'demo-user';
+    const userId = parsed.userId ?? DEFAULT_USER_ID;
 
-    const { error } = await supabase.from<CvDraft, CvDraft>('cv_drafts').upsert(
-      {
-        id: draftId,
-        user_id: userId,
-        payload: parsed,
-        updated_at: new Date().toISOString()
+    await prisma.cvDraft.upsert({
+      where: { id: draftId },
+      update: {
+        userId,
+        payload: parsed
       },
-      { onConflict: 'id' }
-    );
-
-    if (error) {
-      throw error;
-    }
+      create: {
+        id: draftId,
+        userId,
+        payload: parsed
+      }
+    });
 
     return NextResponse.json({ id: draftId }, { status: 200 });
   } catch (error) {
@@ -60,21 +50,21 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId') ?? 'demo-user';
+    const userId = searchParams.get('userId') ?? DEFAULT_USER_ID;
 
-    const supabase = getSupabaseServiceRoleClient();
-    const { data, error } = await supabase
-      .from('cv_drafts')
-      .select('id, payload, updated_at')
-      .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
-      .limit(10);
+    const drafts = await prisma.cvDraft.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      take: MAX_RESULTS
+    });
 
-    if (error) {
-      throw error;
-    }
+    const responseDrafts: CvDraftRecord[] = drafts.map((draft) => ({
+      id: draft.id,
+      payload: draft.payload as CvBuilderForm,
+      updated_at: draft.updatedAt.toISOString()
+    }));
 
-    return NextResponse.json({ drafts: data ?? [] }, { status: 200 });
+    return NextResponse.json({ drafts: responseDrafts }, { status: 200 });
   } catch (error) {
     captureError(error, { scope: 'cv-draft-get' });
     return NextResponse.json(

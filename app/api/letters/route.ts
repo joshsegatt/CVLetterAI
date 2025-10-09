@@ -1,33 +1,41 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
+import type { LetterBuilderForm } from '@/features/letter-builder/schema';
 import { letterBuilderSchema } from '@/features/letter-builder/schema';
+import { prisma } from '@/lib/prisma';
 import { captureError } from '@/services/platform/observability';
-import { getSupabaseServiceRoleClient } from '@/services/supabase/client';
+
+const DEFAULT_USER_ID = 'demo-user';
+const MAX_RESULTS = 10;
 
 export const runtime = 'nodejs';
+
+interface LetterDraftRecord {
+  id: string;
+  payload: LetterBuilderForm;
+  updated_at: string;
+}
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as { payload?: unknown };
     const parsed = letterBuilderSchema.parse(body.payload);
 
-    const supabase = getSupabaseServiceRoleClient();
     const draftId = parsed.id ?? randomUUID();
-    const userId = parsed.userId ?? 'demo-user';
+    const userId = parsed.userId ?? DEFAULT_USER_ID;
 
-    const { error } = await supabase.from('letter_drafts').upsert(
-      {
-        id: draftId,
-        user_id: userId,
-        payload: parsed,
-        updated_at: new Date().toISOString()
+    await prisma.letterDraft.upsert({
+      where: { id: draftId },
+      update: {
+        userId,
+        payload: parsed
       },
-      { onConflict: 'id' }
-    );
-
-    if (error) {
-      throw error;
-    }
+      create: {
+        id: draftId,
+        userId,
+        payload: parsed
+      }
+    });
 
     return NextResponse.json({ id: draftId }, { status: 200 });
   } catch (error) {
@@ -42,23 +50,26 @@ export async function POST(request: Request) {
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const userId = searchParams.get('userId') ?? 'demo-user';
+    const userId = searchParams.get('userId') ?? DEFAULT_USER_ID;
 
-    const supabase = getSupabaseServiceRoleClient();
-    const { data, error } = await supabase
-      .from('letter_drafts')
-      .select('id, payload, updated_at')
-      .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
-      .limit(10);
+    const drafts = await prisma.letterDraft.findMany({
+      where: { userId },
+      orderBy: { updatedAt: 'desc' },
+      take: MAX_RESULTS
+    });
 
-    if (error) {
-      throw error;
-    }
+    const responseDrafts: LetterDraftRecord[] = drafts.map((draft) => ({
+      id: draft.id,
+      payload: draft.payload as LetterBuilderForm,
+      updated_at: draft.updatedAt.toISOString()
+    }));
 
-    return NextResponse.json({ drafts: data ?? [] }, { status: 200 });
+    return NextResponse.json({ drafts: responseDrafts }, { status: 200 });
   } catch (error) {
     captureError(error, { scope: 'letter-draft-get' });
-    return NextResponse.json({ error: 'Unable to fetch letters.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'Unable to fetch letters.' },
+      { status: 500 }
+    );
   }
 }

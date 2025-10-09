@@ -1,18 +1,13 @@
-const requiredEnv = [
-  'NEXT_PUBLIC_SUPABASE_URL',
-  'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  'SUPABASE_SERVICE_ROLE_KEY',
-  'STRIPE_SECRET_KEY',
-  'STRIPE_WEBHOOK_SECRET'
-] as const;
+const requiredEnv = ['DATABASE_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'] as const;
 
 type RequiredEnv = (typeof requiredEnv)[number];
 
 const optionalEnv = [
+  'NEXT_PUBLIC_APP_NAME',
+  'NEXT_PUBLIC_SITE_URL',
   'OPENAI_API_KEY',
   'OPENAI_MODEL',
   'OPENAI_BASE_URL',
-  'NEXT_PUBLIC_SITE_URL',
   'STRIPE_PRICE_ONE_TIME',
   'STRIPE_PRICE_SUBSCRIPTION'
 ] as const;
@@ -32,12 +27,11 @@ function readOptionalEnv(key: OptionalEnv) {
 }
 
 export const platformEnv = {
-  supabaseUrl: readEnv('NEXT_PUBLIC_SUPABASE_URL') ?? '',
-  supabaseAnonKey: readEnv('NEXT_PUBLIC_SUPABASE_ANON_KEY') ?? '',
-  supabaseServiceRoleKey: readEnv('SUPABASE_SERVICE_ROLE_KEY') ?? '',
+  databaseUrl: readEnv('DATABASE_URL') ?? '',
   stripeSecret: readEnv('STRIPE_SECRET_KEY') ?? '',
   stripeWebhookSecret: readEnv('STRIPE_WEBHOOK_SECRET') ?? '',
   analyticsDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? '',
+  appName: readOptionalEnv('NEXT_PUBLIC_APP_NAME') || 'CVLetterAI',
   openaiApiKey: readOptionalEnv('OPENAI_API_KEY'),
   openaiModel: readOptionalEnv('OPENAI_MODEL') || 'gpt-4.1-mini',
   openaiBaseUrl: readOptionalEnv('OPENAI_BASE_URL') || 'https://api.openai.com/v1',

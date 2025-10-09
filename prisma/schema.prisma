@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model CvDraft {
+  id        String   @id @default(uuid())
+  userId    String
+  payload   Json
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, updatedAt])
+}
+
+model LetterDraft {
+  id        String   @id @default(uuid())
+  userId    String
+  payload   Json
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, updatedAt])
+}

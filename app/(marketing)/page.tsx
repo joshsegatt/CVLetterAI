@@ -217,7 +217,7 @@ export default function MarketingPage() {
         <div>
           <h2 className="text-2xl font-semibold text-white">Security-first SaaS</h2>
           <p className="mt-3 text-sm leading-relaxed text-neutral-300">
-            Supabase row-level security, Stripe verified payments, and full audit trails
+            Neon Postgres row-level security, Stripe verified payments, and full audit trails
             ensure GDPR & ISO-aligned operations. Export or delete your data at any time.
           </p>
         </div>

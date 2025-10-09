@@ -54,8 +54,8 @@ Performance Targets:
 - Dynamic imports, prefetching, image optimization
 
 Backend:
-- Supabase (PostgreSQL 16) with Row-Level Security
-- Supabase Edge Functions (business logic)
+- Neon Postgres (PostgreSQL 16) with Row-Level Security
+- Prisma ORM (App Routes + migrations)
 - JWT Auth (Google + Email)
 - Stripe Checkout + Webhooks (HMAC verified)
 - GPT-5-turbo AI Layer (prompt logging disabled)
@@ -65,13 +65,13 @@ Backend:
 - Edge deploy region: eu-west (London)
 
 Storage:
-- Supabase encrypted buckets for generated files
-- Versioned soft-delete, pre-signed URLs
+- Neon Postgres JSON columns for persisted drafts
+- Versioned soft-delete, pre-signed URLs (future S3-compatible buckets)
 Infrastructure:
 - Frontend: Vercel Edge Network  
-- Backend: Supabase EU region  
+- Backend: Neon Postgres EU West  
 - CI/CD: GitHub Actions → Lint → Typecheck → Test → Build → Deploy  
-- Secrets: Vercel + Supabase Config Sync  
+- Secrets: Vercel + Neon connection string + Stripe keys  
 - Daily encrypted backups, semantic-release, blue-green deploy ready  
 - Optional Terraform IaC support
 
@@ -123,7 +123,7 @@ Deliverables:
 - Full monorepo (frontend + backend)  
 - Complete code structure and design system  
 - Multilingual, responsive, SEO-ready Next.js app  
-- Integrated Supabase + Stripe + GPT-5 stack  
+- Integrated Neon + Prisma + Stripe + GPT-5 stack  
 - End-to-end tested and CI/CD configured  
-- Production deploy on Vercel + Supabase  
+- Production deploy on Vercel + Neon Postgres  
 - GitHub repository with branch protection, PR automation, and documentation
