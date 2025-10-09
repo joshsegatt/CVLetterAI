@@ -4,6 +4,24 @@ import { cvBuilderSchema } from '@/features/cv-builder/schema';
 import { captureError } from '@/services/platform/observability';
 import { getSupabaseServiceRoleClient } from '@/services/supabase/client';
 
+interface CvDraft {
+  id: string;
+  user_id: string;
+  payload: {
+    summary: string;
+    fullName: string;
+    headline: string;
+    location: string;
+    email: string;
+    phone: string;
+    experience: { title: string; company: string; summary: string }[];
+    skills: string[];
+    id?: string;
+    userId?: string;
+  };
+  updated_at: string;
+}
+
 export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
@@ -15,7 +33,7 @@ export async function POST(request: Request) {
     const draftId = parsed.id ?? randomUUID();
     const userId = parsed.userId ?? 'demo-user';
 
-    const { error } = await supabase.from('cv_drafts').upsert(
+    const { error } = await supabase.from<CvDraft>('cv_drafts').upsert(
       {
         id: draftId,
         user_id: userId,
