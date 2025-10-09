@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     const draftId = parsed.id ?? randomUUID();
     const userId = parsed.userId ?? 'demo-user';
 
-    const { error } = await supabase.from<CvDraft>('cv_drafts').upsert(
+    const { error } = await supabase.from<CvDraft, CvDraft>('cv_drafts').upsert(
       {
         id: draftId,
         user_id: userId,
