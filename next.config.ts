@@ -38,9 +38,9 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  typedRoutes: true,
   experimental: {
-    typedRoutes: true,
-    serverActions: true
+    serverActions: {}
   },
   eslint: {
     dirs: ['app', 'src']

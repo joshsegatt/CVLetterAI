@@ -1,26 +1,41 @@
-import { Inter, JetBrains_Mono } from 'next/font/google';
+import localFont from 'next/font/local';
 
 /**
  * Font stack powered by next/font.
  * Satoshi is mapped to Inter for now until licensed asset is available.
  */
-export const inter = Inter({
-  subsets: ['latin'],
-  weight: ['500', '600', '700', '800'],
+export const inter = localFont({
+  src: [
+    {
+      path: './fonts/Inter-Variable.ttf',
+      weight: '400 900',
+      style: 'normal'
+    }
+  ],
   display: 'swap',
   variable: '--font-inter'
 });
 
-export const jetBrainsMono = JetBrains_Mono({
-  subsets: ['latin'],
-  weight: ['400', '500', '600', '700'],
+export const jetBrainsMono = localFont({
+  src: [
+    {
+      path: './fonts/JetBrainsMono-Variable.ttf',
+      weight: '400 800',
+      style: 'normal'
+    }
+  ],
   display: 'swap',
   variable: '--font-jetbrains'
 });
 
-export const satoshi = Inter({
-  subsets: ['latin'],
-  weight: ['500', '600', '700'],
+export const satoshi = localFont({
+  src: [
+    {
+      path: './fonts/Inter-Variable.ttf',
+      weight: '500 700',
+      style: 'normal'
+    }
+  ],
   display: 'swap',
   variable: '--font-satoshi'
 });
