@@ -6,8 +6,11 @@ import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/Button';
 import { cn } from '@/lib/utils';
 import { useChatAssistant } from '@/features/chat/hooks/useChatAssistant';
+import type { ChatCompletionMessage } from '@/services/ai/types';
 
-function MessageBubble({ role, content }: { role: 'user' | 'assistant'; content: string }) {
+type MessageRole = ChatCompletionMessage['role'];
+
+function MessageBubble({ role, content }: { role: MessageRole; content: string }) {
   const isUser = role === 'user';
   return (
     <motion.div
@@ -45,7 +48,11 @@ export default function ChatShell() {
           </div>
         ) : (
           messages.map((message) => (
-            <MessageBubble key={message.id} role={message.role} content={message.content} />
+            <MessageBubble
+              key={message.id}
+              role={message.role === 'system' ? 'assistant' : message.role}
+              content={message.content}
+            />
           ))
         )}
       </div>
