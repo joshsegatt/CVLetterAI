@@ -59,16 +59,25 @@ export function CvBuilderShell() {
 
   const preview = form.watch();
 
-  const handleNext = async () => {
-    const valid = await form.trigger([...currentStep.fields] as (keyof CvBuilderForm)[], {
-      shouldFocus: true
-    });
-    if (!valid) return;
+  const nextStep = () => {
     if (activeStep === steps.length - 1) {
       setCompleted(true);
     } else {
       setActiveStep((step) => step + 1);
     }
+  };
+
+  const handleNext = async (): Promise<void> => {
+    // Normalize fields array (remove readonly type)
+    const fields = Array.isArray(currentStep.fields)
+      ? ([...currentStep.fields] as (keyof CvBuilderForm)[])
+      : [];
+
+    const valid = await form.trigger(fields, { shouldFocus: true });
+    if (!valid) return;
+
+    // proceed as before
+    nextStep();
   };
 
   const handlePrevious = () => {
