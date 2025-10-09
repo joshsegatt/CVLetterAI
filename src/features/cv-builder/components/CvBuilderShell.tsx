@@ -60,7 +60,7 @@ export function CvBuilderShell() {
   const preview = form.watch();
 
   const handleNext = async () => {
-    const valid = await form.trigger(currentStep.fields as (keyof CvBuilderForm)[], {
+    const valid = await form.trigger([...currentStep.fields] as (keyof CvBuilderForm)[], {
       shouldFocus: true
     });
     if (!valid) return;
