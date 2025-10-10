@@ -68,14 +68,12 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // Convert readonly tuple into a mutable array for React Hook Form validation
-    const mutableFields = Array.from(currentStep.fields) as (keyof CvBuilderForm)[];
+    // Convert readonly tuples to mutable arrays safely for RHF trigger()
+    const fields = [...(currentStep.fields as readonly (keyof CvBuilderForm)[])] as (keyof CvBuilderForm)[];
 
-    const valid = await form.trigger(mutableFields, {
-      shouldFocus: true
-    });
-
+    const valid = await form.trigger(fields, { shouldFocus: true });
     if (!valid) return;
+
     nextStep();
   };
 

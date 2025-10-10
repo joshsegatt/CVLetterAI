@@ -6,7 +6,7 @@ let stripeClient: Stripe | null = null;
 export function getStripeClient() {
   if (!stripeClient) {
     stripeClient = new Stripe(platformEnv.stripeSecret, {
-      apiVersion: '2024-09-30.acacia',
+      apiVersion: '2024-04-10',
       typescript: true
     });
   }
