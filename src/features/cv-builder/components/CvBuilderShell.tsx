@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 'use client';
 
 import { useState, useTransition } from 'react';
@@ -68,10 +69,8 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    const fields = [...currentStep.fields];
-
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const valid = await form.trigger(fields, {
+    const valid = await form.trigger([...currentStep.fields], {
       shouldFocus: true
     });
 
