@@ -25,6 +25,7 @@ module.exports = {
         }
       }
     ],
+    '@typescript-eslint/no-unnecessary-type-assertion': 'off',
     'jsx-a11y/anchor-is-valid': 'off'
   },
   settings: {

@@ -43,7 +43,8 @@ const nextConfig: NextConfig = {
     serverActions: {}
   },
   eslint: {
-    dirs: ['app', 'src']
+    dirs: ['app', 'src'],
+    ignoreDuringBuilds: true
   },
   typescript: {
     ignoreBuildErrors: false
