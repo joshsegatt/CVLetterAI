@@ -68,10 +68,15 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // Convert readonly tuples to mutable arrays safely for RHF trigger()
-    const fields = [...(currentStep.fields as readonly (keyof CvBuilderForm)[])] as (keyof CvBuilderForm)[];
+    // Convert readonly tuples safely to mutable arrays
+    const fields = currentStep.fields
+      ? Array.from(currentStep.fields as readonly (keyof CvBuilderForm)[])
+      : [];
 
-    const valid = await form.trigger(fields, { shouldFocus: true });
+    const valid = await form.trigger(fields as (keyof CvBuilderForm)[], {
+      shouldFocus: true
+    });
+
     if (!valid) return;
 
     nextStep();
