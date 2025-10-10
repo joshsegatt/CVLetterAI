@@ -68,9 +68,10 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // force mutable array typing to avoid readonly tuple conflicts
-    const mutableFields = [...(currentStep.fields as (keyof CvBuilderForm)[])];
-    const valid = await form.trigger(mutableFields, { shouldFocus: true });
+    const valid = await form.trigger(
+      [...currentStep.fields] as unknown as (keyof CvBuilderForm)[],
+      { shouldFocus: true }
+    );
     if (!valid) return;
     nextStep();
   };
