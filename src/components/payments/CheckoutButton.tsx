@@ -4,6 +4,12 @@ import { useState } from 'react';
 import { Button, type ButtonProps } from '@/components/ui/Button';
 import type { PricingPlanId } from '@/services/payments/stripe';
 
+const STRIPE_CHECKOUT_URLS: Record<PricingPlanId, string | null> = {
+  price_free: null,
+  price_one_time: 'https://buy.stripe.com/test_5kQ4gBfeaaftdVydSHgQE00',
+  price_subscription: 'https://buy.stripe.com/test_00w5kF7LIevJaJmcODgQE01'
+};
+
 interface CheckoutButtonProps extends Omit<ButtonProps, 'onClick'> {
   planId: PricingPlanId;
   label: string;
@@ -13,26 +19,19 @@ export function CheckoutButton({ planId, label, intent, size, className, ...prop
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     setIsLoading(true);
     setError(null);
 
     try {
-      const response = await fetch('/api/payments/create-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ planId })
-      });
+      const checkoutUrl = STRIPE_CHECKOUT_URLS[planId];
 
-      const payload = (await response.json()) as { url?: string; error?: string };
-
-      if (!response.ok || typeof payload.url !== 'string') {
-        throw new Error(payload.error ?? 'Unable to start checkout');
+      if (!checkoutUrl) {
+        setError('This plan is handled inside the app. Please continue in the product.');
+        return;
       }
 
-      window.location.href = payload.url;
+      window.location.href = checkoutUrl;
     } catch (checkoutError) {
       setError(
         checkoutError instanceof Error
