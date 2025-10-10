@@ -70,6 +70,7 @@ export function CvBuilderShell() {
   const handleNext = async (): Promise<void> => {
     const fields = [...currentStep.fields];
 
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     const valid = await form.trigger(fields, {
       shouldFocus: true
     });
