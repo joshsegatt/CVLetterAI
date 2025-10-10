@@ -18,25 +18,25 @@ const steps = [
     key: 'profile',
     title: 'Personal details',
     description: 'Baseline identity and contact details surfaced in the header.',
-    fields: ['fullName', 'headline', 'location', 'email', 'phone'] as const
+    fields: ['fullName', 'headline', 'location', 'email', 'phone'] as (keyof CvBuilderForm)[]
   },
   {
     key: 'summary',
     title: 'Professional summary',
     description: 'Your 3–4 sentence pitch optimised for ATS scanning.',
-    fields: ['summary'] as const
+    fields: ['summary'] as (keyof CvBuilderForm)[]
   },
   {
     key: 'experience',
     title: 'Experience',
     description: 'Highlight recent roles, impact metrics, and UK context.',
-    fields: ['experience'] as const
+    fields: ['experience'] as (keyof CvBuilderForm)[]
   },
   {
     key: 'skills',
     title: 'Skills',
     description: 'Structured capabilities and soft skills for scanning.',
-    fields: ['skills'] as const
+    fields: ['skills'] as (keyof CvBuilderForm)[]
   }
 ];
 
