@@ -68,15 +68,15 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // Normalize fields array (remove readonly type)
-    const fields = Array.isArray(currentStep.fields)
-      ? ([...currentStep.fields] as (keyof CvBuilderForm)[])
-      : [];
+    // Ensure we always have a mutable array for form.trigger
+    const stepFields = (Array.isArray(currentStep.fields)
+      ? [...currentStep.fields]
+      : []) as unknown as (keyof CvBuilderForm)[];
 
-    const valid = await form.trigger(fields, { shouldFocus: true });
+    const valid = await form.trigger(stepFields, { shouldFocus: true });
     if (!valid) return;
 
-    // proceed as before
+    // Move to next step as usual
     nextStep();
   };
 
