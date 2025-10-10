@@ -68,12 +68,9 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // Convert readonly tuples safely to mutable arrays
-    const fields = currentStep.fields
-      ? Array.from(currentStep.fields as readonly (keyof CvBuilderForm)[])
-      : [];
+    const fields = [...currentStep.fields];
 
-    const valid = await form.trigger(fields as (keyof CvBuilderForm)[], {
+    const valid = await form.trigger(fields, {
       shouldFocus: true
     });
 
