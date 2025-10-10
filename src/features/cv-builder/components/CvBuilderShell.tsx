@@ -106,6 +106,7 @@ export function CvBuilderShell() {
       setSaveError(null);
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const valid = await form.trigger(undefined, { shouldFocus: false });
         if (!valid) {
           setSaveStatus('error');
