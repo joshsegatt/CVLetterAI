@@ -68,10 +68,13 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    const valid = await form.trigger(
-      [...currentStep.fields] as unknown as (keyof CvBuilderForm)[],
-      { shouldFocus: true }
-    );
+    // Convert readonly tuple into a mutable array for React Hook Form validation
+    const mutableFields = Array.from(currentStep.fields) as (keyof CvBuilderForm)[];
+
+    const valid = await form.trigger(mutableFields, {
+      shouldFocus: true
+    });
+
     if (!valid) return;
     nextStep();
   };
