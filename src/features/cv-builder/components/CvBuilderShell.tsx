@@ -68,15 +68,10 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // Ensure we always have a mutable array for form.trigger
-    const stepFields = (Array.isArray(currentStep.fields)
-      ? [...currentStep.fields]
-      : []) as unknown as (keyof CvBuilderForm)[];
-
-    const valid = await form.trigger(stepFields, { shouldFocus: true });
+    // force mutable array typing to avoid readonly tuple conflicts
+    const mutableFields = [...(currentStep.fields as (keyof CvBuilderForm)[])];
+    const valid = await form.trigger(mutableFields, { shouldFocus: true });
     if (!valid) return;
-
-    // Move to next step as usual
     nextStep();
   };
 
