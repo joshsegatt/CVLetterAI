@@ -4,6 +4,14 @@ import { Logo } from '@/components/shared/Logo';
 import { Button } from '@/components/ui/Button';
 import { ThemeToggle } from '@/components/ui/ThemeToggle';
 
+const marketingHeaderNav = [
+  { label: 'Dashboard', href: '/dashboard' },
+  { label: 'CV Builder', href: '/cv-builder' },
+  { label: 'Letter Builder', href: '/letter-builder' },
+  { label: 'Chat', href: '/chat' },
+  { label: 'Settings', href: '/settings' }
+] as const;
+
 export function MarketingLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.45),transparent_55%),radial-gradient(circle_at_bottom,_rgba(14,165,233,0.35),transparent_60%)]">
@@ -17,6 +25,11 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
                 key={item.label}
                 href={item.href}
                 className="text-sm font-medium text-neutral-300 transition hover:text-white"
+          <Link href="/" className="group inline-flex items-center gap-3" aria-label="CVLetterAI home">
+            <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 shadow-lg shadow-glow backdrop-blur-md transition group-hover:border-white/20 group-hover:bg-white/10">
+              <span
+                className="bg-gradient-to-r from-[#60A5FA] via-[#38BDF8] to-[#C084FC] bg-[length:200%_200%] bg-clip-text bg-left text-xl font-bold uppercase tracking-[0.35em] text-transparent transition-[background-position] duration-500 ease-in-out group-hover:bg-right"
+                style={{ textShadow: '0 0 10px rgba(56,189,248,0.4)' }}
               >
                 {item.label}
               </Link>
@@ -27,8 +40,44 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
             <Button asChild intent="secondary" size="sm">
               <Link href="/signin">Sign in</Link>
             </Button>
+                CV
+              </span>
+              <div className="flex flex-col leading-none">
+                <span className="text-2xl font-bold tracking-tight text-[#F8FAFC] transition-colors duration-300 ease-in-out group-hover:text-white">
+                  LetterAI
+                </span>
+                <span className="text-[0.7rem] font-medium uppercase tracking-[0.28em] text-white/60">
+                  PRECISION DOCUMENTS
+                </span>
+              </div>
+            </div>
+          </Link>
+          <div className="hidden items-center gap-12 md:flex">
+            <nav aria-label="Main navigation" className="flex items-center gap-8 text-sm font-medium">
+              {marketingHeaderNav.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="text-neutral-200 transition hover:text-white"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+            <div className="flex items-center gap-4">
+              <ThemeToggle />
+              <Button asChild intent="secondary" size="sm">
+                <Link href="/signin">Sign in</Link>
+              </Button>
+              <Button asChild size="sm">
+                <Link href="/signup">Sign up</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="md:hidden">
             <Button asChild size="sm">
               <Link href="/signup">Start free</Link>
+              <Link href="/signup">Sign up</Link>
             </Button>
           </div>
         </header>
@@ -53,6 +102,7 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
       <div className="fixed bottom-6 right-6 z-40 md:hidden">
         <Button asChild size="lg">
           <Link href="/signup">Start free</Link>
+          <Link href="/signup">Sign up</Link>
         </Button>
       </div>
     </div>
