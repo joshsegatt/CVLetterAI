@@ -142,16 +142,7 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
             CVLetterAI combines trusted templates, multilingual exports, and an advisory
             copilot to keep your employment and tenancy documents audit-ready.
           </p>
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild size="lg">
-              <Link href="/signup">
-                Start free trial <ArrowRight className="h-4 w-4" />
-              </Link>
-            </Button>
-            <Button asChild intent="ghost" size="lg">
-              <Link href="#pricing">Compare plans</Link>
-            </Button>
-          </div>
+          <div className="mt-10 h-6" />
         </div>
       </section>
 

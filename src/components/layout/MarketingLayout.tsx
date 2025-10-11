@@ -51,10 +51,10 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
           <div className="hidden items-center gap-4 md:flex">
             <ThemeToggle />
             <Button asChild intent="secondary" size="sm">
-              <Link href="/signin">Sign in</Link>
+              <Link href="/sign-in">Sign in</Link>
             </Button>
             <Button asChild size="sm">
-              <Link href="/signup">Sign up</Link>
+              <Link href="/sign-up">Sign up</Link>
             </Button>
           </div>
 
@@ -85,10 +85,10 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
 
       <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-3 md:hidden">
         <Button asChild intent="secondary" size="lg">
-          <Link href="/signin">Sign in</Link>
+          <Link href="/sign-in">Sign in</Link>
         </Button>
         <Button asChild size="lg">
-          <Link href="/signup">Sign up</Link>
+          <Link href="/sign-up">Sign up</Link>
         </Button>
       </div>
     </div>
