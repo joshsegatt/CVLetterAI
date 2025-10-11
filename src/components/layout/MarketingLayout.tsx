@@ -15,7 +15,7 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
     <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,_rgba(37,99,235,0.45),transparent_55%),radial-gradient(circle_at_bottom,_rgba(14,165,233,0.35),transparent_60%)]">
       <div className="absolute inset-0 -z-10 bg-gradient-mesh blur-3xl opacity-50" aria-hidden />
       <div className="mx-auto flex min-h-screen max-w-[120rem] flex-col px-4 sm:px-8">
-        <header className="flex flex-wrap items-center justify-between gap-4 py-8 md:flex-nowrap">
+        <header className="flex items-center justify-between py-8">
           <Link
             href="/"
             aria-label="CVLetterAI home"
