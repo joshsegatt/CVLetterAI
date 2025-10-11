@@ -33,3 +33,14 @@ Built with **Next.js 15**, **TypeScript**, and **Stripe integration**, this plat
 
 ## 🏗️ Project Structure
 
+app/
+├── (marketing)/page.tsx # Landing page
+├── pricing/page.tsx # Pricing and plans
+├── sign-in/page.tsx # Auth page
+├── dashboard/page.tsx # User dashboard
+├── cv-builder/page.tsx # CV builder
+├── letter-builder/page.tsx # Letter builder
+├── settings/page.tsx # User settings
+├── chat/page.tsx # AI chat
+├── layout.tsx # Root layout
+└── globals.css # Global styles
