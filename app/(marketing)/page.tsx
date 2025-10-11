@@ -57,7 +57,7 @@ const plans: Plan[] = [
     cta: { type: 'link', label: 'Start free', href: '/signup' }
   },
   {
-    name: 'One-Time Access',
+    name: 'Pro',
     price: '£5.99',
     description: '48 hours of unlimited CV and letter generation for urgent needs.',
     highlights: [
@@ -69,7 +69,7 @@ const plans: Plan[] = [
     cta: { type: 'checkout', label: 'Unlock 48h pass', planId: 'price_one_time' }
   },
   {
-    name: 'Pro Subscription',
+    name: 'Enterprise',
     price: '£9.99',
     description: 'Unlimited workflows with live AI guidance and admin controls.',
     highlights: ['Unlimited CV + letters', 'AI advisory chat', 'Multi-language exports'],
@@ -92,9 +92,42 @@ const testimonials = [
   }
 ];
 
-export default function MarketingPage() {
+interface MarketingPageProps {
+  searchParams?: {
+    purchase?: string;
+  };
+}
+
+export default function MarketingPage({ searchParams }: MarketingPageProps) {
+  const purchaseState = searchParams?.purchase ?? '';
+  const banner =
+    purchaseState === 'success'
+      ? {
+          tone: 'success',
+          message: 'Payment confirmed. Your upgraded features are now active.'
+        }
+      : purchaseState === 'cancelled'
+        ? {
+            tone: 'warning',
+            message: 'Checkout cancelled. You can resume your purchase at any time.'
+          }
+        : null;
+
   return (
     <div className="space-y-28 pb-24">
+      {banner ? (
+        <div
+          role="status"
+          aria-live="polite"
+          className={`rounded-2xl border px-4 py-3 text-sm ${
+            banner.tone === 'success'
+              ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-200'
+              : 'border-amber-500/40 bg-amber-500/10 text-amber-200'
+          }`}
+        >
+          {banner.message}
+        </div>
+      ) : null}
       <section className="relative overflow-hidden rounded-3xl border border-white/5 bg-glass-panel px-8 py-20 shadow-card lg:px-20">
         <div className="absolute -left-12 top-12 h-48 w-48 rounded-full bg-brand/30 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-32 w-32 rounded-full bg-accent/30 blur-3xl" />

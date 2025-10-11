@@ -5,17 +5,24 @@ import { captureError } from '@/services/platform/observability';
 
 export const runtime = 'nodejs';
 
+const ALLOWED_PLAN_IDS: PricingPlanId[] = ['price_one_time', 'price_subscription'];
+
 interface CheckoutBody {
-  planId?: PricingPlanId;
+  planId?: unknown;
 }
 
 export async function POST(request: Request) {
   try {
     const body = (await request.json()) as CheckoutBody;
-    const planId = body.planId;
-    const config = planId ? getCheckoutConfig(planId) : null;
+    const planId = typeof body.planId === 'string' ? (body.planId as PricingPlanId) : undefined;
 
-    if (!planId || !config) {
+    if (!planId || !ALLOWED_PLAN_IDS.includes(planId)) {
+      return NextResponse.json({ error: 'Invalid plan selection.' }, { status: 400 });
+    }
+
+    const config = getCheckoutConfig(planId);
+
+    if (!config) {
       return NextResponse.json({ error: 'Invalid plan selection.' }, { status: 400 });
     }
 

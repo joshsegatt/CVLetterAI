@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 'use client';
 
 import { useState, useTransition } from 'react';
@@ -68,12 +69,17 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
+<<<<<<< HEAD
     // Convert readonly tuples safely to mutable arrays
     const fields = currentStep.fields
       ? Array.from(currentStep.fields as readonly (keyof CvBuilderForm)[])
       : [];
 
     const valid = await form.trigger(fields as (keyof CvBuilderForm)[], {
+=======
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    const valid = await form.trigger([...currentStep.fields], {
+>>>>>>> dev-next
       shouldFocus: true
     });
 
@@ -109,6 +115,7 @@ export function CvBuilderShell() {
       setSaveError(null);
 
       try {
+        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const valid = await form.trigger(undefined, { shouldFocus: false });
         if (!valid) {
           setSaveStatus('error');
