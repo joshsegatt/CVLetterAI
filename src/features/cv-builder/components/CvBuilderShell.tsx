@@ -69,22 +69,20 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-  // Safely trigger validation for current step fields
-  const valid = await form.trigger([...currentStep.fields], {
-    shouldFocus: true,
-  });
+  // Normalize "fields" into a mutable array accepted by RHF
+  const fields: (keyof CvBuilderForm)[] =
+    Array.isArray(currentStep.fields)
+      ? (currentStep.fields as (keyof CvBuilderForm)[])
+      : Array.from(
+          currentStep.fields as readonly (keyof CvBuilderForm)[]
+        );
 
-  if (!valid) return;
+  // Validate only current step fields
+  const isValid = await form.trigger(fields, { shouldFocus: true });
+
+  if (!isValid) return;
   nextStep();
 };
-
-      shouldFocus: true
-    });
-
-    if (!valid) return;
-
-    nextStep();
-  };
 
   const handlePrevious = () => {
     setActiveStep((step) => Math.max(0, step - 1));
