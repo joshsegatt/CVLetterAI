@@ -60,14 +60,6 @@ const nextConfig: NextConfig = {
         headers: securityHeaders
       }
     ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/pricing',
-        destination: '/'
-      }
-    ];
   }
 };
 

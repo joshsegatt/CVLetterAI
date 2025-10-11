@@ -267,7 +267,13 @@ export function CvBuilderShell() {
           )}
 
           <div className="mt-6 flex justify-between">
-            <Button type="button" intent="ghost" size="sm" onClick={handlePrevious} disabled={activeStep === 0}>
+            <Button
+              type="button"
+              intent="ghost"
+              size="sm"
+              onClick={handlePrevious}
+              disabled={activeStep === 0}
+            >
               Back
             </Button>
             <Button type="button" onClick={handleNext}>
