@@ -69,17 +69,15 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-<<<<<<< HEAD
-    // Convert readonly tuples safely to mutable arrays
-    const fields = currentStep.fields
-      ? Array.from(currentStep.fields as readonly (keyof CvBuilderForm)[])
-      : [];
+  // Safely trigger validation for current step fields
+  const valid = await form.trigger([...currentStep.fields], {
+    shouldFocus: true,
+  });
 
-    const valid = await form.trigger(fields as (keyof CvBuilderForm)[], {
-=======
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const valid = await form.trigger([...currentStep.fields], {
->>>>>>> dev-next
+  if (!valid) return;
+  nextStep();
+};
+
       shouldFocus: true
     });
 
