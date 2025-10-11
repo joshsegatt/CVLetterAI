@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-type-assertion */
 'use client';
 
 import { useState, useTransition } from 'react';
@@ -19,27 +18,32 @@ const steps = [
     key: 'profile',
     title: 'Personal details',
     description: 'Baseline identity and contact details surfaced in the header.',
-    fields: ['fullName', 'headline', 'location', 'email', 'phone'] as (keyof CvBuilderForm)[]
+    fields: ['fullName', 'headline', 'location', 'email', 'phone'] as const
   },
   {
     key: 'summary',
     title: 'Professional summary',
     description: 'Your 3–4 sentence pitch optimised for ATS scanning.',
-    fields: ['summary'] as (keyof CvBuilderForm)[]
+    fields: ['summary'] as const
   },
   {
     key: 'experience',
     title: 'Experience',
     description: 'Highlight recent roles, impact metrics, and UK context.',
-    fields: ['experience'] as (keyof CvBuilderForm)[]
+    fields: ['experience'] as const
   },
   {
     key: 'skills',
     title: 'Skills',
     description: 'Structured capabilities and soft skills for scanning.',
-    fields: ['skills'] as (keyof CvBuilderForm)[]
+    fields: ['skills'] as const
   }
-];
+] satisfies {
+  key: string;
+  title: string;
+  description: string;
+  fields: readonly (keyof CvBuilderForm)[];
+}[];
 
 export function CvBuilderShell() {
   const [activeStep, setActiveStep] = useState(0);
@@ -69,8 +73,8 @@ export function CvBuilderShell() {
   };
 
   const handleNext = async (): Promise<void> => {
-    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    const valid = await form.trigger([...currentStep.fields], {
+    const fields: (keyof CvBuilderForm)[] = Array.from(currentStep.fields);
+    const valid = await form.trigger(fields, {
       shouldFocus: true
     });
 
@@ -106,7 +110,6 @@ export function CvBuilderShell() {
       setSaveError(null);
 
       try {
-        // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
         const valid = await form.trigger(undefined, { shouldFocus: false });
         if (!valid) {
           setSaveStatus('error');
