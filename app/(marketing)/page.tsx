@@ -54,7 +54,7 @@ const plans: Plan[] = [
     price: '£0',
     description: 'One CV, letter, and chat session to experience the workflow.',
     highlights: ['Single export per feature', 'Generative suggestions', 'Email support'],
-    cta: { type: 'link', label: 'Start free', href: '/signup' }
+    cta: { type: 'link', label: 'Start free', href: '/sign-up' }
   },
   {
     name: 'Pro',
@@ -142,7 +142,16 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
             CVLetterAI combines trusted templates, multilingual exports, and an advisory
             copilot to keep your employment and tenancy documents audit-ready.
           </p>
-          <div className="mt-10 h-6" />
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
+            <Button asChild size="lg">
+              <Link href="/sign-up">
+                Start free trial <ArrowRight className="h-4 w-4" />
+              </Link>
+            </Button>
+            <Button asChild intent="ghost" size="lg">
+              <Link href="#pricing">Compare plans</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
