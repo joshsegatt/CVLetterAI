@@ -62,6 +62,16 @@ export function MarketingLayout({ children }: { children: React.ReactNode }) {
             <ThemeToggle />
           </div>
         </header>
+        <nav
+          aria-label="Primary navigation mobile"
+          className="mb-6 flex items-center justify-center gap-4 overflow-x-auto text-sm font-medium text-neutral-200 md:hidden"
+        >
+          {primaryLinks.map((item) => (
+            <Link key={item.href} href={item.href} className="transition hover:text-white">
+              {item.label}
+            </Link>
+          ))}
+        </nav>
 
         <main className="flex-1">{children}</main>
 
