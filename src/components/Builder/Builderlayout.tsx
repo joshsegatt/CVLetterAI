@@ -4,13 +4,12 @@ import { ReactNode } from "react";
 import { Download, Copy, Save } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
-export function BuilderLayout({
-  form,
-  preview,
-}: {
+interface BuilderLayoutProps {
   form: ReactNode;
   preview: ReactNode;
-}) {
+}
+
+export function BuilderLayout({ form, preview }: BuilderLayoutProps) {
   return (
     <div className="grid md:grid-cols-2 gap-8 h-full">
       {/* Coluna esquerda: Formulário */}
