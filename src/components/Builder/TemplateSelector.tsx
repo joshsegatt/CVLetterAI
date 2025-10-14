@@ -1,11 +1,13 @@
 "use client";
 
 import React from "react";
+import { cn } from "../../lib/utils"; // ajuste o caminho conforme sua pasta real
+import { Button } from "../ui/Button"; // se você realmente usar o Button aqui
 
 interface TemplateOption {
   id: string;
   name: string;
-  thumbnail: string;
+  thumbnail: string; // caminho da imagem miniatura
 }
 
 interface TemplateSelectorProps {
@@ -16,28 +18,25 @@ interface TemplateSelectorProps {
 
 export function TemplateSelector({ options, selected, onSelect }: TemplateSelectorProps) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-4">
-      {options.map((option) => (
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {options.map((opt) => (
         <button
-          key={option.id}
+          key={opt.id}
           type="button"
-          onClick={() => onSelect(option.id)}
-          className={`relative rounded-lg border-2 overflow-hidden transition 
-            ${selected === option.id 
-              ? "border-blue-500 ring-2 ring-blue-400" 
-              : "border-neutral-700 hover:border-neutral-500"}`}
+          onClick={() => onSelect(opt.id)}
+          className={cn(
+            "rounded-lg border p-2 flex flex-col items-center hover:border-indigo-400 transition",
+            selected === opt.id
+              ? "border-indigo-500 ring-2 ring-indigo-400"
+              : "border-neutral-700"
+          )}
         >
-          {/* Thumbnail */}
           <img
-            src={option.thumbnail}
-            alt={option.name}
-            className="w-full h-32 object-cover"
+            src={opt.thumbnail}
+            alt={opt.name}
+            className="w-full h-32 object-cover rounded-md mb-2"
           />
-
-          {/* Nome do template */}
-          <div className="absolute bottom-0 left-0 right-0 bg-black/60 text-white text-sm text-center py-1">
-            {option.name}
-          </div>
+          <span className="text-sm text-white">{opt.name}</span>
         </button>
       ))}
     </div>
