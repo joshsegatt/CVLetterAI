@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderLayout } from "../../../components/Builder/BuilderLayout";
+import { Builderlayout } from "../../../components/Builder/Builderlayout";
 import { TemplateSelector } from "../../../components/Builder/TemplateSelector";
 
 import { ModernCV } from "../../../components/Builder/cv-templates/ModernCV";
