@@ -1,15 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderLayout } from "../../components/builder/BuilderLayout";
-import { TemplateSelector } from "../../components/builder/TemplateSelector";
+import { BuilderLayout } from "../../../components/builder/BuilderLayout";
+import { TemplateSelector } from "../../../components/builder/TemplateSelector";
 
-// Import dos templates de CV
-import { ModernCV } from "../../components/builder/cv-templates/ModernCV";
-import { ElegantCV } from "../../components/builder/cv-templates/ElegantCV";
-import { MinimalCV } from "../../components/builder/cv-templates/MinimalCV";
-import { CreativeCV } from "../../components/builder/cv-templates/CreativeCV";
-import { ExecutiveCV } from "../../components/builder/cv-templates/ExecutiveCV";
+// Templates de CV
+import { ModernCV } from "../../../components/builder/cv-templates/ModernCV";
+import { ElegantCV } from "../../../components/builder/cv-templates/ElegantCV";
+import { MinimalCV } from "../../../components/builder/cv-templates/MinimalCV";
+import { CreativeCV } from "../../../components/builder/cv-templates/CreativeCV";
+import { ExecutiveCV } from "../../../components/builder/cv-templates/ExecutiveCV";
 
 interface CVData {
   name: string;
