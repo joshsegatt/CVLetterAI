@@ -1,7 +1,9 @@
 "use client";
 
+"use client";
+
 import React from "react";
-import { cn } from "../../lib/utils"; // relative path; ensure utils.ts exists
+import { cn } from "../../lib/utils"; // relativo ao src/components/Builder
 
 interface TemplateOption {
   id: string;
