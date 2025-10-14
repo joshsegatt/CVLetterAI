@@ -263,4 +263,46 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="space-y
+      <section id="testimonials" className="space-y-8">
+        <div className="max-w-2xl">
+          <h2 className="text-3xl font-semibold text-white">Trusted outcomes</h2>
+          <p className="mt-3 text-neutral-300">
+            From global talent to local property managers, CVLetterAI supports faster
+            approvals with consistent documentation.
+          </p>
+        </div>
+        <div className="grid gap-6 md:grid-cols-2">
+          {testimonials.map((testimonial) => (
+            <blockquote
+              key={testimonial.author}
+              className="glass-panel border-white/10 p-6 text-neutral-200"
+            >
+              <p className="text-lg leading-relaxed text-white">“{testimonial.quote}”</p>
+              <footer className="mt-5 text-sm">
+                <span className="font-semibold text-white">{testimonial.author}</span>{" "}
+                <span className="text-neutral-400">— {testimonial.role}</span>
+              </footer>
+            </blockquote>
+          ))}
+        </div>
+      </section>
+
+      {/* SECURITY */}
+      <section
+        id="security"
+        className="glass-panel flex flex-col gap-6 border border-white/10 p-8 md:flex-row md:items-center md:justify-between"
+      >
+        <div>
+          <h2 className="text-2xl font-semibold text-white">Security-first SaaS</h2>
+          <p className="mt-3 text-sm leading-relaxed text-neutral-300">
+            Neon Postgres row-level security, Stripe verified payments, and full audit trails
+            ensure GDPR & ISO-aligned operations. Export or delete your data at any time.
+          </p>
+        </div>
+        <Button asChild size="lg">
+          <Link href="/security">View compliance dossier</Link>
+        </Button>
+      </section>
+    </div>
+  );
+}
