@@ -3,12 +3,25 @@
 import { useState } from "react";
 import { BuilderLayout } from "@/components/builder/BuilderLayout";
 import { TemplateSelector } from "@/components/builder/TemplateSelector";
+
+// Import dos templates de carta
 import { FormalLetter } from "@/components/builder/letter-templates/FormalLetter";
 import { PoliteLetter } from "@/components/builder/letter-templates/PoliteLetter";
 import { FirmLetter } from "@/components/builder/letter-templates/FirmLetter";
 import { LegalNoticeLetter } from "@/components/builder/letter-templates/LegalNoticeLetter";
+
 import { Switch } from "@/components/ui/Switch";
 
+// Tipagem dos dados da carta
+interface LetterData {
+  date: string;
+  recipient: string;
+  address: string;
+  body: string;
+  sender: string;
+}
+
+// Registro de templates
 const templates = {
   formal: FormalLetter,
   polite: PoliteLetter,
@@ -16,6 +29,7 @@ const templates = {
   legal: LegalNoticeLetter,
 };
 
+// Opções de templates (com thumbs)
 const templateOptions = [
   { id: "formal", name: "Formal", thumbnail: "/thumbs/letter-formal.png" },
   { id: "polite", name: "Polite", thumbnail: "/thumbs/letter-polite.png" },
@@ -27,7 +41,7 @@ export default function LetterBuilderPage() {
   const [template, setTemplate] = useState<keyof typeof templates>("formal");
   const [referenceLaw, setReferenceLaw] = useState(false);
 
-  const [data, setData] = useState({
+  const [data, setData] = useState<LetterData>({
     date: "14 October 2025",
     recipient: "Mr. Patel",
     address: "Flat 3, 91 Horsbeck Way, London, W1",
@@ -40,7 +54,7 @@ export default function LetterBuilderPage() {
   return (
     <BuilderLayout
       form={
-        <>
+        <div className="space-y-6">
           <h1 className="text-2xl font-bold text-white">Letter Builder</h1>
 
           {/* Seleção de template */}
@@ -59,7 +73,7 @@ export default function LetterBuilderPage() {
           </div>
 
           {/* Inputs */}
-          <div className="mt-6 space-y-2">
+          <div className="space-y-3">
             <input
               type="text"
               placeholder="Recipient"
@@ -81,7 +95,7 @@ export default function LetterBuilderPage() {
               className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-white h-32"
             />
           </div>
-        </>
+        </div>
       }
       preview={<TemplateComponent data={data} />}
     />
