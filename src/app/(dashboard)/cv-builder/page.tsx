@@ -1,24 +1,22 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderLayout } from "@/components/builder/BuilderLayout";
-import { TemplateSelector } from "@/components/builder/TemplateSelector";
+import { BuilderLayout } from "../../components/builder/BuilderLayout";
+import { TemplateSelector } from "../../components/builder/TemplateSelector";
 
 // Import dos templates de CV
-import { ModernCV } from "@/components/builder/cv-templates/ModernCV";
-import { ElegantCV } from "@/components/builder/cv-templates/ElegantCV";
-import { MinimalCV } from "@/components/builder/cv-templates/MinimalCV";
-import { CreativeCV } from "@/components/builder/cv-templates/CreativeCV";
-import { ExecutiveCV } from "@/components/builder/cv-templates/ExecutiveCV";
+import { ModernCV } from "../../components/builder/cv-templates/ModernCV";
+import { ElegantCV } from "../../components/builder/cv-templates/ElegantCV";
+import { MinimalCV } from "../../components/builder/cv-templates/MinimalCV";
+import { CreativeCV } from "../../components/builder/cv-templates/CreativeCV";
+import { ExecutiveCV } from "../../components/builder/cv-templates/ExecutiveCV";
 
-// Tipagem dos dados do CV
 interface CVData {
   name: string;
   title: string;
   experience: string[];
 }
 
-// Registro de templates
 const templates = {
   modern: ModernCV,
   elegant: ElegantCV,
@@ -27,7 +25,6 @@ const templates = {
   executive: ExecutiveCV,
 };
 
-// Opções de templates (com thumbs)
 const templateOptions = [
   { id: "modern", name: "Modern", thumbnail: "/thumbs/cv-modern.png" },
   { id: "elegant", name: "Elegant", thumbnail: "/thumbs/cv-elegant.png" },
@@ -52,14 +49,12 @@ export default function CVBuilderPage() {
         <div className="space-y-6">
           <h1 className="text-2xl font-bold text-white">CV Builder</h1>
 
-          {/* Seleção de template */}
           <TemplateSelector
             options={templateOptions}
             selected={template}
             onSelect={setTemplate}
           />
 
-          {/* Inputs */}
           <div className="space-y-3">
             <input
               type="text"
