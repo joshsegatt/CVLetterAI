@@ -54,7 +54,7 @@ const plans: Plan[] = [
     price: '£0',
     description: 'One CV, letter, and chat session to experience the workflow.',
     highlights: ['Single export per feature', 'Generative suggestions', 'Email support'],
-    cta: { type: 'link', label: 'Start free', href: '/signup' }
+    cta: { type: 'link', label: 'Start free', href: '/sign-up' }
   },
   {
     name: 'Pro',
@@ -136,20 +136,26 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
             Multilingual · GDPR aligned · Stripe secured
           </span>
           <h1 className="mt-6 text-4xl font-semibold tracking-tight text-white sm:text-5xl">
-            AI-crafted CVs & landlord letters tailored for UK compliance.
+            Build your career identity. Generate stunning CVs and professional letters instantly.
           </h1>
           <p className="mt-6 text-lg text-neutral-300 sm:text-xl">
-            CVLetterAI combines trusted templates, multilingual exports, and an advisory
-            copilot to keep your employment and tenancy documents audit-ready.
+            Precision-engineered for HR compliance, instant clarity, and executive presentation — all powered by UK-trained AI.
           </p>
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
-            <Button asChild size="lg">
-              <Link href="/signup">
-                Start free trial <ArrowRight className="h-4 w-4" />
-              </Link>
+            <Button
+              asChild
+              size="lg"
+              className="px-8 py-6 text-base font-semibold text-white shadow-[0_20px_45px_-25px_rgba(56,189,248,0.65)] transition hover:shadow-[0_25px_55px_-25px_rgba(56,189,248,0.75)]"
+            >
+              <Link href="/cv-builder">Generate CV</Link>
             </Button>
-            <Button asChild intent="ghost" size="lg">
-              <Link href="#pricing">Compare plans</Link>
+            <Button
+              asChild
+              intent="ghost"
+              size="lg"
+              className="border border-white/30 px-8 py-6 text-base font-semibold text-slate-100 transition hover:border-white/50 hover:text-white"
+            >
+              <Link href="/letter-builder">Generate Letter</Link>
             </Button>
           </div>
         </div>

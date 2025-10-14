@@ -1,88 +1,28 @@
-import type { Metadata, Viewport } from 'next';
-import { fontVariables, inter, jetBrainsMono, satoshi } from '@/lib/fonts';
-import { Providers } from '@/components/providers/Providers';
+import "./globals.css";
+import type { ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
-import './globals.css';
+export default function RootLayout({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
+  const isDashboard = pathname.startsWith("/dashboard") || pathname.startsWith("/cv-builder") || pathname.startsWith("/letter-builder") || pathname.startsWith("/chat") || pathname.startsWith("/settings");
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://cvletterai.com'),
-  title: {
-    default: 'CVLetterAI | AI-crafted CVs and UK landlord letters',
-    template: '%s | CVLetterAI'
-  },
-  description:
-    'CVLetterAI helps UK professionals produce ATS-ready CVs, compliant landlord letters, and actionable guidance through an AI copilot.',
-  keywords: [
-    'AI CV builder',
-    'UK landlord letter generator',
-    'ATS optimised resume',
-    'tenancy reference letter',
-    'career AI assistant'
-  ],
-  openGraph: {
-    title: 'CVLetterAI — Built for UK Professionals',
-    description:
-      'Create tailored CVs, cover letters, and landlord communications with multilingual AI workflows and compliance guardrails.',
-    url: 'https://cvletterai.com',
-    siteName: 'CVLetterAI',
-    images: [
-      {
-        url: '/og/cvletterai-og.png',
-        width: 1200,
-        height: 630,
-        alt: 'CVLetterAI marketing preview'
-      }
-    ],
-    locale: 'en_GB',
-    type: 'website'
-  },
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@cvletterai',
-    title: 'CVLetterAI',
-    description:
-      'AI-powered CVs, landlord letters, and compliance workflows for UK professionals.',
-    images: ['/og/cvletterai-og.png']
-  },
-  icons: {
-    icon: [
-      { url: '/favicon.ico' },
-      { url: '/favicon.svg', type: 'image/svg+xml' }
-    ],
-    apple: [{ url: '/apple-touch-icon.png' }]
-  },
-  alternates: {
-    canonical: '/',
-    languages: {
-      'en-GB': '/en',
-      'pt-PT': '/pt',
-      'es-ES': '/es',
-      'pl-PL': '/pl',
-      'fr-FR': '/fr',
-      'hi-IN': '/hi',
-      'ar-AE': '/ar'
-    }
-  }
-};
-
-export const viewport: Viewport = {
-  themeColor: '#2563EB',
-  colorScheme: 'dark light'
-};
-
-export default function RootLayout({
-  children
-}: {
-  children: React.ReactNode;
-}) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${satoshi.variable} ${jetBrainsMono.variable}`}
-      suppressHydrationWarning
-    >
-      <body className={`${fontVariables} antialiased bg-surface-muted`}>
-        <Providers>{children}</Providers>
+    <html lang="en">
+      <body className="bg-gray-950 text-white min-h-screen flex">
+        {isDashboard && (
+          <aside className="w-64 border-r border-gray-800 p-6">
+            <nav className="space-y-3 font-medium">
+              <Link href="/dashboard" className="block hover:text-blue-400">Overview</Link>
+              <Link href="/cv-builder" className="block hover:text-blue-400">CV Builder</Link>
+              <Link href="/letter-builder" className="block hover:text-blue-400">Letter Builder</Link>
+              <Link href="/chat" className="block hover:text-blue-400">AI Chat</Link>
+              <Link href="/settings" className="block hover:text-blue-400">Settings</Link>
+            </nav>
+          </aside>
+        )}
+
+        <main className="flex-1">{children}</main>
       </body>
     </html>
   );

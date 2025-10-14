@@ -4,13 +4,11 @@ const missingEnvResponse = new Response(
   JSON.stringify({ error: 'Google OAuth environment variables not configured' }),
   {
     status: 500,
-    headers: {
-      'Content-Type': 'application/json'
-    }
+    headers: { 'Content-Type': 'application/json' }
   }
 );
 
-function getEnv() {
+function loadEnv() {
   const clientId = process.env.GOOGLE_CLIENT_ID;
   const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const secret = process.env.NEXTAUTH_SECRET;
@@ -22,8 +20,8 @@ function getEnv() {
   return { clientId, clientSecret, secret };
 }
 
-async function getAuthHandler() {
-  const env = getEnv();
+async function resolveAuthHandler() {
+  const env = loadEnv();
   if (!env) {
     return null;
   }
@@ -38,33 +36,30 @@ async function getAuthHandler() {
         clientSecret: env.clientSecret
       })
     ],
-    secret: env.secret,
     session: {
       strategy: 'jwt'
-    }
+    },
+    secret: env.secret
   };
 
-  const handler = NextAuth(authOptions) as (
+  return NextAuth(authOptions) as (
     request: Request,
     context: { params: { nextauth: string[] } }
   ) => Promise<Response>;
-
-  return handler;
 }
 
-async function handle(request: Request, context: { params: { nextauth: string[] } }) {
-  const authHandler = await getAuthHandler();
-  if (!authHandler) {
+async function handleAuth(request: Request, context: { params: { nextauth: string[] } }) {
+  const handler = await resolveAuthHandler();
+  if (!handler) {
     return missingEnvResponse;
   }
-
-  return authHandler(request, context);
+  return handler(request, context);
 }
 
 export async function GET(request: Request, context: { params: { nextauth: string[] } }) {
-  return handle(request, context);
+  return handleAuth(request, context);
 }
 
 export async function POST(request: Request, context: { params: { nextauth: string[] } }) {
-  return handle(request, context);
+  return handleAuth(request, context);
 }

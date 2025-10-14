@@ -35,6 +35,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
             </Button>
           </div>
         </header>
+        <div className="border-b border-white/10 bg-surface-highlight/60 px-4 py-3 backdrop-blur md:hidden">
+          <DashboardNav orientation="horizontal" />
+        </div>
         <main className="flex flex-1 flex-col gap-8 bg-surface-muted px-6 py-8">
           {children}
         </main>
