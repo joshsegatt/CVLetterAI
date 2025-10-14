@@ -1,8 +1,10 @@
 "use client";
 
+"use client";
+
 import { ReactNode } from "react";
 import { Download, Copy, Save } from "lucide-react";
-import { Button } from "../../ui/Button"; // caminho relativo correto
+import { Button } from "../ui/Button"; // relativo ao src/components/Builder
 
 interface BuilderLayoutProps {
   form: ReactNode;
