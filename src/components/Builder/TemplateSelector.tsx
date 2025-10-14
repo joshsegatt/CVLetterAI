@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import { cn } from "../../lib/utils"; // ajuste o caminho conforme sua pasta real
-import { Button } from "../ui/Button"; // se você realmente usar o Button aqui
+import { cn } from "../../lib/utils"; // caminho relativo correto
 
 interface TemplateOption {
   id: string;
