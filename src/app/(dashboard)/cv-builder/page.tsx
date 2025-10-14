@@ -2,14 +2,28 @@
 
 import { useState } from "react";
 import { BuilderLayout } from "@/components/builder/BuilderLayout";
+import { TemplateSelector } from "@/components/builder/TemplateSelector";
 import { ModernCV } from "@/components/builder/cv-templates/ModernCV";
 import { ElegantCV } from "@/components/builder/cv-templates/ElegantCV";
-import { Button } from "@/components/ui/Button";
+import { MinimalCV } from "@/components/builder/cv-templates/MinimalCV";
+import { CreativeCV } from "@/components/builder/cv-templates/CreativeCV";
+import { ExecutiveCV } from "@/components/builder/cv-templates/ExecutiveCV";
 
 const templates = {
   modern: ModernCV,
   elegant: ElegantCV,
+  minimal: MinimalCV,
+  creative: CreativeCV,
+  executive: ExecutiveCV,
 };
+
+const templateOptions = [
+  { id: "modern", name: "Modern", thumbnail: "/thumbs/cv-modern.png" },
+  { id: "elegant", name: "Elegant", thumbnail: "/thumbs/cv-elegant.png" },
+  { id: "minimal", name: "Minimal", thumbnail: "/thumbs/cv-minimal.png" },
+  { id: "creative", name: "Creative", thumbnail: "/thumbs/cv-creative.png" },
+  { id: "executive", name: "Executive", thumbnail: "/thumbs/cv-executive.png" },
+];
 
 export default function CVBuilderPage() {
   const [template, setTemplate] = useState<keyof typeof templates>("modern");
@@ -27,26 +41,15 @@ export default function CVBuilderPage() {
         <>
           <h1 className="text-2xl font-bold text-white">CV Builder</h1>
 
-          {/* Escolha de template */}
-          <div className="flex gap-2">
-            <Button
-              size="sm"
-              intent={template === "modern" ? "primary" : "secondary"}
-              onClick={() => setTemplate("modern")}
-            >
-              Modern
-            </Button>
-            <Button
-              size="sm"
-              intent={template === "elegant" ? "primary" : "secondary"}
-              onClick={() => setTemplate("elegant")}
-            >
-              Elegant
-            </Button>
-          </div>
+          {/* Seleção de template */}
+          <TemplateSelector
+            options={templateOptions}
+            selected={template}
+            onSelect={setTemplate}
+          />
 
-          {/* Inputs simples */}
-          <div className="mt-4 space-y-2">
+          {/* Inputs */}
+          <div className="mt-6 space-y-2">
             <input
               type="text"
               placeholder="Name"
@@ -60,6 +63,14 @@ export default function CVBuilderPage() {
               value={data.title}
               onChange={(e) => setData({ ...data, title: e.target.value })}
               className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-white"
+            />
+            <textarea
+              placeholder="Experience (one per line)"
+              value={data.experience.join("\n")}
+              onChange={(e) =>
+                setData({ ...data, experience: e.target.value.split("\n") })
+              }
+              className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-white h-32"
             />
           </div>
         </>
