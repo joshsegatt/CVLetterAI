@@ -214,6 +214,7 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
             any time, VAT ready for UK & EU customers.
           </p>
         </div>
+
         <div className="grid gap-6 md:grid-cols-3">
           {plans.map((plan) => (
             <div
@@ -243,6 +244,8 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
                   ))}
                 </ul>
               </div>
+
+              {/* CTA */}
               {plan.cta.type === "checkout" ? (
                 <CheckoutButton
                   planId={plan.cta.planId}
@@ -250,8 +253,14 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
                   intent={plan.featured ? "primary" : "secondary"}
                 />
               ) : (
-                <Button
-                  asChild
-                  intent={plan.featured ? "primary" : "secondary"}
-                >
-                  <Link href={plan.cta.href
+                <Button asChild intent={plan.featured ? "primary" : "secondary"}>
+                  <Link href={plan.cta.href}>{plan.cta.label}</Link>
+                </Button>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section id="testimonials" className="space-y
