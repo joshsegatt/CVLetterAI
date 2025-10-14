@@ -1,18 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderLayout } from "@/components/builder/BuilderLayout";
-import { TemplateSelector } from "@/components/builder/TemplateSelector";
+import { BuilderLayout } from "../../components/builder/BuilderLayout";
+import { TemplateSelector } from "../../components/builder/TemplateSelector";
 
 // Import dos templates de carta
-import { FormalLetter } from "@/components/builder/letter-templates/FormalLetter";
-import { PoliteLetter } from "@/components/builder/letter-templates/PoliteLetter";
-import { FirmLetter } from "@/components/builder/letter-templates/FirmLetter";
-import { LegalNoticeLetter } from "@/components/builder/letter-templates/LegalNoticeLetter";
+import { FormalLetter } from "../../components/builder/letter-templates/FormalLetter";
+import { PoliteLetter } from "../../components/builder/letter-templates/PoliteLetter";
+import { FirmLetter } from "../../components/builder/letter-templates/FirmLetter";
+import { LegalNoticeLetter } from "../../components/builder/letter-templates/LegalNoticeLetter";
 
-import { Switch } from "@/components/ui/Switch";
+import { Switch } from "../../components/ui/Switch";
 
-// Tipagem dos dados da carta
 interface LetterData {
   date: string;
   recipient: string;
@@ -21,7 +20,6 @@ interface LetterData {
   sender: string;
 }
 
-// Registro de templates
 const templates = {
   formal: FormalLetter,
   polite: PoliteLetter,
@@ -29,7 +27,6 @@ const templates = {
   legal: LegalNoticeLetter,
 };
 
-// Opções de templates (com thumbs)
 const templateOptions = [
   { id: "formal", name: "Formal", thumbnail: "/thumbs/letter-formal.png" },
   { id: "polite", name: "Polite", thumbnail: "/thumbs/letter-polite.png" },
@@ -57,14 +54,12 @@ export default function LetterBuilderPage() {
         <div className="space-y-6">
           <h1 className="text-2xl font-bold text-white">Letter Builder</h1>
 
-          {/* Seleção de template */}
           <TemplateSelector
             options={templateOptions}
             selected={template}
             onSelect={setTemplate}
           />
 
-          {/* Switch de legislação */}
           <div className="flex items-center justify-between mt-4">
             <span className="text-sm text-neutral-300">
               Reference specific UK legislation
@@ -72,7 +67,6 @@ export default function LetterBuilderPage() {
             <Switch checked={referenceLaw} onCheckedChange={setReferenceLaw} />
           </div>
 
-          {/* Inputs */}
           <div className="space-y-3">
             <input
               type="text"
