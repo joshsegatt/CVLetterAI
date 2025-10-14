@@ -1,12 +1,12 @@
 "use client";
 
 import React from "react";
-import { cn } from "../../lib/utils"; // caminho relativo correto
+import { cn } from "../../lib/utils"; // relative path; ensure utils.ts exists
 
 interface TemplateOption {
   id: string;
   name: string;
-  thumbnail: string; // caminho da imagem miniatura
+  thumbnail: string;
 }
 
 interface TemplateSelectorProps {
