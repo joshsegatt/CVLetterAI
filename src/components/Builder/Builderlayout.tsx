@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { Download, Copy, Save } from "lucide-react";
-import { Button } from "@/components/ui/Button";
+import { Button } from "../../components/ui/Button"; // caminho relativo correto
 
 interface BuilderLayoutProps {
   form: ReactNode;
