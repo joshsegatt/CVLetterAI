@@ -3,12 +3,22 @@
 import { useState } from "react";
 import { BuilderLayout } from "@/components/builder/BuilderLayout";
 import { TemplateSelector } from "@/components/builder/TemplateSelector";
+
+// Import dos templates de CV
 import { ModernCV } from "@/components/builder/cv-templates/ModernCV";
 import { ElegantCV } from "@/components/builder/cv-templates/ElegantCV";
 import { MinimalCV } from "@/components/builder/cv-templates/MinimalCV";
 import { CreativeCV } from "@/components/builder/cv-templates/CreativeCV";
 import { ExecutiveCV } from "@/components/builder/cv-templates/ExecutiveCV";
 
+// Tipagem dos dados do CV
+interface CVData {
+  name: string;
+  title: string;
+  experience: string[];
+}
+
+// Registro de templates
 const templates = {
   modern: ModernCV,
   elegant: ElegantCV,
@@ -17,6 +27,7 @@ const templates = {
   executive: ExecutiveCV,
 };
 
+// Opções de templates (com thumbs)
 const templateOptions = [
   { id: "modern", name: "Modern", thumbnail: "/thumbs/cv-modern.png" },
   { id: "elegant", name: "Elegant", thumbnail: "/thumbs/cv-elegant.png" },
@@ -27,10 +38,10 @@ const templateOptions = [
 
 export default function CVBuilderPage() {
   const [template, setTemplate] = useState<keyof typeof templates>("modern");
-  const [data, setData] = useState({
+  const [data, setData] = useState<CVData>({
     name: "John Doe",
     title: "Software Engineer",
-    experience: ["Company A - 2019-2021", "Company B - 2021-2023"],
+    experience: ["Company A — 2019-2021", "Company B — 2021-2023"],
   });
 
   const TemplateComponent = templates[template];
@@ -38,7 +49,7 @@ export default function CVBuilderPage() {
   return (
     <BuilderLayout
       form={
-        <>
+        <div className="space-y-6">
           <h1 className="text-2xl font-bold text-white">CV Builder</h1>
 
           {/* Seleção de template */}
@@ -49,7 +60,7 @@ export default function CVBuilderPage() {
           />
 
           {/* Inputs */}
-          <div className="mt-6 space-y-2">
+          <div className="space-y-3">
             <input
               type="text"
               placeholder="Name"
@@ -73,7 +84,7 @@ export default function CVBuilderPage() {
               className="w-full rounded-md border border-neutral-700 bg-neutral-900 px-3 py-2 text-white h-32"
             />
           </div>
-        </>
+        </div>
       }
       preview={<TemplateComponent data={data} />}
     />
