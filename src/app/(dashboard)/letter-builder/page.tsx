@@ -1,16 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { BuilderLayout } from "../../components/builder/BuilderLayout";
-import { TemplateSelector } from "../../components/builder/TemplateSelector";
+import { BuilderLayout } from "../../../components/builder/BuilderLayout";
+import { TemplateSelector } from "../../../components/builder/TemplateSelector";
 
-// Import dos templates de carta
-import { FormalLetter } from "../../components/builder/letter-templates/FormalLetter";
-import { PoliteLetter } from "../../components/builder/letter-templates/PoliteLetter";
-import { FirmLetter } from "../../components/builder/letter-templates/FirmLetter";
-import { LegalNoticeLetter } from "../../components/builder/letter-templates/LegalNoticeLetter";
+// Templates de carta
+import { FormalLetter } from "../../../components/builder/letter-templates/FormalLetter";
+import { PoliteLetter } from "../../../components/builder/letter-templates/PoliteLetter";
+import { FirmLetter } from "../../../components/builder/letter-templates/FirmLetter";
+import { LegalNoticeLetter } from "../../../components/builder/letter-templates/LegalNoticeLetter";
 
-import { Switch } from "../../components/ui/Switch";
+import { Switch } from "../../../components/ui/Switch";
 
 interface LetterData {
   date: string;
