@@ -1,12 +1,10 @@
-export function PoliteLetter({ data }: { data: any }) {
+import React from "react";
+
+export default function PoliteLetter() {
   return (
-    <div className="text-gray-800 leading-relaxed">
-      <p className="italic">Date: {data.date}</p>
-      <p className="mt-4">To: {data.recipient}</p>
-      <p className="mt-6">Hello {data.recipient},</p>
-      <p className="mt-4">{data.body}</p>
-      <p className="mt-6">Kind regards,</p>
-      <p>{data.sender}</p>
+    <div className="border rounded p-4 bg-white">
+      <div className="text-lg font-semibold">Polite Letter (preview)</div>
+      <div className="mt-2 text-sm text-gray-500">Polite/mild tone letter preview.</div>
     </div>
   );
 }
