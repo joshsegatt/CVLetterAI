@@ -1,13 +1,10 @@
-export function ElegantCV({ data }: { data: any }) {
+import React from "react";
+
+export default function ElegantCV() {
   return (
-    <div className="font-serif text-gray-800">
-      <h1 className="text-4xl tracking-wide">{data.name}</h1>
-      <p className="italic">{data.title}</p>
-      <div className="mt-6 space-y-2">
-        {data.experience?.map((exp: string) => (
-          <p key={exp} className="leading-relaxed">{exp}</p>
-        ))}
-      </div>
+    <div className="border rounded p-4 bg-white">
+      <div className="text-lg font-semibold">Elegant CV (preview)</div>
+      <div className="mt-2 text-sm text-gray-500">Example elegant CV layout preview.</div>
     </div>
   );
 }
