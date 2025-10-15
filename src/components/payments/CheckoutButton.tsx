@@ -1,62 +1,31 @@
-'use client';
+import React from "react";
+import Button, { type ButtonProps } from "@/components/ui/Button";
 
-import { useState } from 'react';
-import { Button, type ButtonProps } from '@/components/ui/Button';
-import type { PricingPlanId } from '@/services/payments/stripe';
+type PricingPlanId = "price_one_time" | "price_subscription";
 
-const STRIPE_CHECKOUT_URLS: Record<PricingPlanId, string | null> = {
-  price_free: null,
-  price_one_time: 'https://buy.stripe.com/test_5kQ4gBfeaaftdVydSHgQE00',
-  price_subscription: 'https://buy.stripe.com/test_00w5kF7LIevJaJmcODgQE01'
-};
-
-interface CheckoutButtonProps extends Omit<ButtonProps, 'onClick'> {
+export type CheckoutButtonProps = {
   planId: PricingPlanId;
   label: string;
-}
+  // add intent & size used by callers (optional)
+  intent?: "primary" | "secondary";
+  size?: "sm" | "md" | "lg";
+  className?: string;
+} & Omit<ButtonProps, "className">;
 
-export function CheckoutButton({ planId, label, intent, size, className, ...props }: CheckoutButtonProps) {
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleCheckout = () => {
-    setIsLoading(true);
-    setError(null);
-
-    try {
-      const checkoutUrl = STRIPE_CHECKOUT_URLS[planId];
-
-      if (!checkoutUrl) {
-        setError('This plan is handled inside the app. Please continue in the product.');
-        return;
-      }
-
-      window.location.href = checkoutUrl;
-    } catch (checkoutError) {
-      setError(
-        checkoutError instanceof Error
-          ? checkoutError.message
-          : 'Unexpected error during checkout.'
-      );
-    } finally {
-      setIsLoading(false);
-    }
-  };
+export function CheckoutButton({
+  planId,
+  label,
+  intent = "secondary",
+  size = "md",
+  className,
+  ...props
+}: CheckoutButtonProps) {
+  const variant = intent === "primary" ? "primary" : "ghost";
+  const sizing = size === "sm" ? "px-3 py-1" : size === "lg" ? "px-5 py-3" : "px-4 py-2";
 
   return (
-    <div className="flex flex-col gap-2">
-      <Button
-        type="button"
-        intent={intent}
-        size={size}
-        className={className}
-        disabled={isLoading}
-        onClick={handleCheckout}
-        {...props}
-      >
-        {isLoading ? 'Redirecting…' : label}
-      </Button>
-      {error ? <span className="text-xs text-rose-300">{error}</span> : null}
-    </div>
+    <Button {...props} variant={variant} className={`${sizing} ${className ?? ""}`}>
+      {label}
+    </Button>
   );
 }
