@@ -1,13 +1,10 @@
-export function MinimalCV({ data }: { data: any }) {
+import React from "react";
+
+export default function MinimalCV() {
   return (
-    <div className="font-sans text-gray-900">
-      <h1 className="text-2xl font-semibold">{data.name}</h1>
-      <p className="text-sm text-gray-500">{data.title}</p>
-      <div className="mt-4 space-y-2">
-        {data.experience?.map((exp: string) => (
-          <p key={exp} className="text-sm">{exp}</p>
-        ))}
-      </div>
+    <div className="border rounded p-4 bg-white">
+      <div className="text-lg font-semibold">Minimal CV (preview)</div>
+      <div className="mt-2 text-sm text-gray-500">Clean, minimal CV preview.</div>
     </div>
   );
 }
