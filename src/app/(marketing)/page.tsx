@@ -1,4 +1,5 @@
 import { ArrowRight, ShieldCheck, Sparkles, Users } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { CheckoutButton } from "@/components/payments/CheckoutButton";
 import { Button } from "@/components/ui/Button";
@@ -175,10 +176,13 @@ export default function MarketingPage({ searchParams }: MarketingPageProps) {
 
           {/* Mockup/Preview */}
           <div className="relative">
-            <img
-              src="/preview-cv.png"
+            <Image
+              src="/thumbs/cv-modern.png"
               alt="CV preview"
-              className="rounded-xl shadow-2xl border border-white/10"
+              width={640}
+              height={800}
+              className="rounded-xl border border-white/10 shadow-2xl"
+              priority
             />
           </div>
         </div>

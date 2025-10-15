@@ -1,5 +1,5 @@
 import React from "react";
-import MarketingLayout from "../../components/layout/MarketingLayout";
+import MarketingLayout from "@/components/layout/MarketingLayout";
 
 /**
  * Root layout for marketing routes

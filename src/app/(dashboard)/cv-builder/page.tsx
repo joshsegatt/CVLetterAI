@@ -1,11 +1,11 @@
 import React from "react";
-import BuilderLayout from "../../../components/builder/BuilderLayout";
-import TemplateSelector from "../../../components/builder/TemplateSelector";
-import ModernCV from "../../../components/builder/cv-templates/ModernCV";
-import ElegantCV from "../../../components/builder/cv-templates/ElegantCV";
-import MinimalCV from "../../../components/builder/cv-templates/MinimalCV";
-import CreativeCV from "../../../components/builder/cv-templates/CreativeCV";
-import ExecutiveCV from "../../../components/builder/cv-templates/ExecutiveCV";
+import BuilderLayout from "@/components/builder/BuilderLayout";
+import TemplateSelector from "@/components/builder/TemplateSelector";
+import ModernCV from "@/components/builder/cv-templates/ModernCV";
+import ElegantCV from "@/components/builder/cv-templates/ElegantCV";
+import MinimalCV from "@/components/builder/cv-templates/MinimalCV";
+import CreativeCV from "@/components/builder/cv-templates/CreativeCV";
+import ExecutiveCV from "@/components/builder/cv-templates/ExecutiveCV";
 
 export default function Page() {
   return (

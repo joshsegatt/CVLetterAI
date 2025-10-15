@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 
-export default function CvClassic() {
+export default function ClassicCV() {
   return (
     <div className="border rounded p-4 bg-white">
       <div className="text-lg font-semibold">CV — Classic (preview)</div>

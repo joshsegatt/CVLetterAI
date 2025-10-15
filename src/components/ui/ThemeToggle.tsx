@@ -3,8 +3,6 @@
 import React, { useEffect, useState } from "react";
 import Switch from "./Switch";
 
-type Theme = "light" | "dark";
-
 export function ThemeToggle(): JSX.Element {
   const [isDark, setIsDark] = useState<boolean | null>(null);
 
@@ -45,7 +43,7 @@ export function ThemeToggle(): JSX.Element {
   return (
     <div className="flex items-center gap-2">
       <span className="text-sm text-gray-600 dark:text-gray-300">Dark</span>
-      <Switch checked={isDark} onChange={(v) => setIsDark(Boolean(v))} />
+      <Switch checked={isDark} onChange={(v) => setIsDark(Boolean(v))} ariaLabel="Toggle dark mode" />
     </div>
   );
 }

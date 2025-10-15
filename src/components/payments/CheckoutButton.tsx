@@ -1,16 +1,14 @@
-import React from "react";
-import Button, { type ButtonProps } from "@/components/ui/Button";
+import { Button, type ButtonProps } from "@/components/ui/Button";
+import type { PricingPlanId } from "@/services/payments/stripe";
 
-type PricingPlanId = "price_one_time" | "price_subscription";
+type CheckoutButtonBaseProps = Omit<ButtonProps, "children" | "intent" | "size">;
 
-export type CheckoutButtonProps = {
+export type CheckoutButtonProps = CheckoutButtonBaseProps & {
   planId: PricingPlanId;
   label: string;
-  // add intent & size used by callers (optional)
   intent?: "primary" | "secondary";
   size?: "sm" | "md" | "lg";
-  className?: string;
-} & Omit<ButtonProps, "className">;
+};
 
 export function CheckoutButton({
   planId,
@@ -20,11 +18,14 @@ export function CheckoutButton({
   className,
   ...props
 }: CheckoutButtonProps) {
-  const variant = intent === "primary" ? "primary" : "ghost";
-  const sizing = size === "sm" ? "px-3 py-1" : size === "lg" ? "px-5 py-3" : "px-4 py-2";
-
   return (
-    <Button {...props} variant={variant} className={`${sizing} ${className ?? ""}`}>
+    <Button
+      {...props}
+      data-plan-id={planId}
+      intent={intent}
+      size={size}
+      className={className}
+    >
       {label}
     </Button>
   );

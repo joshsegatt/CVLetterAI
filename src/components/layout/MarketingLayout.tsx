@@ -1,9 +1,11 @@
 import React from "react";
 import ThemeToggle from "../ui/ThemeToggle";
 
-type Props = { children?: React.ReactNode };
+interface MarketingLayoutProps {
+  children?: React.ReactNode;
+}
 
-export function MarketingLayout({ children }: Props) {
+export function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
     <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
       <header className="border-b bg-white/60 dark:bg-slate-800/60 backdrop-blur p-4">

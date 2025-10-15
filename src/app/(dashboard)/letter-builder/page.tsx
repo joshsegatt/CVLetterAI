@@ -1,11 +1,11 @@
 import React from "react";
-import BuilderLayout from "../../../components/builder/BuilderLayout";
-import TemplateSelector from "../../../components/builder/TemplateSelector";
-import FormalLetter from "../../../components/builder/letter-templates/FormalLetter";
-import PoliteLetter from "../../../components/builder/letter-templates/PoliteLetter";
-import FirmLetter from "../../../components/builder/letter-templates/FirmLetter";
-import LegalNoticeLetter from "../../../components/builder/letter-templates/LegalNoticeLetter";
-import Switch from "../../../components/ui/Switch";
+import BuilderLayout from "@/components/builder/BuilderLayout";
+import TemplateSelector from "@/components/builder/TemplateSelector";
+import FormalLetter from "@/components/builder/Letter-templates/FormalLetter";
+import PoliteLetter from "@/components/builder/Letter-templates/PoliteLetter";
+import FirmLetter from "@/components/builder/Letter-templates/FirmLetter";
+import LegalNoticeLetter from "@/components/builder/Letter-templates/LegalNoticeLetter";
+import Switch from "@/components/ui/Switch";
 
 export default function Page() {
   return (
@@ -22,7 +22,7 @@ export default function Page() {
         </div>
         <div className="mt-6">
           <span className="mr-3">Example Switch:</span>
-          <Switch checked={false} onChange={() => {}} />
+          <Switch checked={false} />
         </div>
       </div>
     </BuilderLayout>

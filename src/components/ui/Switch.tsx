@@ -1,34 +1,62 @@
-import React from "react";
+"use client";
 
-type SwitchProps = {
+import React from "react";
+import { cn } from "@/lib/utils";
+
+export interface SwitchProps {
   checked?: boolean;
   onChange?: (checked: boolean) => void;
   disabled?: boolean;
   className?: string;
-};
+  ariaLabel?: string;
+}
 
-export default function Switch({ checked = false, onChange, disabled = false, className = "" }: SwitchProps) {
+export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(function Switch(
+  { checked = false, onChange, disabled = false, className = "", ariaLabel = "Toggle switch" },
+  ref,
+) {
+  const handleChange = React.useCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      onChange?.(event.target.checked);
+    },
+    [onChange],
+  );
+
   return (
-    <label className={`inline-flex items-center cursor-pointer ${className}`}>
+    <label
+      className={cn(
+        "inline-flex cursor-pointer items-center",
+        disabled ? "opacity-60 cursor-not-allowed" : "",
+        className,
+      )}
+    >
+      <span className="sr-only">{ariaLabel}</span>
       <input
+        ref={ref}
         type="checkbox"
         className="sr-only"
         checked={checked}
-        onChange={(e) => onChange?.(e.target.checked)}
+        onChange={handleChange}
         disabled={disabled}
       />
       <div
         aria-hidden
-        className={`w-10 h-6 transition-colors rounded-full ${checked ? "bg-indigo-600" : "bg-gray-300"} ${
-          disabled ? "opacity-50" : ""
-        }`}
+        className={cn(
+          "flex h-6 w-10 items-center rounded-full transition-colors",
+          checked ? "bg-indigo-600" : "bg-gray-300",
+        )}
       >
         <div
-          className={`w-4 h-4 bg-white rounded-full shadow transform transition-transform ${
-            checked ? "translate-x-4" : "translate-x-1"
-          }`}
+          className={cn(
+            "h-4 w-4 transform rounded-full bg-white shadow transition-transform",
+            checked ? "translate-x-4" : "translate-x-1",
+          )}
         />
       </div>
     </label>
   );
-}
+});
+
+Switch.displayName = "Switch";
+
+export default Switch;
