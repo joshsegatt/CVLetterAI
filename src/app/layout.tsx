@@ -1,17 +1,11 @@
-"use client";
+import React from "react";
+import MarketingLayout from "../../components/layout/MarketingLayout";
 
-import "./globals.css";
-import type { ReactNode } from "react";
-import { ThemeProvider } from "next-themes";
+/**
+ * Root layout for marketing routes
+ * This file is a server component (default). It uses the server MarketingLayout wrapper.
+ */
 
-export default function RootLayout({ children }: { children: ReactNode }) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="min-h-screen bg-white text-black dark:bg-gray-950 dark:text-white transition-colors">
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+export default function MarketingSegmentLayout({ children }: { children: React.ReactNode }) {
+  return <MarketingLayout>{children}</MarketingLayout>;
 }
