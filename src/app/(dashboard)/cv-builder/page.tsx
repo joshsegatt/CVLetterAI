@@ -11,7 +11,7 @@ export default function Page() {
   return (
     <BuilderLayout>
       <h2 className="text-2xl mb-4">Choose a CV template</h2>
-      <TemplateSelector onSelect={(id) => console.log("selected", id)} />
+      <TemplateSelector onSelect={(id: string) => console.log("selected", id)} />
       <div className="mt-6 space-y-6">
         <h3 className="text-lg">Previews</h3>
         <div className="grid gap-4 sm:grid-cols-2">
