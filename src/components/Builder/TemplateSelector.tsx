@@ -1,6 +1,8 @@
 import React from "react";
 import Button from "../ui/Button";
 
+export type TemplateSelectorOnSelect = (id: string) => void;
+
 type TemplateItem = { id: string; title: string; description?: string };
 
 const DEFAULT_TEMPLATES: TemplateItem[] = [
@@ -9,10 +11,15 @@ const DEFAULT_TEMPLATES: TemplateItem[] = [
   { id: "minimal", title: "Minimal CV", description: "Minimal layout" },
 ];
 
-export default function TemplateSelector({ onSelect }: { onSelect?: (id: string) => void }) {
+type Props = {
+  templates?: TemplateItem[];
+  onSelect?: TemplateSelectorOnSelect;
+};
+
+export default function TemplateSelector({ templates = DEFAULT_TEMPLATES, onSelect }: Props) {
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      {DEFAULT_TEMPLATES.map((t) => (
+      {templates.map((t) => (
         <div key={t.id} className="border rounded p-3 flex flex-col">
           <div className="flex-1">
             <div className="font-medium">{t.title}</div>
