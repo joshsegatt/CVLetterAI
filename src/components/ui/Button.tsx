@@ -5,7 +5,8 @@ export type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   className?: string;
 };
 
-const Button: React.FC<ButtonProps> = ({ children, className = "", variant = "primary", ...props }) => {
+// named export so files importing { Button } work
+export const Button: React.FC<ButtonProps> = ({ children, className = "", variant = "primary", ...props }) => {
   const base =
     "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none";
   const styles =
@@ -20,4 +21,5 @@ const Button: React.FC<ButtonProps> = ({ children, className = "", variant = "pr
   );
 };
 
+// default export for default-importing modules
 export default Button;
