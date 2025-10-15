@@ -3,19 +3,11 @@
 import React, { useEffect, useState } from "react";
 import Switch from "./Switch";
 
-/**
- * ThemeToggle
- * - cliente (usa estado / localStorage / DOM)
- * - aplica a classe "dark" no <html> quando o tema for "dark"
- * - guarda preferência em localStorage key 'theme' ('light' | 'dark')
- */
-
 type Theme = "light" | "dark";
 
-export default function ThemeToggle(): JSX.Element {
+export function ThemeToggle(): JSX.Element {
   const [isDark, setIsDark] = useState<boolean | null>(null);
 
-  // ler preferência no mount
   useEffect(() => {
     try {
       const stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
@@ -26,13 +18,11 @@ export default function ThemeToggle(): JSX.Element {
       } else {
         setIsDark(false);
       }
-    } catch (e) {
-      // fallback
+    } catch {
       setIsDark(false);
     }
   }, []);
 
-  // aplicar tema quando isDark muda
   useEffect(() => {
     if (isDark === null) return;
     try {
@@ -43,19 +33,13 @@ export default function ThemeToggle(): JSX.Element {
         document.documentElement.classList.remove("dark");
         localStorage.setItem("theme", "light");
       }
-    } catch (e) {
-      // ignore localStorage/DOM issues in SSR envs
+    } catch {
+      // ignore
     }
   }, [isDark]);
 
-  // estado ainda inicializando
   if (isDark === null) {
-    return (
-      <div aria-hidden>
-        {/* placeholder while determining theme */}
-        <div style={{ width: 40, height: 24, borderRadius: 999 }} />
-      </div>
-    );
+    return <div aria-hidden style={{ width: 40, height: 24, borderRadius: 999 }} />;
   }
 
   return (
@@ -65,3 +49,5 @@ export default function ThemeToggle(): JSX.Element {
     </div>
   );
 }
+
+export default ThemeToggle;
