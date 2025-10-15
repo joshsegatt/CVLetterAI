@@ -1,10 +1,8 @@
-import React from 'react';
+import React from "react";
 
-type BuilderLayoutProps = {
-  children?: React.ReactNode;
-};
+type Props = { children?: React.ReactNode };
 
-export default function BuilderLayout({ children }: BuilderLayoutProps) {
+export default function BuilderLayout({ children }: Props) {
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="p-4 border-b bg-white">
