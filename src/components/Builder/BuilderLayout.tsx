@@ -1,16 +1,7 @@
-import React from "react";
+// Compatibility re-export:
+// If older code imports from src/components/Builder/Builderlayout, this file prevents breakage
+// by re-exporting the implementation from src/components/builder/BuilderLayout.
+// You can remove this file after migrating all imports to src/components/builder/*.
 
-type Props = { children?: React.ReactNode };
-
-export default function BuilderLayout({ children }: Props) {
-  return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="p-4 border-b bg-white">
-        <div className="max-w-5xl mx-auto">
-          <h1 className="text-lg font-semibold">Builder</h1>
-        </div>
-      </header>
-      <main className="max-w-5xl mx-auto p-6">{children}</main>
-    </div>
-  );
-}
+import BuilderLayout from "../builder/BuilderLayout";
+export default BuilderLayout;
