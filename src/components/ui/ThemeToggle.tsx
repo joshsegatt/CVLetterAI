@@ -1,37 +1,67 @@
-'use client';
+"use client";
 
-import { MoonStar, Sun } from 'lucide-react';
-import { useTheme } from 'next-themes';
-import { useEffect, useState } from 'react';
-import { Button } from './Button';
+import React, { useEffect, useState } from "react";
+import Switch from "./Switch";
 
-export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
+/**
+ * ThemeToggle
+ * - cliente (usa estado / localStorage / DOM)
+ * - aplica a classe "dark" no <html> quando o tema for "dark"
+ * - guarda preferência em localStorage key 'theme' ('light' | 'dark')
+ */
 
+type Theme = "light" | "dark";
+
+export default function ThemeToggle(): JSX.Element {
+  const [isDark, setIsDark] = useState<boolean | null>(null);
+
+  // ler preferência no mount
   useEffect(() => {
-    setMounted(true);
+    try {
+      const stored = typeof window !== "undefined" ? localStorage.getItem("theme") : null;
+      if (stored === "dark" || stored === "light") {
+        setIsDark(stored === "dark");
+      } else if (typeof window !== "undefined" && window.matchMedia) {
+        setIsDark(window.matchMedia("(prefers-color-scheme: dark)").matches);
+      } else {
+        setIsDark(false);
+      }
+    } catch (e) {
+      // fallback
+      setIsDark(false);
+    }
   }, []);
 
-  if (!mounted) {
+  // aplicar tema quando isDark muda
+  useEffect(() => {
+    if (isDark === null) return;
+    try {
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.setItem("theme", "light");
+      }
+    } catch (e) {
+      // ignore localStorage/DOM issues in SSR envs
+    }
+  }, [isDark]);
+
+  // estado ainda inicializando
+  if (isDark === null) {
     return (
-      <Button intent="ghost" size="sm" aria-label="Toggle theme" disabled>
-        <Sun className="h-4 w-4" />
-      </Button>
+      <div aria-hidden>
+        {/* placeholder while determining theme */}
+        <div style={{ width: 40, height: 24, borderRadius: 999 }} />
+      </div>
     );
   }
 
-  const isDark = resolvedTheme === 'dark';
-
   return (
-    <Button
-      intent="ghost"
-      size="sm"
-      aria-label="Toggle theme"
-      onClick={() => setTheme(isDark ? 'light' : 'dark')}
-    >
-      {isDark ? <Sun className="h-4 w-4" /> : <MoonStar className="h-4 w-4" />}
-      <span className="sr-only">Toggle theme</span>
-    </Button>
+    <div className="flex items-center gap-2">
+      <span className="text-sm text-gray-600 dark:text-gray-300">Dark</span>
+      <Switch checked={isDark} onChange={(v) => setIsDark(Boolean(v))} />
+    </div>
   );
 }
