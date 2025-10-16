@@ -1,7 +1,7 @@
 import Stripe from 'stripe';
 import { NextResponse } from 'next/server';
-import { platformEnv } from '@/services/platform/env';
-import { getStripeClient } from '@/services/payments/stripe';
+import { platformEnv } from '../platform/env';
+import { getStripeClient } from './stripe';
 
 export async function handleStripeWebhook(request: Request) {
   const signature = request.headers.get('stripe-signature') ?? '';

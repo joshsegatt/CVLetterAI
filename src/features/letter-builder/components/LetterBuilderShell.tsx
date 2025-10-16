@@ -4,14 +4,14 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
-import { saveLetterDraft } from '@/features/letter-builder/api/client';
+import { Button } from '../../../components/ui/Button';
+import { cn } from '../../../lib/utils';
+import { saveLetterDraft } from '../api/client';
 import {
   defaultLetterBuilderValues,
   letterBuilderSchema,
   type LetterBuilderForm
-} from '@/features/letter-builder/schema';
+} from '../schema';
 
 const toneDescriptions: Record<LetterBuilderForm['tone'], string> = {
   formal: 'Structured legal tone citing tenancy clauses and clear obligations.',

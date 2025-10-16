@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { streamChatCompletion } from '@/services/ai/chat';
-import type { ChatCompletionMessage } from '@/services/ai/types';
+import { streamChatCompletion } from '../../../../services/ai/chat';
+import type { ChatCompletionMessage } from '../../../../services/ai/types';
 
 export const runtime = 'nodejs';
 

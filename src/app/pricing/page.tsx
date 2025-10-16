@@ -1,6 +1,6 @@
 import Link from 'next/link';
-import { CheckoutButton } from '@/components/payments/CheckoutButton';
-import { Button } from '@/components/ui/Button';
+import { CheckoutButton } from '../../components/payments/CheckoutButton';
+import { Button } from '../../components/ui/Button';
 
 const plans = [
   {

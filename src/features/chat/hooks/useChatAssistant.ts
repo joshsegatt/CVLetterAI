@@ -2,7 +2,7 @@
 
 import { nanoid } from 'nanoid';
 import { useCallback, useState } from 'react';
-import type { ChatCompletionMessage } from '@/services/ai/types';
+import type { ChatCompletionMessage } from '../../../services/ai/types';
 
 export interface ChatMessage extends ChatCompletionMessage {
   id: string;

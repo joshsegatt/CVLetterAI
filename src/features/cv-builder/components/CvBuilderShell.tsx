@@ -5,14 +5,14 @@ import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
-import { saveCvDraft } from '@/features/cv-builder/api/client';
+import { Button } from '../../../components/ui/Button';
+import { cn } from '../../../lib/utils';
+import { saveCvDraft } from '../api/client';
 import {
   cvBuilderSchema,
   defaultCvBuilderValues,
   type CvBuilderForm
-} from '@/features/cv-builder/schema';
+} from '../schema';
 
 const steps = [
   {

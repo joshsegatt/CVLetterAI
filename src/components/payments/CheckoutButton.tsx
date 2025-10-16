@@ -1,5 +1,5 @@
-import { Button, type ButtonProps } from "@/components/ui/Button";
-import type { PricingPlanId } from "@/services/payments/stripe";
+import { Button, type ButtonProps } from "../ui/Button";
+import type { PricingPlanId } from "../../services/payments/stripe";
 
 type CheckoutButtonBaseProps = Omit<ButtonProps, "children" | "intent" | "size">;
 

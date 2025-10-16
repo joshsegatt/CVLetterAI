@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getCheckoutConfig } from '@/services/payments/stripe';
+import { getCheckoutConfig } from '../../src/services/payments/stripe';
 
 describe('getCheckoutConfig', () => {
   it('returns null when price IDs are not configured', () => {

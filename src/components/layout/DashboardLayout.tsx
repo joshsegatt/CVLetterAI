@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { DashboardNav } from '@/components/navigation/DashboardNav';
-import { Logo } from '@/components/shared/Logo';
-import { Button } from '@/components/ui/Button';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { DashboardNav } from '../navigation/DashboardNav';
+import { Logo } from '../shared/Logo';
+import { Button } from '../ui/Button';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 export function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

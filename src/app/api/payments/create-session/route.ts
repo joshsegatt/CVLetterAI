@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getStripeClient, getCheckoutConfig, type PricingPlanId } from '@/services/payments/stripe';
-import { platformEnv } from '@/services/platform/env';
-import { captureError } from '@/services/platform/observability';
+import { getStripeClient, getCheckoutConfig, type PricingPlanId } from '../../../../services/payments/stripe';
+import { platformEnv } from '../../../../services/platform/env';
+import { captureError } from '../../../../services/platform/observability';
 
 export const runtime = 'nodejs';
 

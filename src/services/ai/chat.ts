@@ -1,6 +1,6 @@
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
-import type { ChatCompletionMessage } from '@/services/ai/types';
-import { createChatCompletionStream } from '@/services/ai/openai';
+import type { ChatCompletionMessage } from './types';
+import { createChatCompletionStream } from './openai';
 
 const systemPrompt =
   'You are CVLetterAI, an AI assistant specialising in UK employment and tenancy documentation. Provide concise, actionable, and compliant guidance. Reference UK regulations when needed, keep tone high-trust, and respect GDPR (do not store prompt contents).';

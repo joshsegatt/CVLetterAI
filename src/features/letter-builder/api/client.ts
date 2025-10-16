@@ -1,6 +1,6 @@
 'use client';
 
-import type { LetterBuilderForm } from '@/features/letter-builder/schema';
+import type { LetterBuilderForm } from '../schema';
 
 interface SaveLetterResponse {
   id: string;

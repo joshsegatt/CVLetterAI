@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import type { CvBuilderForm } from '@/features/cv-builder/schema';
-import { cvBuilderSchema } from '@/features/cv-builder/schema';
-import { prisma } from '@/lib/prisma';
-import { captureError } from '@/services/platform/observability';
+import type { CvBuilderForm } from '../../../features/cv-builder/schema';
+import { cvBuilderSchema } from '../../../features/cv-builder/schema';
+import { prisma } from '../../../lib/prisma';
+import { captureError } from '../../../services/platform/observability';
 
 const DEFAULT_USER_ID = 'demo-user';
 const MAX_RESULTS = 10;

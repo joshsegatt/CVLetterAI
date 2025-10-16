@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { streamChatCompletion } from '@/services/ai/chat';
+import { streamChatCompletion } from '../../src/services/ai/chat';
 
 async function collectStream(iterator: AsyncGenerator<string>) {
   const result: string[] = [];

@@ -1,6 +1,6 @@
 import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/Button';
+import { Button } from '../../../components/ui/Button';
 
 export function BuilderHero() {
   return (

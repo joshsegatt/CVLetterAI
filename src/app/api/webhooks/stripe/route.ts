@@ -1,4 +1,4 @@
-import { handleStripeWebhook } from '@/services/payments/webhooks';
+import { handleStripeWebhook } from '../../../../services/payments/webhooks';
 
 export const runtime = 'nodejs';
 

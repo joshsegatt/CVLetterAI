@@ -1,11 +1,17 @@
 import React from "react";
-import MarketingLayout from "@/components/layout/MarketingLayout";
+import "./globals.css";
+import MarketingLayout from "../components/layout/MarketingLayout";
 
-/**
- * Root layout for marketing routes
- * This file is a server component (default). It uses the server MarketingLayout wrapper.
- */
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
 
-export default function MarketingSegmentLayout({ children }: { children: React.ReactNode }) {
-  return <MarketingLayout>{children}</MarketingLayout>;
+export default function RootLayout({ children }: RootLayoutProps) {
+  return (
+    <html lang="en">
+      <body className="min-h-screen bg-surface-muted font-sans text-neutral-100 antialiased">
+        <MarketingLayout>{children}</MarketingLayout>
+      </body>
+    </html>
+  );
 }

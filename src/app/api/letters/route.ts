@@ -1,9 +1,9 @@
 import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
-import type { LetterBuilderForm } from '@/features/letter-builder/schema';
-import { letterBuilderSchema } from '@/features/letter-builder/schema';
-import { prisma } from '@/lib/prisma';
-import { captureError } from '@/services/platform/observability';
+import type { LetterBuilderForm } from '../../../features/letter-builder/schema';
+import { letterBuilderSchema } from '../../../features/letter-builder/schema';
+import { prisma } from '../../../lib/prisma';
+import { captureError } from '../../../services/platform/observability';
 
 const DEFAULT_USER_ID = 'demo-user';
 const MAX_RESULTS = 10;

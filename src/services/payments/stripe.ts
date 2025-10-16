@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { platformEnv } from '@/services/platform/env';
+import { platformEnv } from '../platform/env';
 
 let stripeClient: Stripe | null = null;
 

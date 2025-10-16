@@ -1,6 +1,6 @@
 'use client';
 
-import type { CvBuilderForm } from '@/features/cv-builder/schema';
+import type { CvBuilderForm } from '../schema';
 
 interface SaveDraftResponse {
   id: string;

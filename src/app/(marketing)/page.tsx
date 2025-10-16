@@ -1,9 +1,9 @@
 import { ArrowRight, ShieldCheck, Sparkles, Users } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { CheckoutButton } from "@/components/payments/CheckoutButton";
-import { Button } from "@/components/ui/Button";
-import type { PricingPlanId } from "@/services/payments/stripe";
+import { CheckoutButton } from "../../components/payments/CheckoutButton";
+import { Button } from "../../components/ui/Button";
+import type { PricingPlanId } from "../../services/payments/stripe";
 
 interface LinkCTA {
   type: "link";

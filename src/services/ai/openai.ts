@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 import type { ChatCompletionMessageParam } from 'openai/resources/chat/completions';
-import { platformEnv } from '@/services/platform/env';
+import { platformEnv } from '../platform/env';
 
 let openaiClient: OpenAI | null = null;
 

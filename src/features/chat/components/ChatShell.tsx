@@ -3,10 +3,10 @@
 import { useEffect, useRef } from 'react';
 import { Mic, Send } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/Button';
-import { cn } from '@/lib/utils';
-import { useChatAssistant } from '@/features/chat/hooks/useChatAssistant';
-import type { ChatCompletionMessage } from '@/services/ai/types';
+import { Button } from '../../../components/ui/Button';
+import { cn } from '../../../lib/utils';
+import { useChatAssistant } from '../hooks/useChatAssistant';
+import type { ChatCompletionMessage } from '../../../services/ai/types';
 
 type MessageRole = ChatCompletionMessage['role'];
 

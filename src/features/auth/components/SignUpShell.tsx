@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Button } from '@/components/ui/Button';
+import { Button } from '../../../components/ui/Button';
 
 export function SignUpShell() {
   const router = useRouter();

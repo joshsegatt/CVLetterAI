@@ -2,8 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { dashboardNav } from '@/lib/navigation';
-import { cn } from '@/lib/utils';
+import { dashboardNav } from '../../lib/navigation';
+import { cn } from '../../lib/utils';
 
 interface DashboardNavProps {
   orientation?: 'vertical' | 'horizontal';
