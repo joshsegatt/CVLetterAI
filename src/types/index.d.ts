@@ -1,1 +1,1 @@
-export type PricingPlanId = 'free' | 'pro' | 'premium' | 'subscription';
+export type PricingPlanId = 'price_free' | 'price_one_time' | 'price_subscription';

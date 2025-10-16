@@ -1,10 +1,10 @@
 import React from "react";
-import BuilderLayout from "../../../components/builder/BuilderLayout";
-import LetterTemplateBrowser from "../../../components/builder/LetterTemplateBrowser";
-import FormalLetter from "../../../components/builder/Letter-templates/FormalLetter";
-import PoliteLetter from "../../../components/builder/Letter-templates/PoliteLetter";
-import FirmLetter from "../../../components/builder/Letter-templates/FirmLetter";
-import LegalNoticeLetter from "../../../components/builder/Letter-templates/LegalNoticeLetter";
+import BuilderLayout from "../../../components/Builder/BuilderLayout";
+import LetterTemplateBrowser from "../../../components/Builder/LetterTemplateBrowser";
+import FormalLetter from "../../../components/Builder/Letter-templates/FormalLetter";
+import PoliteLetter from "../../../components/Builder/Letter-templates/PoliteLetter";
+import FirmLetter from "../../../components/Builder/Letter-templates/FirmLetter";
+import LegalNoticeLetter from "../../../components/Builder/Letter-templates/LegalNoticeLetter";
 import Switch from "../../../components/ui/Switch";
 
 export default function Page() {

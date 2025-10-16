@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       take: MAX_RESULTS
     });
 
-    const responseDrafts: LetterDraftRecord[] = drafts.map((draft) => ({
+    const responseDrafts: LetterDraftRecord[] = drafts.map((draft: any) => ({
       id: draft.id,
       payload: draft.payload as LetterBuilderForm,
       updated_at: draft.updatedAt.toISOString()

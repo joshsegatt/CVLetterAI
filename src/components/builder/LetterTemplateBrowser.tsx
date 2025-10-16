@@ -27,7 +27,7 @@ export default function LetterTemplateBrowser({ templates, initialSelection }: L
     <div className="space-y-3">
       <TemplateSelector
         templates={safeTemplates}
-        onSelect={(id) => {
+        onSelect={(id: string) => {
           if (typeof id === "string" && id.trim().length > 0) {
             setSelectedTemplate(id);
             return;

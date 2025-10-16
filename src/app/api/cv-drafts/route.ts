@@ -58,7 +58,7 @@ export async function GET(request: Request) {
       take: MAX_RESULTS
     });
 
-    const responseDrafts: CvDraftRecord[] = drafts.map((draft) => ({
+    const responseDrafts: CvDraftRecord[] = drafts.map((draft: any) => ({
       id: draft.id,
       payload: draft.payload as CvBuilderForm,
       updated_at: draft.updatedAt.toISOString()
