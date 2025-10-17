@@ -1,4 +1,4 @@
-import { CVData } from '../types/builder';
+import { CVData, LetterData } from '../types/builder';
 
 export const sampleCVData: CVData = {
   personal: {
@@ -141,4 +141,33 @@ export const sampleCVData: CVData = {
       date: "2022"
     }
   ]
+};
+
+export const sampleLetterData: LetterData = {
+  senderInfo: {
+    name: "Alexandra Johnson",
+    address: "123 Tech Street, London, UK SW1A 1AA",
+    phone: "+44 7700 900123",
+    email: "alexandra.johnson@email.com"
+  },
+  recipientInfo: {
+    name: "Sarah Mitchell",
+    title: "Senior Hiring Manager",
+    company: "InnovaTech Solutions",
+    address: "456 Innovation Drive, London, UK EC2A 2BB"
+  },
+  letterInfo: {
+    date: "15th December 2024",
+    subject: "Application for Senior Full-Stack Developer Position",
+    salutation: "Dear Ms. Mitchell,",
+    body: `I am writing to express my strong interest in the Senior Full-Stack Developer position at InnovaTech Solutions, as advertised on your company website. With over 5 years of experience in full-stack development and a proven track record of delivering scalable web applications, I am confident that my skills and passion for technology make me an ideal candidate for this role.
+
+In my current position as Senior Full-Stack Developer at TechCorp Limited, I have led the development of microservices architecture serving over 1 million users daily. My expertise spans the entire technology stack, from React and TypeScript on the frontend to Node.js and PostgreSQL on the backend. I have consistently delivered high-quality solutions that improved application performance by 40% and reduced deployment time by 60% through implementing CI/CD pipelines.
+
+What particularly excites me about InnovaTech Solutions is your commitment to innovation and cutting-edge technology solutions. Your recent work on AI-driven analytics platforms aligns perfectly with my interest in emerging technologies and my experience in building data-intensive applications. I am eager to contribute to your team's success and help drive the company's technological advancement.
+
+I have attached my resume for your review and would welcome the opportunity to discuss how my experience and enthusiasm can contribute to InnovaTech Solutions' continued success. Thank you for considering my application, and I look forward to hearing from you soon.`,
+    closing: "Sincerely,",
+    signature: "Alexandra Johnson"
+  }
 };

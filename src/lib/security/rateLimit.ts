@@ -1,0 +1,65 @@
+// Rate Limit Store Global
+declare global {
+  var rateLimitStore: Map<string, { count: number; resetTime: number }> | undefined;
+}
+
+interface RateLimitConfig {
+  requests: number;
+  window: number;
+}
+
+interface RateLimitResult {
+  success: boolean;
+  resetTime: number;
+  remaining: number;
+}
+
+export async function checkRateLimit(
+  identifier: string, 
+  path: string, 
+  config: RateLimitConfig
+): Promise<RateLimitResult> {
+  const key = `ratelimit:${identifier}:${path.split('/')[1] || 'root'}`;
+  
+  // Initialize global store if needed
+  if (!global.rateLimitStore) {
+    global.rateLimitStore = new Map();
+  }
+  
+  const now = Date.now();
+  const store = global.rateLimitStore;
+  const record = store.get(key) || { count: 0, resetTime: now + config.window };
+  
+  // Reset if window expired
+  if (now > record.resetTime) {
+    record.count = 1;
+    record.resetTime = now + config.window;
+  } else {
+    record.count++;
+  }
+  
+  store.set(key, record);
+  
+  // Clean old entries periodically (simple cleanup)
+  if (Math.random() < 0.01) { // 1% chance to cleanup
+    const cutoff = now - (config.window * 2);
+    for (const [k, v] of store.entries()) {
+      if (v.resetTime < cutoff) {
+        store.delete(k);
+      }
+    }
+  }
+  
+  return {
+    success: record.count <= config.requests,
+    resetTime: record.resetTime,
+    remaining: Math.max(0, config.requests - record.count)
+  };
+}
+
+export const RATE_LIMITS = {
+  api: { requests: 100, window: 900000 }, // 100 req/15min
+  auth: { requests: 5, window: 300000 }, // 5 req/5min
+  global: { requests: 1000, window: 3600000 }, // 1000 req/hour
+  ai: { requests: 20, window: 300000 } // 20 req/5min
+} as const;
