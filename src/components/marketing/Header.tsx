@@ -22,17 +22,17 @@ export function Header() {
 
           {/* Navigation - Desktop */}
           <nav className="hidden md:flex items-center gap-8">
+            <Link href="/cv-builder" className="text-neutral-300 hover:text-white transition-colors">
+              Create CV
+            </Link>
+            <Link href="/letter-builder" className="text-neutral-300 hover:text-white transition-colors">
+              Write Letter
+            </Link>
             <Link href="#features" className="text-neutral-300 hover:text-white transition-colors">
               Features
             </Link>
             <Link href="#pricing" className="text-neutral-300 hover:text-white transition-colors">
               Pricing
-            </Link>
-            <Link href="#testimonials" className="text-neutral-300 hover:text-white transition-colors">
-              Reviews
-            </Link>
-            <Link href="#security" className="text-neutral-300 hover:text-white transition-colors">
-              Security
             </Link>
           </nav>
 
@@ -61,6 +61,20 @@ export function Header() {
           <div className="md:hidden border-t border-white/10 py-4">
             <nav className="flex flex-col gap-4">
               <Link 
+                href="/cv-builder" 
+                className="text-neutral-300 hover:text-white transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Create CV
+              </Link>
+              <Link 
+                href="/letter-builder" 
+                className="text-neutral-300 hover:text-white transition-colors py-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Write Letter
+              </Link>
+              <Link 
                 href="#features" 
                 className="text-neutral-300 hover:text-white transition-colors py-2"
                 onClick={() => setIsMenuOpen(false)}
@@ -73,20 +87,6 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Pricing
-              </Link>
-              <Link 
-                href="#testimonials" 
-                className="text-neutral-300 hover:text-white transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Reviews
-              </Link>
-              <Link 
-                href="#security" 
-                className="text-neutral-300 hover:text-white transition-colors py-2"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                Security
               </Link>
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
                 <Button asChild intent="secondary" size="sm">
