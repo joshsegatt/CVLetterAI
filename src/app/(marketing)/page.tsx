@@ -111,9 +111,9 @@ const plans: Plan[] = [
     ],
     featured: true,
     cta: {
-      type: "checkout",
+      type: "link",
       label: "Unlock 48h pass",
-      planId: "price_one_time",
+      href: "https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00",
     },
   },
   {
@@ -127,9 +127,9 @@ const plans: Plan[] = [
       "Multi-language exports",
     ],
     cta: {
-      type: "checkout",
+      type: "link",
       label: "Subscribe now",
-      planId: "price_subscription",
+      href: "https://buy.stripe.com/cNicN47dw2qecJ5ewT4ow01",
     },
   },
 ];

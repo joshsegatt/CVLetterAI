@@ -1,4 +1,4 @@
-const requiredEnv = ['DATABASE_URL', 'STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'] as const;
+const requiredEnv = ['DATABASE_URL', 'STRIPE_SECRET_KEY'] as const;
 
 type RequiredEnv = (typeof requiredEnv)[number];
 
@@ -9,7 +9,8 @@ const optionalEnv = [
   'OPENAI_MODEL',
   'OPENAI_BASE_URL',
   'STRIPE_PRICE_ONE_TIME',
-  'STRIPE_PRICE_SUBSCRIPTION'
+  'STRIPE_PRICE_SUBSCRIPTION',
+  'STRIPE_WEBHOOK_SECRET'
 ] as const;
 
 type OptionalEnv = (typeof optionalEnv)[number];
@@ -29,7 +30,7 @@ function readOptionalEnv(key: OptionalEnv) {
 export const platformEnv = {
   databaseUrl: readEnv('DATABASE_URL') ?? '',
   stripeSecret: readEnv('STRIPE_SECRET_KEY') ?? '',
-  stripeWebhookSecret: readEnv('STRIPE_WEBHOOK_SECRET') ?? '',
+  stripeWebhookSecret: readOptionalEnv('STRIPE_WEBHOOK_SECRET'),
   analyticsDomain: process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? '',
   appName: readOptionalEnv('NEXT_PUBLIC_APP_NAME') || 'CVLetterAI',
   openaiApiKey: readOptionalEnv('OPENAI_API_KEY'),
