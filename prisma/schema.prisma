@@ -9,19 +9,28 @@ datasource db {
 
 // Users table for authentication and user management
 model User {
-  id            String   @id @default(uuid())
-  email         String   @unique
-  name          String?
-  image         String?
-  plan          String   @default("free") // free, pro, enterprise
-  planExpiresAt DateTime?
-  tokensUsed    Int      @default(0)
-  messagesUsed  Int      @default(0)
-  lastResetAt   DateTime @default(now())
-  isActive      Boolean  @default(true)
-  metadata      Json?    // For additional user data
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id               String    @id @default(uuid())
+  email            String    @unique
+  username         String?   @unique
+  name             String?
+  firstName        String?
+  lastName         String?
+  password         String?   // Hashed password for email/password auth
+  image            String?
+  emailVerified    DateTime?
+  phone            String?
+  plan             String    @default("free") // free, pro, enterprise
+  planExpiresAt    DateTime?
+  tokensUsed       Int       @default(0)
+  messagesUsed     Int       @default(0)
+  lastResetAt      DateTime  @default(now())
+  lastLoginAt      DateTime?
+  isActive         Boolean   @default(true)
+  isEmailVerified  Boolean   @default(false)
+  twoFactorEnabled Boolean   @default(false)
+  metadata         Json?     // For additional user data
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   // Relations
   cvDrafts      CvDraft[]
@@ -30,7 +39,9 @@ model User {
   accounts      Account[]
 
   @@index([email])
+  @@index([username])
   @@index([plan, planExpiresAt])
+  @@index([lastLoginAt])
   @@index([createdAt])
 }
 

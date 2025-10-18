@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
 
 // Global stores para rate limiting e logs de segurança
 declare global {
@@ -16,12 +17,16 @@ const RATE_LIMITS = {
 };
 
 export async function middleware(request: NextRequest) {
-  const response = NextResponse.next();
   const ip = getClientIP(request);
   const userAgent = request.headers.get('user-agent') || '';
   const path = request.nextUrl.pathname;
 
   try {
+    // 1. Authentication check for protected routes
+    const authResult = await checkAuthentication(request);
+    if (authResult) return authResult;
+
+    const response = NextResponse.next();
     // 1. Verificar IP bloqueado
     if (isIPBlocked(ip)) {
       logSecurityEvent('BLOCKED_IP_ACCESS', { ip, path, userAgent });
@@ -98,6 +103,89 @@ export async function middleware(request: NextRequest) {
     logSecurityEvent('MIDDLEWARE_ERROR', { ip, path, error: error?.toString() });
     return NextResponse.next(); // Continua em caso de erro para não quebrar o site
   }
+}
+
+// Protected routes that require authentication
+const PROTECTED_ROUTES = [
+  '/overview',
+  '/dashboard',
+  '/cv-builder',
+  '/letter-builder',
+  '/settings',
+  '/api/cv-drafts',
+  '/api/letters',
+  '/api/ai',
+  '/api/payments'
+];
+
+// Public routes that should redirect authenticated users
+const PUBLIC_AUTH_ROUTES = [
+  '/sign-in',
+  '/sign-up',
+];
+
+// Authentication helper function
+async function checkAuthentication(request: NextRequest): Promise<NextResponse | null> {
+  const path = request.nextUrl.pathname;
+  
+  // Check if route requires authentication
+  const isProtectedRoute = PROTECTED_ROUTES.some(route => path.startsWith(route));
+  const isPublicAuthRoute = PUBLIC_AUTH_ROUTES.some(route => path.startsWith(route));
+  
+  if (!isProtectedRoute && !isPublicAuthRoute) {
+    return null; // No authentication check needed
+  }
+  
+  try {
+    // Get the token from NextAuth
+    const token = await getToken({
+      req: request,
+      secret: process.env.NEXTAUTH_SECRET,
+    });
+    
+    const isAuthenticated = !!token;
+    
+    // Handle protected routes
+    if (isProtectedRoute && !isAuthenticated) {
+      const redirectUrl = new URL('/sign-in', request.url);
+      redirectUrl.searchParams.set('redirect', path);
+      
+      logSecurityEvent('UNAUTHORIZED_ACCESS_ATTEMPT', {
+        ip: getClientIP(request),
+        path,
+        userAgent: request.headers.get('user-agent')
+      });
+      
+      return NextResponse.redirect(redirectUrl);
+    }
+    
+    // Handle public auth routes (redirect authenticated users)
+    if (isPublicAuthRoute && isAuthenticated) {
+      const redirectUrl = new URL('/overview', request.url);
+      return NextResponse.redirect(redirectUrl);
+    }
+    
+    // For API routes, return 401 instead of redirecting
+    if (isProtectedRoute && !isAuthenticated && path.startsWith('/api/')) {
+      return new NextResponse(
+        JSON.stringify({ success: false, error: 'Authentication required' }),
+        { 
+          status: 401,
+          headers: {
+            'Content-Type': 'application/json',
+            'WWW-Authenticate': 'Bearer'
+          }
+        }
+      );
+    }
+    
+  } catch (error) {
+    console.error('Authentication middleware error:', error);
+    // In case of error, allow access to prevent breaking the site
+    return null;
+  }
+  
+  return null;
 }
 
 // Security helper functions
