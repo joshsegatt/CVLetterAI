@@ -47,6 +47,12 @@ export interface TranslationKeys {
     profile: string;
     overview: string;
     chat: string;
+    cvAnalysis: string;
+    coverLetters: string;
+    getStarted: string;
+    features: string;
+    learnMore: string;
+    tryNow: string;
   };
 
   // Home/Marketing

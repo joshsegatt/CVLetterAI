@@ -4,9 +4,11 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/Button";
+import { useI18n } from "@/lib/i18n/context";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { translate } = useI18n();
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-2xl border-b border-white/[0.08] force-transparent-bg">
@@ -29,35 +31,35 @@ export function Header() {
               href="/cv-builder" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
             >
-              CV Builder
+              {translate('nav.cvBuilder')}
             </Link>
             
             <Link 
               href="/letter-builder" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
             >
-              Cover Letters
+              {translate('nav.coverLetters')}
             </Link>
 
             <Link 
               href="/cv-analysis" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
             >
-              CV Analysis
+              {translate('nav.cvAnalysis')}
             </Link>
 
             <Link 
               href="/chat" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
             >
-              AI Chat
+              {translate('nav.chat')}
             </Link>
             
             <Link 
               href="/pricing" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
             >
-              Pricing
+              {translate('nav.pricing')}
             </Link>
           </nav>
 
@@ -68,14 +70,14 @@ export function Header() {
               variant="ghost" 
               className="text-white/80 hover:text-white hover:bg-white/5 border border-white/10 hover:border-white/20 text-caption px-4 py-2"
             >
-              <Link href="/sign-in">Sign In</Link>
+              <Link href="/sign-in">{translate('nav.signIn')}</Link>
             </Button>
             <Button 
               asChild 
               className="bg-gradient-brand hover:shadow-glow transition-all duration-300 hover:scale-105 relative overflow-hidden group"
             >
               <Link href="/sign-up">
-                <span className="relative z-10">Get Started</span>
+                <span className="relative z-10">{translate('nav.getStarted')}</span>
                 <div className="absolute inset-0 bg-gradient-luxury opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </Button>
@@ -104,7 +106,7 @@ export function Header() {
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                CV Builder
+                {translate('nav.cvBuilder')}
               </Link>
               
               <Link 
@@ -112,7 +114,7 @@ export function Header() {
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Cover Letters
+                {translate('nav.coverLetters')}
               </Link>
 
               <Link 
@@ -120,7 +122,7 @@ export function Header() {
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                CV Analysis
+                {translate('nav.cvAnalysis')}
               </Link>
               
               <Link 
@@ -128,7 +130,7 @@ export function Header() {
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                AI Chat
+                {translate('nav.chat')}
               </Link>
               
               <Link 
@@ -136,7 +138,7 @@ export function Header() {
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Pricing
+                {translate('nav.pricing')}
               </Link>
               
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10 mt-4">
@@ -145,13 +147,13 @@ export function Header() {
                   variant="ghost" 
                   className="justify-center border border-white/20"
                 >
-                  <Link href="/sign-in">Sign In</Link>
+                  <Link href="/sign-in">{translate('nav.signIn')}</Link>
                 </Button>
                 <Button 
                   asChild 
                   className="bg-gradient-brand"
                 >
-                  <Link href="/sign-up">Get Started</Link>
+                  <Link href="/sign-up">{translate('nav.getStarted')}</Link>
                 </Button>
               </div>
             </nav>

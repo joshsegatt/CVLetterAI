@@ -38,6 +38,12 @@ export const en: TranslationKeys = {
     profile: 'Profile',
     overview: 'Overview',
     chat: 'AI Chat',
+    cvAnalysis: 'CV Analysis',
+    coverLetters: 'Cover Letters',
+    getStarted: 'Get Started',
+    features: 'Features',
+    learnMore: 'Learn More',
+    tryNow: 'Try Now',
   },
 
   home: {
