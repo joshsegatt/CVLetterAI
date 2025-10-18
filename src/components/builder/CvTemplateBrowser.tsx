@@ -35,7 +35,7 @@ export default function CvTemplateBrowser({ templates, initialSelection }: CvTem
           setSelectedTemplate(null);
         }}
       />
-      <p className="text-sm text-slate-600 dark:text-slate-300" data-selected-template={selectedTemplate ?? ""}>
+      <p className="text-sm text-slate-600" data-selected-template={selectedTemplate ?? ""}>
         {selectedTemplate ? `Selected template: ${selectedTemplate}` : "Select a template to load its preview."}
       </p>
     </div>

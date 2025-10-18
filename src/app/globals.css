@@ -2,6 +2,189 @@
 @tailwind components;
 @tailwind utilities;
 
+/* BACKGROUND CUSTOMIZADO - Approach profissional */
+@layer base {
+  html {
+    height: 100%;
+    background: 
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+      linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e);
+    background-attachment: fixed;
+    background-color: #0a0a0a;
+  }
+  
+  body {
+    @apply text-white min-h-screen font-sans antialiased;
+    background: inherit;
+    background-color: transparent;
+  }
+}
+
+/* Override classes problemáticas sem quebrar layout */
+@layer utilities {
+  .bg-gradient-main {
+    background: 
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+      linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+    background-attachment: fixed;
+  }
+  
+  .force-transparent-bg {
+    background-color: transparent !important;
+    background-image: none !important;
+  }
+  
+  /* Override específico para componentes problemáticos */
+  .dark\:bg-slate-900 {
+    background-color: transparent !important;
+  }
+  
+  .bg-white {
+    background-color: rgba(255, 255, 255, 0.05) !important;
+  }
+  
+  .bg-slate-900 {
+    background-color: transparent !important;
+  }
+  
+  /* TIPOGRAFIA PROFISSIONAL ESTILO CANVA */
+  .text-hero {
+    font-size: 2.5rem !important; /* 40px */
+    line-height: 1.15 !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.025em !important;
+  }
+  
+  .text-hero-mobile {
+    font-size: 1.875rem !important; /* 30px */
+    line-height: 1.2 !important;
+  }
+  
+  .text-section {
+    font-size: 1.75rem !important; /* 28px */
+    line-height: 1.3 !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.02em !important;
+  }
+  
+  .text-subsection {
+    font-size: 1.25rem !important; /* 20px */
+    line-height: 1.4 !important;
+    font-weight: 500 !important;
+  }
+  
+  .text-body {
+    font-size: 1rem !important; /* 16px */
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-body-large {
+    font-size: 1.125rem !important; /* 18px */
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-caption {
+    font-size: 0.875rem !important; /* 14px */
+    line-height: 1.5 !important;
+    font-weight: 400 !important;
+  }
+  
+  .text-small {
+    font-size: 0.75rem !important; /* 12px */
+    line-height: 1.4 !important;
+    font-weight: 400 !important;
+  }
+  
+  /* SPACING EQUILIBRADO */
+  .section-spacing {
+    margin-bottom: 3rem !important; /* 48px */
+  }
+  
+  .subsection-spacing {
+    margin-bottom: 2rem !important; /* 32px */
+  }
+  
+  .element-spacing {
+    margin-bottom: 1rem !important; /* 16px */
+  }
+  
+  .tight-spacing {
+    margin-bottom: 0.5rem !important; /* 8px */
+  }
+}
+
+/* Especificamente para o HTML e BODY */
+html {
+  height: 100% !important;
+  min-height: 100vh !important;
+  background: 
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+    linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+  background-attachment: fixed !important;
+}
+
+body {
+  height: 100% !important;
+  min-height: 100vh !important;
+  background: 
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+    linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+  background-attachment: fixed !important;
+  font-family: Inter, system-ui, sans-serif !important;
+  color: #ffffff !important;
+}
+
+/* DESABILITA completamente qualquer dark mode ou theme */
+.dark,
+[data-theme="dark"],
+html.dark,
+body.dark {
+  background: 
+    radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+    linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+  background-color: #0a0a0a !important;
+  color: #ffffff !important;
+}
+
+/* Agora SIM carrega o Tailwind por cima */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* FORÇA overrides após Tailwind */
+@layer base {
+  * {
+    background-color: transparent !important;
+  }
+  
+  html, body {
+    background: 
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+      linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+    background-color: #0a0a0a !important;
+    background-attachment: fixed !important;
+    color: #ffffff !important;
+  }
+}
+
+@layer utilities {
+  .bg-gradient-main {
+    background: 
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+      linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+    background-color: #0a0a0a !important;
+  }
+  
+  .force-bg {
+    background: 
+      radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent),
+      linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e) !important;
+    background-color: #0a0a0a !important;
+  }
+}
+
 /* Ultra-Modern Design System - Apple/Figma/Linear Inspired */
 :root {
   /* Brand Colors - Premium Modern Palette */

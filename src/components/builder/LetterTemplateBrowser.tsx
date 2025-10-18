@@ -35,7 +35,7 @@ export default function LetterTemplateBrowser({ templates, initialSelection }: L
           setSelectedTemplate(null);
         }}
       />
-      <p className="text-sm text-slate-600 dark:text-slate-300" data-selected-letter-template={selectedTemplate ?? ""}>
+      <p className="text-sm text-slate-600" data-selected-letter-template={selectedTemplate ?? ""}>
         {selectedTemplate ? `Selected letter template: ${selectedTemplate}` : "Pick a template to preview formatting."}
       </p>
     </div>

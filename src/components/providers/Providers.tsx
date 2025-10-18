@@ -1,6 +1,5 @@
 'use client';
 
-import { ThemeProvider } from 'next-themes';
 import { Suspense } from 'react';
 
 interface ProvidersProps {
@@ -9,13 +8,6 @@ interface ProvidersProps {
 
 export function Providers({ children }: ProvidersProps) {
   return (
-    <ThemeProvider
-      attribute="data-theme"
-      defaultTheme="system"
-      enableSystem
-      disableTransitionOnChange
-    >
-      <Suspense fallback={null}>{children}</Suspense>
-    </ThemeProvider>
+    <Suspense fallback={null}>{children}</Suspense>
   );
 }

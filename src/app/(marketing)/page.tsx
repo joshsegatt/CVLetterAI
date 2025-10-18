@@ -243,9 +243,9 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
       : null;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen force-transparent-bg">
       <Header />
-      <main className="container mx-auto px-4 space-y-16 pb-16">
+      <main className="container mx-auto px-4 space-y-16 pb-16 force-transparent-bg">
         {/* Banner de confirmação */}
         {banner ? (
           <div
@@ -262,27 +262,27 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
           </div>
         ) : null}
 
-        {/* HERO SECTION - Clean Minimalist Professional */}
-        <section className="relative min-h-[90vh] flex items-center justify-center">
-          <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+        {/* HERO SECTION - Tipografia Equilibrada */}
+        <section className="relative py-16 md:py-24 flex items-center justify-center">
+          <div className="container mx-auto px-6 lg:px-8 max-w-5xl">
             <div className="text-center">
               {/* Subtle Trust Indicator */}
-              <div className="mb-8">
-                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
-                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+              <div className="subsection-spacing">
+                <div className="flex items-center justify-center gap-2 text-caption text-gray-400 tight-spacing">
+                  <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
                   <span>Trusted by professionals worldwide</span>
                 </div>
                 <CompanyLogos />
               </div>
 
-              {/* Clean, Direct Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-white tracking-tight" style={{ color: '#ffffff' }}>
+              {/* Headline Equilibrado */}
+              <h1 className="text-hero md:text-hero text-white tight-spacing">
                 {translate('home.title')}
                 <span className="text-blue-400 block">get you hired</span>
               </h1>
 
-              {/* Simple, Clear Value Proposition */}
-              <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10">
+              {/* Subtitle Proporcional */}
+              <p className="text-body-large text-gray-300 max-w-2xl mx-auto subsection-spacing">
                 {translate('home.subtitle')}
               </p>
 
@@ -323,51 +323,108 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
           </div>
         </section>
 
-        {/* HOW IT WORKS - Clean Minimal */}
-        <section id="how-it-works" className="py-20">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-3xl font-semibold text-white mb-4">
-              How it works
-            </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-              Three simple steps to your professional CV
-            </p>
-          </div>
+        {/* HOW IT WORKS - Design Moderno Profissional */}
+        <section id="how-it-works" className="section-spacing py-16">
+          <div className="max-w-6xl mx-auto">
+            {/* Header Moderno */}
+            <div className="text-center subsection-spacing">
+              <div className="inline-flex items-center gap-2 bg-blue-600/10 border border-blue-500/20 rounded-full px-4 py-2 tight-spacing">
+                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
+                <span className="text-caption text-blue-300 font-medium">Simple Process</span>
+              </div>
+              <h2 className="text-section text-white element-spacing">
+                How it works
+              </h2>
+              <p className="text-body text-gray-400 max-w-2xl mx-auto">
+                Create your professional CV in three simple steps
+              </p>
+            </div>
 
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-semibold">1</span>
+            {/* Steps Grid Moderno */}
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+              {/* Step 1 */}
+              <div className="relative group">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/8 transition-all duration-300 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/10">
+                  <div className="flex items-center gap-4 subsection-spacing">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <span className="text-white font-bold">1</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-subsection text-white">Enter Details</h3>
+                      <div className="w-full bg-white/10 h-1 rounded-full mt-2">
+                        <div className="w-1/3 bg-blue-400 h-1 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-body text-gray-300">Add your work experience, education, and skills in minutes with our intuitive interface</p>
+                </div>
+                
+                {/* Connection Line */}
+                <div className="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-blue-400 to-transparent"></div>
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">Enter your details</h3>
-              <p className="text-gray-400">Add your work experience, education, and skills in minutes</p>
+              
+              {/* Step 2 */}
+              <div className="relative group">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/8 transition-all duration-300 hover:border-purple-500/30 hover:shadow-2xl hover:shadow-purple-500/10">
+                  <div className="flex items-center gap-4 subsection-spacing">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <span className="text-white font-bold">2</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-subsection text-white">AI Optimization</h3>
+                      <div className="w-full bg-white/10 h-1 rounded-full mt-2">
+                        <div className="w-2/3 bg-purple-400 h-1 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-body text-gray-300">Our AI analyzes and enhances your content for maximum impact and ATS compatibility</p>
+                </div>
+                
+                {/* Connection Line */}
+                <div className="hidden md:block absolute top-12 -right-4 w-8 h-0.5 bg-gradient-to-r from-purple-400 to-transparent"></div>
+              </div>
+              
+              {/* Step 3 */}
+              <div className="relative group">
+                <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/8 transition-all duration-300 hover:border-green-500/30 hover:shadow-2xl hover:shadow-green-500/10">
+                  <div className="flex items-center gap-4 subsection-spacing">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center shadow-lg">
+                      <span className="text-white font-bold">3</span>
+                    </div>
+                    <div className="flex-1">
+                      <h3 className="text-subsection text-white">Download & Apply</h3>
+                      <div className="w-full bg-white/10 h-1 rounded-full mt-2">
+                        <div className="w-full bg-green-400 h-1 rounded-full"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <p className="text-body text-gray-300">Export your professional CV in multiple formats and start applying to your dream jobs</p>
+                </div>
+              </div>
             </div>
             
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-semibold">2</span>
+            {/* Call to Action Moderno */}
+            <div className="text-center mt-12">
+              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/30 rounded-full px-6 py-3">
+                <span className="text-body text-white">Ready to get started?</span>
+                <Button 
+                  asChild 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-6 py-2 text-caption rounded-lg transition-all duration-300"
+                >
+                  <Link href="/sign-up">Create Your CV Now</Link>
+                </Button>
               </div>
-              <h3 className="text-lg font-medium text-white mb-2">AI optimizes content</h3>
-              <p className="text-gray-400">Our AI enhances your content for maximum impact</p>
-            </div>
-            
-            <div className="text-center p-6">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
-                <span className="text-white font-semibold">3</span>
-              </div>
-              <h3 className="text-lg font-medium text-white mb-2">Download & apply</h3>
-              <p className="text-gray-400">Export your professional CV and start applying</p>
             </div>
           </div>
         </section>
 
-        {/* FEATURES SECTION - Clean Minimal */}
-        <section id="features" className="py-20">
-          <div className="max-w-4xl mx-auto text-center mb-16">
-            <h2 className="text-3xl font-semibold text-white mb-4">
+        {/* FEATURES SECTION - Tipografia Equilibrada */}
+        <section id="features" className="section-spacing py-12">
+          <div className="max-w-4xl mx-auto text-center subsection-spacing">
+            <h2 className="text-section text-white element-spacing">
               Everything you need
             </h2>
-            <p className="text-lg text-gray-400">
+            <p className="text-body text-gray-400">
               Professional tools designed for modern job seekers
             </p>
           </div>

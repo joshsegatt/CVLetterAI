@@ -7,8 +7,8 @@ interface MarketingLayoutProps {
 
 export function MarketingLayout({ children }: MarketingLayoutProps) {
   return (
-    <div className="min-h-screen bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100">
-      <header className="border-b bg-white/60 dark:bg-slate-800/60 backdrop-blur p-4">
+    <div className="min-h-screen bg-white text-slate-900">
+      <header className="border-b bg-white/60 backdrop-blur p-4">
         <div className="max-w-5xl mx-auto flex items-center justify-between">
           <div className="text-lg font-semibold">CVLetterAI</div>
           <div>

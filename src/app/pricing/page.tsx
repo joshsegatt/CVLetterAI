@@ -93,16 +93,11 @@ export default function PricingPage() {
         <div className="w-full max-w-7xl">
           {/* Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/20 rounded-full px-4 py-2 mb-6">
-              <Star className="h-4 w-4 text-purple-400" />
-              <span className="text-sm font-medium text-purple-300">Pricing Plans</span>
-            </div>
-            
-            <h1 className="text-5xl font-bold text-white mb-6">
-              {translate('pricing.title')} <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
+            <h1 className="text-section text-white element-spacing">
+              Choose Your <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
             </h1>
             
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-body-large text-gray-300 max-w-3xl mx-auto">
               {translate('pricing.subtitle')}
             </p>
           </div>

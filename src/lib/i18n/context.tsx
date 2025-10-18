@@ -2,7 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import type { Language, TranslationKeys } from './types';
-import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY } from './config';
+import { DEFAULT_LANGUAGE, LANGUAGE_STORAGE_KEY, detectBrowserLanguage } from './config';
 import { getTranslations, getNestedTranslation } from './translations';
 
 interface I18nContextType {
@@ -22,16 +22,30 @@ export function I18nProvider({ children }: I18nProviderProps) {
   const [language, setLanguageState] = useState<Language>(DEFAULT_LANGUAGE);
   const [translations, setTranslations] = useState<TranslationKeys>(getTranslations(DEFAULT_LANGUAGE));
 
-  // Load language from localStorage on mount
+  // Auto-detect browser language on mount, but check localStorage first
   useEffect(() => {
     if (typeof window !== 'undefined') {
+      // First check if user has manually set a language before
       const savedLanguage = localStorage.getItem(LANGUAGE_STORAGE_KEY) as Language;
-      if (savedLanguage && savedLanguage !== language) {
-        setLanguageState(savedLanguage);
-        setTranslations(getTranslations(savedLanguage));
+      
+      if (savedLanguage) {
+        // User has previously selected a language, respect their choice
+        if (savedLanguage !== language) {
+          setLanguageState(savedLanguage);
+          setTranslations(getTranslations(savedLanguage));
+        }
+      } else {
+        // No saved preference, auto-detect from browser
+        const detectedLanguage = detectBrowserLanguage() as Language;
+        if (detectedLanguage !== language) {
+          setLanguageState(detectedLanguage);
+          setTranslations(getTranslations(detectedLanguage));
+          // Save the detected language so we remember user's preference
+          localStorage.setItem(LANGUAGE_STORAGE_KEY, detectedLanguage);
+        }
       }
     }
-  }, []);
+  }, [language]);
 
   const setLanguage = (newLanguage: Language) => {
     setLanguageState(newLanguage);

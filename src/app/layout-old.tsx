@@ -60,6 +60,27 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                // FORÇA cores personalizadas imediatamente
+                document.documentElement.style.background = 'radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent), linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e)';
+                document.documentElement.style.backgroundColor = '#0a0a0a';
+                document.documentElement.style.color = '#ffffff';
+                document.body.style.background = 'radial-gradient(ellipse 80% 80% at 50% -20%, rgba(120, 119, 198, 0.3), transparent), linear-gradient(180deg, #0a0a0a, #1a1a2e, #16213e)';
+                document.body.style.backgroundColor = '#0a0a0a';
+                document.body.style.color = '#ffffff';
+                // Remove classes problem\u00e1ticas
+                document.documentElement.classList.remove('dark');
+                document.body.classList.remove('dark');
+                document.documentElement.removeAttribute('data-theme');
+                document.body.removeAttribute('data-theme');
+              })();
+            `,
+          }}
+        />
       </head>
       <body className="min-h-screen font-sans antialiased overflow-x-hidden text-white">
         <Providers>

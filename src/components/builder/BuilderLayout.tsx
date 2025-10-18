@@ -21,7 +21,7 @@ export default function BuilderLayout({ title, description, children }: BuilderL
           {description && <p className="text-muted-foreground text-sm sm:text-base">{description}</p>}
         </header>
       )}
-      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm dark:border-slate-800 dark:bg-slate-900">
+      <div className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
         {children}
       </div>
     </section>
