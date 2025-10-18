@@ -12,15 +12,15 @@ export default function MinimalistEliteCVTemplate({
   preview = false 
 }: MinimalistEliteCVTemplateProps) {
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden text-xs"
     : "w-full bg-white text-gray-900";
 
   return (
     <div className={containerClass} style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
       {/* Ultra Clean Header */}
-      <header className="px-16 py-16 border-b border-gray-100">
+      <header className={`${preview ? 'px-4 py-4' : 'px-16 py-16'} border-b border-gray-100`}>
         <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-5xl font-light text-gray-900 mb-4 tracking-tight">
+          <h1 className={`${preview ? 'text-lg' : 'text-5xl'} font-light text-gray-900 ${preview ? 'mb-1' : 'mb-4'} tracking-tight`}>
             {data.personal.firstName} {data.personal.lastName}
           </h1>
           

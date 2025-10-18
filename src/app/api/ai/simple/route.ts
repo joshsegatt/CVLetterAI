@@ -6,7 +6,7 @@ const localAI = new SimpleLocalAI();
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, language = 'en', tone = 'professional', industry, experience, context } = await request.json();
+    const { message, language = 'en', tone = 'professional', industry, experience, context, sessionId } = await request.json();
 
     if (!message || typeof message !== 'string') {
       return Response.json({ error: 'Message is required' }, { status: 400 });
@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
       industry,
       experience,
       context
-    });
+    }, sessionId);
 
     // Streaming avançado com chunks inteligentes
     const stream = new ReadableStream({

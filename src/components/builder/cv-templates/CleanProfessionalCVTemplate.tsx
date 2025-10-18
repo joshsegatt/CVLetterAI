@@ -12,7 +12,7 @@ export default function CleanProfessionalCVTemplate({
   preview = false 
 }: CleanProfessionalCVTemplateProps) {
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden text-xs"
     : "w-full bg-white text-gray-900";
 
   return (
@@ -20,18 +20,18 @@ export default function CleanProfessionalCVTemplate({
       {/* Two Column Layout */}
       <div className="flex">
         {/* Left Sidebar */}
-        <div className="w-1/3 bg-gradient-to-b from-indigo-50 to-blue-50 p-8">
+        <div className={`w-1/3 bg-gradient-to-b from-indigo-50 to-blue-50 ${preview ? 'p-2' : 'p-8'}`}>
           {/* Profile Section */}
           <div className="mb-8">
-            <div className="w-24 h-24 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full flex items-center justify-center mb-6">
-              <span className="text-2xl font-bold text-white">
+            <div className={`${preview ? 'w-8 h-8' : 'w-24 h-24'} bg-gradient-to-br from-indigo-500 to-blue-600 rounded-full flex items-center justify-center ${preview ? 'mb-2' : 'mb-6'}`}>
+              <span className={`${preview ? 'text-xs' : 'text-2xl'} font-bold text-white`}>
                 {data.personal.firstName.charAt(0)}{data.personal.lastName.charAt(0)}
               </span>
             </div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-2 leading-tight">
+            <h1 className={`${preview ? 'text-xs' : 'text-2xl'} font-bold text-gray-900 ${preview ? 'mb-1' : 'mb-2'} leading-tight`}>
               {data.personal.firstName}<br />{data.personal.lastName}
             </h1>
-            <div className="w-12 h-0.5 bg-indigo-500 mb-4"></div>
+            <div className={`${preview ? 'w-6 h-0.5' : 'w-12 h-0.5'} bg-indigo-500 ${preview ? 'mb-2' : 'mb-4'}`}></div>
           </div>
 
           {/* Contact */}

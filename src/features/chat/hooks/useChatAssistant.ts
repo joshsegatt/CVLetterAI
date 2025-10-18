@@ -12,18 +12,25 @@ export function useChatAssistant() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [sessionId, setSessionId] = useState<string | null>(null);
+  const [canGeneratePDF, setCanGeneratePDF] = useState({
+    cv: false,
+    letter: false,
+    message: ''
+  });
 
-  const streamAssistantReply = useCallback(async () => {
-    if (!input.trim()) return;
+  const streamAssistantReply = useCallback(async (userInput?: string) => {
+    const messageContent = userInput || input;
+    if (!messageContent.trim()) return;
 
     const userMessage: ChatMessage = {
       id: nanoid(),
       role: 'user',
-      content: input.trim()
+      content: messageContent.trim()
     };
 
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    if (!userInput) setInput('');
     setIsLoading(true);
 
     const assistantId = nanoid();
@@ -41,7 +48,8 @@ export function useChatAssistant() {
         },
         body: JSON.stringify({
           messages: history,
-          locale: typeof navigator !== 'undefined' ? navigator.language : 'en-GB'
+          locale: typeof navigator !== 'undefined' ? navigator.language : 'en-GB',
+          sessionId: sessionId
         })
       });
 
@@ -91,12 +99,37 @@ export function useChatAssistant() {
     console.info('Voice capture requested');
   }, []);
 
+  const generatePDF = useCallback(async (type: 'cv' | 'letter') => {
+    try {
+      const response = await fetch('/api/ai/generate-pdf', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type, sessionId: 'current-session' })
+      });
+      
+      if (!response.ok) throw new Error('Failed to generate PDF');
+      
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${type}-${Date.now()}.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('PDF generation failed:', error);
+    }
+  }, []);
+
   return {
     messages,
     input,
     setInput,
     isLoading,
     streamAssistantReply,
-    startVoiceCapture
+    startVoiceCapture,
+    generatePDF
   };
 }

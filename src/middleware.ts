@@ -12,7 +12,7 @@ const RATE_LIMITS = {
   api: { requests: 100, window: 900000 }, // 100 req/15min para APIs
   auth: { requests: 5, window: 300000 }, // 5 tentativas/5min para auth
   global: { requests: 1000, window: 3600000 }, // 1000 req/hora global
-  ai: { requests: 20, window: 300000 } // 20 req/5min para AI chat
+  ai: { requests: 100, window: 300000 } // 100 req/5min para AI chat (free tier)
 };
 
 export async function middleware(request: NextRequest) {
@@ -42,7 +42,23 @@ export async function middleware(request: NextRequest) {
       return new NextResponse('Bad Request', { status: 400 });
     }
 
-    // 4. Rate Limiting por tipo de endpoint
+    // 4. Verificar acesso baseado em planos (Pro/Enterprise)
+    // Allow unauthenticated access to chat page for demo
+    if (!path.startsWith('/chat')) {
+      try {
+        const { checkPlanAccess } = await import('./services/auth/planAccess');
+        const planAccessResult = checkPlanAccess(request);
+        if (planAccessResult) {
+          logSecurityEvent('PLAN_ACCESS_DENIED', { ip, path, userAgent });
+          return planAccessResult;
+        }
+      } catch (error) {
+        // Se não conseguir carregar o sistema de planos, continua normalmente
+        console.log('Plan access system not available:', error);
+      }
+    }
+
+    // 5. Rate Limiting por tipo de endpoint
     let rateLimit = RATE_LIMITS.global;
     
     if (path.startsWith('/api/auth/')) {
@@ -67,10 +83,10 @@ export async function middleware(request: NextRequest) {
       });
     }
 
-    // 5. Headers de segurança adicionais baseados no path
+    // 6. Headers de segurança adicionais baseados no path
     addSecurityHeaders(response, path);
 
-    // 6. Log de requisições suspeitas
+    // 7. Log de requisições suspeitas
     if (isSuspiciousRequest(request, ip)) {
       logSecurityEvent('SUSPICIOUS_REQUEST', { ip, path, userAgent });
     }

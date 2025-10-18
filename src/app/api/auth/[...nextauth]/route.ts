@@ -1,7 +1,7 @@
 import type { NextAuthOptions } from 'next-auth';
 
 const missingEnvResponse = new Response(
-  JSON.stringify({ error: 'Google OAuth environment variables not configured' }),
+  JSON.stringify({ error: 'NextAuth environment variables not configured' }),
   {
     status: 500,
     headers: { 'Content-Type': 'application/json' }
@@ -9,15 +9,17 @@ const missingEnvResponse = new Response(
 );
 
 function loadEnv() {
-  const clientId = process.env.GOOGLE_CLIENT_ID;
-  const clientSecret = process.env.GOOGLE_CLIENT_SECRET;
   const secret = process.env.NEXTAUTH_SECRET;
 
-  if (!clientId || !clientSecret || !secret) {
+  if (!secret) {
     return null;
   }
 
-  return { clientId, clientSecret, secret };
+  return { 
+    secret,
+    googleClientId: process.env.GOOGLE_CLIENT_ID,
+    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET
+  };
 }
 
 async function resolveAuthHandler() {
@@ -28,18 +30,70 @@ async function resolveAuthHandler() {
 
   const { default: NextAuth } = await import('next-auth/next');
   const { default: GoogleProvider } = await import('next-auth/providers/google');
+  const { default: CredentialsProvider } = await import('next-auth/providers/credentials');
+
+  const providers = [
+    // Credentials Provider for email/password
+    CredentialsProvider({
+      name: 'credentials',
+      credentials: {
+        email: { label: 'Email', type: 'email' },
+        password: { label: 'Password', type: 'password' }
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        // For demo purposes, accept any email/password combination
+        // In production, validate against your database
+        if (credentials.email && credentials.password.length >= 6) {
+          return {
+            id: credentials.email,
+            email: credentials.email,
+            name: credentials.email.split('@')[0],
+            image: null,
+          };
+        }
+
+        return null;
+      }
+    })
+  ];
+
+  // Only add Google provider if credentials are available
+  if (env.googleClientId && env.googleClientSecret) {
+    providers.push(
+      GoogleProvider({
+        clientId: env.googleClientId,
+        clientSecret: env.googleClientSecret
+      }) as any
+    );
+  }
 
   const authOptions: NextAuthOptions = {
-    providers: [
-      GoogleProvider({
-        clientId: env.clientId,
-        clientSecret: env.clientSecret
-      })
-    ],
+    providers,
     session: {
       strategy: 'jwt'
     },
-    secret: env.secret
+    secret: env.secret,
+    pages: {
+      signIn: '/sign-in',
+    },
+    callbacks: {
+      async jwt({ token, user }) {
+        if (user) {
+          token.id = user.id;
+        }
+        return token;
+      },
+      async session({ session, token }) {
+        if (token && session.user) {
+          (session.user as any).id = token.id as string;
+        }
+        return session;
+      }
+    }
   };
 
   return NextAuth(authOptions) as (

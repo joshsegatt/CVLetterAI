@@ -12,18 +12,18 @@ export default function MinimalModernLetterTemplate({
   preview = false 
 }: MinimalModernLetterTemplateProps) {
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden text-xs"
     : "w-full bg-white text-gray-900";
 
   return (
     <div className={containerClass} style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
       
       {/* Clean Letterhead */}
-      <header className="px-16 py-12 border-b border-gray-100">
+      <header className={`${preview ? 'px-4 py-3' : 'px-16 py-12'} border-b border-gray-100`}>
         <div className="flex justify-between items-start">
           {/* Sender Info */}
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900 mb-6 tracking-tight">
+            <h1 className={`${preview ? 'text-sm' : 'text-2xl'} font-semibold text-gray-900 ${preview ? 'mb-2' : 'mb-6'} tracking-tight`}>
               {data.senderInfo.name}
             </h1>
             <div className="space-y-2 text-sm text-gray-600">

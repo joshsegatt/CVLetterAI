@@ -30,17 +30,21 @@ const plans = [
   {
     id: 'price_one_time',
     name: 'Pro',
-    price: '£9.99',
+    price: '£5.99',
     period: 'one-time',
     description: 'Perfect for job seekers who need professional results',
     features: [
-      'Unlimited CV & Cover Letters',
-      'AI Content Optimization',
-      'Premium Templates',
-      'ATS Optimization',
-      'PDF Analysis & Feedback',
-      'Multi-language Support',
-      '48h Priority Support'
+      '🚀 Unlimited CV & Cover Letters',
+      '🤖 Super AI Chat Assistant',
+      '✨ AI Content Optimization',
+      '🎨 Premium Templates (20+)',
+      '📊 ATS Optimization',
+      '📋 PDF Analysis & Feedback',
+      '🌍 Multi-language Support',
+      '⚡ Priority Support',
+      '📱 Mobile & Desktop Access',
+      '🔐 Secure Cloud Storage',
+      '💾 Export to Multiple Formats'
     ],
     limitations: [],
     cta: 'Unlock Pro Features',
@@ -50,21 +54,27 @@ const plans = [
   {
     id: 'price_subscription',
     name: 'Enterprise',
-    price: '£29.99',
+    price: '£12.99',
     period: 'per month',
     description: 'For teams and organizations with advanced needs',
     features: [
-      'Everything in Pro',
-      'Team Management',
-      'Custom Templates',
-      'API Access',
-      'Advanced Analytics',
-      'White-label Option',
-      'Dedicated Support',
-      'GDPR Compliance'
+      '👑 Everything in Pro',
+      '👥 Team Management Dashboard',
+      '🏢 Custom Company Templates',
+      '🔌 API Access & Integration',
+      '📈 Advanced Analytics & Reports',
+      '🎯 White-label Option',
+      '📞 Dedicated Account Manager',
+      '🛡️ GDPR & SOC2 Compliance',
+      '🌐 Custom Domain Support',
+      '⚙️ Advanced Admin Controls',
+      '📊 Bulk CV Processing',
+      '🔄 SSO Integration',
+      '💼 HR Integration Tools',
+      '📋 Custom Workflow Automation'
     ],
     limitations: [],
-    cta: 'Contact Sales',
+    cta: 'Get Enterprise Access',
     popular: false,
     color: 'from-amber-600 to-orange-600'
   }
@@ -148,9 +158,12 @@ export default function PricingPage() {
                       {plan.cta}
                     </button>
                   ) : plan.id === 'price_subscription' ? (
-                    <button className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg">
-                      {plan.cta}
-                    </button>
+                    <CheckoutButton
+                      planId={plan.id as 'price_subscription'}
+                      label={plan.cta}
+                      intent="primary"
+                      className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0"
+                    />
                   ) : (
                     <CheckoutButton
                       planId={plan.id as 'price_one_time'}

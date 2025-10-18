@@ -124,15 +124,15 @@ export default function CVBuilderPage() {
           <div className="lg:col-span-3 space-y-4">
             <h2 className="text-xl font-semibold text-white">Live Preview</h2>
             
-            <div className="glass-panel border-white/10 p-6">
+            <div className="glass-panel border-white/10 p-3">
               <div 
                 id="cv-preview" 
                 className="bg-white rounded-lg shadow-2xl mx-auto overflow-hidden"
                 style={{ 
                   width: '100%', 
-                  maxWidth: '600px',
+                  maxWidth: '380px',
                   aspectRatio: '210/297', // A4 proportion 
-                  transform: 'scale(0.95)',
+                  transform: 'scale(0.75)',
                   transformOrigin: 'top center'
                 }}
               >

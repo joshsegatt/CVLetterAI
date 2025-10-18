@@ -12,29 +12,29 @@ export default function MinimalModernCVTemplate({
   preview = false 
 }: MinimalModernCVTemplateProps) {
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden text-xs"
     : "w-full bg-white text-gray-900";
 
   return (
     <div className={containerClass} style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
       {/* Clean Header */}
-      <header className="px-12 py-12 bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-100">
+      <header className={`${preview ? 'px-4 py-4' : 'px-12 py-12'} bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-100`}>
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
             {/* Name and Title */}
             <div>
-              <h1 className="text-4xl lg:text-5xl font-light text-gray-900 mb-3 tracking-tight">
+              <h1 className={`${preview ? 'text-lg' : 'text-4xl lg:text-5xl'} font-light text-gray-900 mb-1 tracking-tight`}>
                 {data.personal.firstName}{' '}
                 <span className="font-semibold">{data.personal.lastName}</span>
               </h1>
-              <div className="w-16 h-0.5 bg-gray-900 mb-4"></div>
-              <p className="text-lg text-gray-600 font-light max-w-2xl leading-relaxed">
-                {data.personal.summary}
+              <div className={`${preview ? 'w-8 h-0.5' : 'w-16 h-0.5'} bg-gray-900 mb-2`}></div>
+              <p className={`${preview ? 'text-xs' : 'text-lg'} text-gray-600 font-light max-w-2xl leading-relaxed`}>
+                {preview ? data.personal.summary.slice(0, 60) + '...' : data.personal.summary}
               </p>
             </div>
             
             {/* Contact Info */}
-            <div className="flex flex-col gap-3 text-sm text-gray-600 lg:text-right">
+            <div className={`flex flex-col ${preview ? 'gap-1 text-xs' : 'gap-3 text-sm'} text-gray-600 lg:text-right`}>
               <div className="flex items-center lg:justify-end gap-3">
                 <span className="text-gray-400">@</span>
                 <span>{data.personal.email}</span>

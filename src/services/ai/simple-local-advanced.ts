@@ -1,5 +1,11 @@
 // AI Local Avançada - Sistema de IA 100% local otimizado
 // Processamento avançado de contexto e multilinguagem
+// Enhanced with Advanced Prompt System by Senior AI Engineers
+
+import { conversationMemory } from './conversation-memory';
+import { intelligentPDFService } from './intelligent-pdf';
+import { AdvancedPromptSystem, DocumentGenerationIntelligence } from './advanced-prompt-system';
+import { MassiveMultilingualAI } from './massive-multilingual-ai';
 
 export interface LocalAIResponse {
   content: string;
@@ -8,6 +14,12 @@ export interface LocalAIResponse {
   confidence: number;
   type: 'cv' | 'letter' | 'interview' | 'general' | 'tips';
   language: string;
+  sessionId?: string;
+  canGeneratePDF?: {
+    cv: boolean;
+    letter: boolean;
+    message?: string;
+  };
 }
 
 export interface AdvancedParams {
@@ -197,17 +209,30 @@ export class SimpleLocalAI {
     ]);
   }
 
-  async generateAdvancedResponse(message: string, params: AdvancedParams): Promise<LocalAIResponse> {
-    // Análise avançada de contexto com IA semântica
+  async generateAdvancedResponse(message: string, params: AdvancedParams, sessionId?: string): Promise<LocalAIResponse> {
+    // 1. Gerenciar sessão e memória
+    let currentSessionId = sessionId;
+    if (!currentSessionId) {
+      currentSessionId = conversationMemory.createSession(params.context || 'default-user');
+    }
+    
+    // Adicionar mensagem do usuário à memória
+    conversationMemory.addMessage(currentSessionId, 'user', message);
+
+    // 2. Análise avançada de contexto com IA semântica
     const semanticContext = this.performSemanticAnalysis(message);
     const detectedIndustry = this.detectIndustryContext(message) || params.industry;
     const intentAnalysis = this.analyzeUserIntent(message);
     const complexityLevel = this.assessComplexityNeeds(message, params.experience);
 
-    // Adicionar à memória contextual
+    // 3. Extrair dados do usuário da conversa
+    const extractedData = conversationMemory.extractUserDataFromMessage(message);
+    conversationMemory.updateExtractedData(currentSessionId, extractedData);
+
+    // 4. Adicionar à memória contextual
     this.updateContextMemory(message, semanticContext);
 
-    // Gerar resposta contextualizada
+    // 5. Gerar resposta contextualizada
     const response = await this.generateContextualResponse(
       semanticContext,
       intentAnalysis,
@@ -216,20 +241,29 @@ export class SimpleLocalAI {
       complexityLevel
     );
 
-    // Calcular confiança baseada em múltiplos fatores
+    // 6. Verificar se pode gerar PDF
+    const session = conversationMemory.getSession(currentSessionId);
+    const pdfCapability = session ? intelligentPDFService.shouldOfferPDFGeneration(session) : { cv: false, letter: false, message: '' };
+
+    // 7. Calcular confiança baseada em múltiplos fatores
     const confidence = this.calculateAdvancedConfidence(semanticContext, intentAnalysis, detectedIndustry);
 
-    // Gerar sugestões e perguntas de follow-up
-    const suggestions = this.generateSmartSuggestions(semanticContext, params.language, detectedIndustry);
+    // 8. Gerar sugestões e perguntas de follow-up
+    const suggestions = this.generateContextualSuggestions(semanticContext, params.language, detectedIndustry);
     const followUpQuestions = this.generateContextualFollowUp(semanticContext, params.language);
 
+    // 9. Adicionar resposta da AI à memória
+    conversationMemory.addMessage(currentSessionId, 'assistant', response);
+
     return {
-      content: response,
+      content: response + (pdfCapability.message ? '\n\n' + pdfCapability.message : ''),
       suggestions,
       followUpQuestions,
       confidence,
       type: semanticContext.primaryType,
-      language: params.language
+      language: params.language,
+      sessionId: currentSessionId,
+      canGeneratePDF: pdfCapability
     };
   }
 
@@ -569,7 +603,7 @@ export class SimpleLocalAI {
     return Math.min(confidence, 0.95);
   }
 
-  private generateSmartSuggestions(semanticContext: any, language: string, industry?: string): string[] {
+  private generateContextualSuggestions(semanticContext: any, language: string, industry?: string): string[] {
     const templates = this.languageTemplates.get(language) || this.languageTemplates.get('en')!;
     
     let suggestions = [...templates.suggestions];
@@ -686,5 +720,97 @@ export class SimpleLocalAI {
 
     const response = await this.generateAdvancedResponse(message, params);
     return response.content;
+  }
+
+  // Enhanced method using Massive Multilingual AI System
+  async generateEnhancedResponse(
+    message: string, 
+    conversationHistory: Array<{ role: string; content: string }>,
+    sessionId: string = 'default'
+  ): Promise<LocalAIResponse> {
+    try {
+      // Use Massive Multilingual AI for response generation
+      const massiveResponse = await MassiveMultilingualAI.generateMultilingualResponse(
+        message,
+        conversationHistory
+      );
+
+      // Use Advanced Prompt System for document generation analysis
+      const context = AdvancedPromptSystem.analyzeConversation(conversationHistory);
+      const documentOffers = DocumentGenerationIntelligence.shouldOfferGeneration(context);
+      
+      // Store conversation in memory
+      conversationMemory.addMessage(sessionId, 'user', message);      
+      conversationMemory.addMessage(sessionId, 'assistant', massiveResponse.content);
+
+      return {
+        content: massiveResponse.content,
+        suggestions: this.generateSmartSuggestions(context),
+        followUpQuestions: context.documentReadiness.suggestedQuestions.slice(0, 2),
+        confidence: massiveResponse.confidence,
+        type: this.mapContextToType(context.userIntent),
+        language: massiveResponse.language,
+        sessionId,
+        canGeneratePDF: documentOffers.offerCV || documentOffers.offerLetter ? {
+          cv: documentOffers.offerCV,
+          letter: documentOffers.offerLetter,
+          message: documentOffers.message
+        } : undefined
+      };
+    } catch (error) {
+      console.error('Enhanced multilingual response generation failed:', error);
+      
+      // Fallback to basic response with language detection
+      const languageDetection = MassiveMultilingualAI.detectLanguage(message);
+      
+      const params: AdvancedParams = {
+        language: languageDetection.language,
+        tone: 'professional',
+        context: 'general'
+      };
+      
+      const fallbackResponse = await this.generateAdvancedResponse(message, params);
+      return {
+        content: fallbackResponse.content,
+        confidence: 0.5,
+        type: 'general',
+        language: languageDetection.language
+      };
+    }
+  }
+
+  private generateSmartSuggestions(context: any): string[] {
+    const suggestions = [
+      "Tell me about your work experience",
+      "What are your key skills?",
+      "What type of role are you targeting?",
+      "Would you like help with interview preparation?"
+    ];
+    
+    // Customize suggestions based on context
+    if (context.extractedData?.industry) {
+      suggestions.unshift(`How to optimize CV for ${context.extractedData.industry} industry`);
+    }
+    
+    if (context.documentReadiness?.cvReady) {
+      suggestions.unshift("Generate my professional CV");
+    }
+    
+    if (context.documentReadiness?.letterReady) {
+      suggestions.unshift("Create my cover letter");
+    }
+    
+    return suggestions.slice(0, 3);
+  }
+
+  private mapContextToType(intent: string): 'cv' | 'letter' | 'interview' | 'general' | 'tips' {
+    const mapping: Record<string, any> = {
+      'cv_creation': 'cv',
+      'letter_creation': 'letter',
+      'career_advice': 'tips',
+      'general_inquiry': 'general'
+    };
+    
+    return mapping[intent] || 'general';
   }
 }

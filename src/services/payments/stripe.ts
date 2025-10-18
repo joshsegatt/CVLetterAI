@@ -39,7 +39,7 @@ export const pricingTable: PricingPlan[] = [
   },
   {
     id: 'price_one_time',
-    label: 'One-time 48h',
+    label: 'Pro Plan',
     amount: 599,
     currency: 'gbp',
     interval: null,
@@ -48,8 +48,8 @@ export const pricingTable: PricingPlan[] = [
   },
   {
     id: 'price_subscription',
-    label: 'Pro monthly',
-    amount: 999,
+    label: 'Enterprise Plan',
+    amount: 1299,
     currency: 'gbp',
     interval: 'month',
     mode: 'subscription',
