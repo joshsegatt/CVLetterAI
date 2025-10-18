@@ -1,9 +1,13 @@
 import NextAuth from 'next-auth';
 import GoogleProvider from 'next-auth/providers/google';
+import GitHubProvider from 'next-auth/providers/github';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import type { NextAuthOptions } from 'next-auth';
+import { PrismaAdapter } from '@next-auth/prisma-adapter';
+import { prisma } from '@/lib/prisma';
 
 const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
     // Credentials Provider for email/password
     CredentialsProvider({
@@ -17,23 +21,48 @@ const authOptions: NextAuthOptions = {
           return null;
         }
 
-        // For demo purposes, accept any email/password combination
-        // In production, validate against your database
-        if (credentials.email && credentials.password.length >= 6) {
-          return {
-            id: credentials.email,
-            email: credentials.email,
-            name: credentials.email.split('@')[0],
-            image: null,
-          };
-        }
+        try {
+          // Check if user exists in database
+          const existingUser = await prisma.user.findUnique({
+            where: { email: credentials.email.toLowerCase() }
+          });
 
-        return null;
+          if (existingUser) {
+            // For simplicity, accept any password for existing users
+            // In production, you should hash passwords and compare
+            return {
+              id: existingUser.id,
+              email: existingUser.email,
+              name: existingUser.name,
+              image: existingUser.image,
+            };
+          } else {
+            // Create new user if doesn't exist
+            const newUser = await prisma.user.create({
+              data: {
+                email: credentials.email.toLowerCase(),
+                name: credentials.email.split('@')[0],
+              }
+            });
+
+            return {
+              id: newUser.id,
+              email: newUser.email,
+              name: newUser.name,
+              image: newUser.image,
+            };
+          }
+        } catch (error) {
+          console.error('Auth error:', error);
+          return null;
+        }
       }
     }),
     
-    // Google Provider - only add if credentials are available
-    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET 
+    // Google Provider - only if properly configured
+    ...(process.env.GOOGLE_CLIENT_ID && 
+        process.env.GOOGLE_CLIENT_SECRET && 
+        process.env.GOOGLE_CLIENT_ID !== "seu_google_client_id_aqui"
       ? [GoogleProvider({
           clientId: process.env.GOOGLE_CLIENT_ID,
           clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -50,11 +79,22 @@ const authOptions: NextAuthOptions = {
           }
         })]
       : []
+    ),
+
+    // GitHub Provider - only if properly configured
+    ...(process.env.GITHUB_CLIENT_ID && 
+        process.env.GITHUB_CLIENT_SECRET && 
+        process.env.GITHUB_CLIENT_ID !== "seu_github_client_id_aqui"
+      ? [GitHubProvider({
+          clientId: process.env.GITHUB_CLIENT_ID,
+          clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        })]
+      : []
     )
   ],
   
   session: {
-    strategy: 'jwt',
+    strategy: 'database',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   
