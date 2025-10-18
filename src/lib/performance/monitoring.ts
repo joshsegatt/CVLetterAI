@@ -29,8 +29,9 @@ class PerformanceMonitor {
     // CLS (Cumulative Layout Shift)
     new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        if (entry.entryType === 'layout-shift' && !entry.hadRecentInput) {
-          this.recordMetric('CLS', entry.value);
+        const layoutShiftEntry = entry as any;
+        if (entry.entryType === 'layout-shift' && !layoutShiftEntry.hadRecentInput) {
+          this.recordMetric('CLS', layoutShiftEntry.value);
         }
       }
     }).observe({ type: 'layout-shift', buffered: true });
@@ -45,7 +46,8 @@ class PerformanceMonitor {
     // FID (First Input Delay)
     new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        this.recordMetric('FID', entry.processingStart - entry.startTime);
+        const fidEntry = entry as any;
+        this.recordMetric('FID', fidEntry.processingStart - fidEntry.startTime);
       }
     }).observe({ type: 'first-input', buffered: true });
   }

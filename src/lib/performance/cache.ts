@@ -205,7 +205,6 @@ class IntelligentCache {
     console.log('Cache Statistics:', {
       hitRate: `${hitRate.toFixed(2)}%`,
       memoryUsage: `${memoryUsageMB.toFixed(2)}MB`,
-      itemCount: this.stats.itemCount,
       ...this.stats
     });
   }

@@ -97,6 +97,7 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   typedRoutes: true,
+  output: 'standalone',
   experimental: {
     serverActions: {}
   },

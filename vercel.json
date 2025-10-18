@@ -3,10 +3,23 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "framework": "nextjs",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/"
+  "env": {
+    "NODE_ENV": "production",
+    "NEXT_TELEMETRY_DISABLED": "1"
+  },
+  "build": {
+    "env": {
+      "NODE_ENV": "production",
+      "NEXT_TELEMETRY_DISABLED": "1"
     }
-  ]
+  },
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    },
+    "src/app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"]
 }

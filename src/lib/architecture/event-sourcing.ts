@@ -177,7 +177,7 @@ class CVAggregate extends Aggregate {
     const cv = new CVAggregate(id);
     
     const event: DomainEvent = {
-      id: crypto.randomUUID(),
+      id: `${Date.now()}-${Math.random().toString(36).substring(2)}`,
       type: 'CVCreated',
       aggregateId: id,
       aggregateType: 'CV',
@@ -186,7 +186,7 @@ class CVAggregate extends Aggregate {
         userId,
         timestamp: new Date(),
         version: cv.version + 1,
-        correlationId: crypto.randomUUID()
+        correlationId: `${Date.now()}-${Math.random().toString(36).substring(2)}`
       }
     };
 
@@ -196,7 +196,7 @@ class CVAggregate extends Aggregate {
 
   updateSection(section: string, changes: any, userId: string): void {
     const event: DomainEvent = {
-      id: crypto.randomUUID(),
+      id: `${Date.now()}-${Math.random().toString(36).substring(2)}`,
       type: 'CVUpdated',
       aggregateId: this.id,
       aggregateType: 'CV',
@@ -205,7 +205,7 @@ class CVAggregate extends Aggregate {
         userId,
         timestamp: new Date(),
         version: this.version + 1,
-        correlationId: crypto.randomUUID()
+        correlationId: `${Date.now()}-${Math.random().toString(36).substring(2)}`
       }
     };
 
@@ -214,7 +214,7 @@ class CVAggregate extends Aggregate {
 
   publish(format: string, userId: string): void {
     const event: DomainEvent = {
-      id: crypto.randomUUID(),
+      id: `${Date.now()}-${Math.random().toString(36).substring(2)}`,
       type: 'CVPublished',
       aggregateId: this.id,
       aggregateType: 'CV',
@@ -223,7 +223,7 @@ class CVAggregate extends Aggregate {
         userId,
         timestamp: new Date(),
         version: this.version + 1,
-        correlationId: crypto.randomUUID()
+        correlationId: `${Date.now()}-${Math.random().toString(36).substring(2)}`
       }
     };
 

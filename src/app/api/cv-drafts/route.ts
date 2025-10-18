@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { NextResponse } from 'next/server';
 import type { CvBuilderForm } from '../../../features/cv-builder/schema';
 import { cvBuilderSchema } from '../../../features/cv-builder/schema';
@@ -9,6 +8,11 @@ const DEFAULT_USER_ID = 'demo-user';
 const MAX_RESULTS = 10;
 
 export const runtime = 'nodejs';
+
+// Generate UUID alternative for Vercel compatibility
+function generateId(): string {
+  return Date.now().toString(36) + Math.random().toString(36).substring(2);
+}
 
 interface CvDraftRecord {
   id: string;
@@ -21,7 +25,7 @@ export async function POST(request: Request) {
     const body = (await request.json()) as { payload?: unknown };
     const parsed = cvBuilderSchema.parse(body.payload);
 
-    const draftId = parsed.id ?? randomUUID();
+    const draftId = parsed.id ?? generateId();
     const userId = parsed.userId ?? DEFAULT_USER_ID;
 
     await prisma.cvDraft.upsert({
