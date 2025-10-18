@@ -250,55 +250,41 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
           </div>
         ) : null}
 
-        {/* HERO SECTION - Premium UK Style */}
-        <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
-          {/* Premium Background Elements */}
-          <div className="absolute inset-0 -z-10">
-            {/* Main gradient orbs */}
-            <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-primary-500/15 to-primary-600/10 rounded-full blur-3xl animate-float" />
-            <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-luxury-500/15 to-luxury-600/10 rounded-full blur-3xl animate-float" style={{ animationDelay: '2s' }} />
-            <div className="absolute top-1/2 left-1/2 w-72 h-72 bg-gradient-to-br from-accent-500/10 to-accent-600/5 rounded-full blur-3xl animate-pulse-glow" />
-            
-            {/* Subtle particles */}
-            <div className="absolute top-20 right-20 w-2 h-2 bg-primary-400 rounded-full animate-pulse opacity-60" />
-            <div className="absolute top-40 left-20 w-1 h-1 bg-luxury-400 rounded-full animate-pulse opacity-40" style={{ animationDelay: '1s' }} />
-            <div className="absolute bottom-20 left-1/3 w-1.5 h-1.5 bg-accent-400 rounded-full animate-pulse opacity-50" style={{ animationDelay: '0.5s' }} />
-            <div className="absolute bottom-40 right-1/3 w-1 h-1 bg-primary-300 rounded-full animate-pulse opacity-30" style={{ animationDelay: '1.5s' }} />
-          </div>
-
-          <div className="container mx-auto px-6 lg:px-8">
-            <div className="text-center max-w-5xl mx-auto">
-              {/* Simple Trust Section */}
-              <div className="mb-12">
-                <div className="flex items-center justify-center gap-2 text-surface-400 text-sm mb-4">
-                  <div className="w-2 h-2 bg-green-400 rounded-full" />
-                  <span>Trusted by thousands</span>
+        {/* HERO SECTION - Clean Minimalist Professional */}
+        <section className="relative min-h-[90vh] flex items-center justify-center">
+          <div className="container mx-auto px-6 lg:px-8 max-w-4xl">
+            <div className="text-center">
+              {/* Subtle Trust Indicator */}
+              <div className="mb-8">
+                <div className="flex items-center justify-center gap-2 text-gray-500 text-sm mb-6">
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                  <span>Trusted by professionals worldwide</span>
                 </div>
                 <UKOrganizationLogos />
               </div>
 
-              {/* Premium Headline */}
-              <h1 className="text-5xl lg:text-7xl font-black leading-tight mb-5 text-white">
-                Professional CVs & 
-                <span className="text-gradient-brand block">Cover Letters</span>
+              {/* Clean, Direct Headline */}
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-white tracking-tight">
+                Create professional CVs that
+                <span className="text-blue-400 block">get you hired</span>
               </h1>
 
-              {/* Concise Subtitle */}
-              <p className="text-xl text-surface-300 max-w-2xl mx-auto leading-relaxed mb-8">
-                Create job-winning documents with AI in seconds. Simple, fast, effective.
+              {/* Simple, Clear Value Proposition */}
+              <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10">
+                AI-powered CV and cover letter builder trusted by thousands of UK professionals. 
+                Create job-winning documents in minutes, not hours.
               </p>
 
-              {/* Premium CTA */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
+              {/* Clean CTA */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
                 <Button 
                   asChild 
                   size="lg" 
-                  className="relative group bg-gradient-brand hover:bg-white hover:shadow-2xl hover:shadow-primary-500/25 font-bold overflow-hidden transform hover:scale-105 transition-all duration-300"
+                  className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4 rounded-lg transition-colors duration-200"
                 >
-                  <Link href="/sign-up" className="relative z-10 flex items-center gap-2 text-white group-hover:text-black transition-colors duration-300">
-                    <Sparkles className="h-5 w-5 animate-pulse text-white group-hover:text-black transition-colors duration-300" />
-                    <span>Get Started Free</span>
-                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-all duration-200 text-white group-hover:text-black" />
+                  <Link href="/sign-up" className="flex items-center gap-2">
+                    <span>Get started free</span>
+                    <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
                 
@@ -306,134 +292,131 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
                   asChild 
                   variant="ghost" 
                   size="lg"
-                  className="text-white/80 hover:text-white"
+                  className="text-gray-400 hover:text-white px-8 py-4"
                 >
-                  <Link href="#pricing">
-                    View Pricing
+                  <Link href="#how-it-works">
+                    See how it works
                   </Link>
                 </Button>
               </div>
 
-              {/* Minimal Stats */}
-              <div className="flex items-center justify-center gap-8 text-sm text-surface-400">
-                <span>50K+ users</span>
+              {/* Minimal Social Proof */}
+              <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+                <span>50,000+ CVs created</span>
                 <span>•</span>
-                <span>30s creation</span>
+                <span>30-second setup</span>
                 <span>•</span>
-                <span>ATS optimized</span>
+                <span>ATS-optimized</span>
               </div>
             </div>
           </div>
-
-
         </section>
 
-        {/* BENEFITS SECTION - Premium UK Style */}
-        <section className="py-12">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl font-bold text-white mb-3">
-              Why CVLetterAI Works
+        {/* HOW IT WORKS - Clean Minimal */}
+        <section id="how-it-works" className="py-20">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              How it works
             </h2>
-            <p className="text-lg text-surface-300 max-w-2xl mx-auto">
-              Built for the modern UK job market
+            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+              Three simple steps to your professional CV
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="group text-center p-6 rounded-2xl glass hover:bg-white/5 transition-all duration-300 hover:scale-[1.02]">
-              <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-xl group-hover:shadow-primary-500/25 transition-all duration-300 group-hover:scale-110">
-                <Zap className="h-8 w-8 text-white" />
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <div className="text-center p-6">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-semibold">1</span>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-primary-300 transition-colors">Lightning Fast</h3>
-              <p className="text-surface-400 group-hover:text-surface-300 transition-colors">Create documents in 30 seconds</p>
+              <h3 className="text-lg font-medium text-white mb-2">Enter your details</h3>
+              <p className="text-gray-400">Add your work experience, education, and skills in minutes</p>
             </div>
             
-            <div className="group text-center p-6 rounded-2xl glass hover:bg-white/5 transition-all duration-300 hover:scale-[1.02]">
-              <div className="w-16 h-16 bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-xl group-hover:shadow-accent-500/25 transition-all duration-300 group-hover:scale-110">
-                <Eye className="h-8 w-8 text-white" />
+            <div className="text-center p-6">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-semibold">2</span>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-accent-300 transition-colors">ATS Optimized</h3>
-              <p className="text-surface-400 group-hover:text-surface-300 transition-colors">99% compatibility guaranteed</p>
+              <h3 className="text-lg font-medium text-white mb-2">AI optimizes content</h3>
+              <p className="text-gray-400">Our AI enhances your content for maximum impact</p>
             </div>
             
-            <div className="group text-center p-6 rounded-2xl glass hover:bg-white/5 transition-all duration-300 hover:scale-[1.02]">
-              <div className="w-16 h-16 bg-gradient-to-br from-luxury-500 to-luxury-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:shadow-xl group-hover:shadow-luxury-500/25 transition-all duration-300 group-hover:scale-110">
-                <Trophy className="h-8 w-8 text-white" />
+            <div className="text-center p-6">
+              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mx-auto mb-4">
+                <span className="text-white font-semibold">3</span>
               </div>
-              <h3 className="text-xl font-bold text-white mb-2 group-hover:text-luxury-300 transition-colors">Proven Results</h3>
-              <p className="text-surface-400 group-hover:text-surface-300 transition-colors">3x more interview callbacks</p>
+              <h3 className="text-lg font-medium text-white mb-2">Download & apply</h3>
+              <p className="text-gray-400">Export your professional CV and start applying</p>
             </div>
           </div>
         </section>
 
-        {/* FEATURES SECTION - Premium UK Market */}
-        <section id="features" className="py-12">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold text-white mb-3">Powerful Features</h2>
-            <p className="text-xl text-surface-300">Everything you need to succeed in the UK job market</p>
+        {/* FEATURES SECTION - Clean Minimal */}
+        <section id="features" className="py-20">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Everything you need
+            </h2>
+            <p className="text-lg text-gray-400">
+              Professional tools designed for modern job seekers
+            </p>
           </div>
 
-          <div className="grid gap-10">
-            {features.map((feature, index) => (
+          <div className="max-w-5xl mx-auto grid md:grid-cols-3 gap-8">
+            {features.map((feature) => (
               <div
                 key={feature.title}
-                className="group grid lg:grid-cols-2 gap-8 items-center glass rounded-3xl p-8 hover:bg-white/5 transition-all duration-500"
+                className="p-6 rounded-lg border border-gray-800 hover:border-gray-700 transition-colors"
               >
-                <div className={index % 2 === 1 ? 'lg:order-2' : ''}>
-                  <div className="flex items-center gap-4 mb-5">
-                    <div className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
-                      <feature.icon className="h-7 w-7 text-white" />
-                    </div>
-                    <h3 className="text-2xl font-bold text-white group-hover:text-gradient-brand transition-all duration-300">{feature.title}</h3>
-                  </div>
-                  
-                  <p className="text-lg text-surface-300 mb-6 leading-relaxed group-hover:text-surface-200 transition-colors">
-                    {feature.description}
-                  </p>
-
-                  <Button asChild className="bg-gradient-brand hover:bg-white hover:scale-105 transition-all duration-300">
-                    <Link href="/sign-up" className="text-white hover:text-black transition-colors duration-300">Get Started Free</Link>
-                  </Button>
+                <div className="mb-4">
+                  <feature.icon className="h-8 w-8 text-blue-400 mb-3" />
+                  <h3 className="text-lg font-medium text-white mb-2">{feature.title}</h3>
                 </div>
+                
+                <p className="text-gray-400 leading-relaxed mb-4">
+                  {feature.description}
+                </p>
 
-                <div className={`relative ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
-                  <div className="relative bg-gradient-to-br from-surface-800/50 to-surface-900/50 rounded-2xl p-8 backdrop-blur-sm border border-white/10 group-hover:border-white/20 transition-all duration-300">
-                    <div className="h-48 bg-gradient-to-br from-surface-700/30 to-surface-800/30 rounded-xl flex items-center justify-center relative overflow-hidden">
-                      <div className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-5 group-hover:opacity-10 transition-opacity duration-300`} />
-                      <feature.icon className={`h-16 w-16 ${feature.color} relative z-10 group-hover:scale-110 transition-transform duration-300`} />
-                    </div>
-                  </div>
-                </div>
+                <Button asChild variant="ghost" className="text-blue-400 hover:text-blue-300 p-0 h-auto font-normal">
+                  <Link href="/sign-up">
+                    Try it free →
+                  </Link>
+                </Button>
               </div>
             ))}
           </div>
         </section>
 
-        {/* PRICING - Premium UK Market */}
-        <section id="pricing" className="py-12">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold text-white mb-3">Choose Your Plan</h2>
-            <p className="text-xl text-surface-300">Transparent pricing for UK professionals</p>
+        {/* PRICING - Clean Minimal */}
+        <section id="pricing" className="py-20">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Simple pricing
+            </h2>
+            <p className="text-lg text-gray-400">
+              Transparent pricing for professionals
+            </p>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-3 max-w-4xl mx-auto">
+          <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {plans.map((plan) => (
               <div
                 key={plan.name}
-                className={`glass p-6 rounded-2xl border border-white/10 hover:border-white/20 transition-all ${
-                  plan.featured ? "border-white/30 scale-105" : ""
-                }`}
+                className={`p-6 rounded-lg border ${
+                  plan.featured 
+                    ? "border-blue-600 bg-blue-600/5" 
+                    : "border-gray-800 hover:border-gray-700"
+                } transition-colors`}
               >
-                <div className="text-center mb-6">
-                  <h3 className="text-lg font-semibold text-white mb-2">{plan.name}</h3>
-                  <div className="text-3xl font-bold text-gradient-brand mb-2">{plan.price}</div>
-                  <p className="text-sm text-surface-400">{plan.description}</p>
+                <div className="mb-6">
+                  <h3 className="text-lg font-medium text-white mb-2">{plan.name}</h3>
+                  <div className="text-2xl font-semibold text-white mb-3">{plan.price}</div>
+                  <p className="text-sm text-gray-400">{plan.description}</p>
                 </div>
 
-                <ul className="space-y-3 mb-6">
+                <ul className="space-y-2 mb-6">
                   {plan.highlights.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-sm text-surface-200">
-                      <CheckCircle className="h-4 w-4 text-green-400 flex-shrink-0" />
+                    <li key={item} className="flex items-start gap-2 text-sm text-gray-300">
+                      <CheckCircle className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -448,8 +431,11 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
                 ) : (
                   <Button 
                     asChild 
-                    variant={plan.featured ? "primary" : "ghost"}
-                    className="w-full"
+                    className={`w-full ${
+                      plan.featured 
+                        ? "bg-blue-600 hover:bg-blue-700 text-white" 
+                        : "bg-gray-800 hover:bg-gray-700 text-white"
+                    }`}
                   >
                     <Link href={plan.cta.href}>{plan.cta.label}</Link>
                   </Button>
@@ -459,41 +445,43 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
           </div>
         </section>
 
-        {/* TESTIMONIALS - Premium UK Style */}
-        <section className="py-12">
-          <div className="text-center mb-10">
-            <h2 className="text-4xl font-bold text-white mb-3">Loved by UK Professionals</h2>
-            <div className="flex items-center justify-center gap-3 mb-6">
+        {/* TESTIMONIALS - Clean Minimal */}
+        <section className="py-20">
+          <div className="max-w-4xl mx-auto text-center mb-16">
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Trusted by professionals
+            </h2>
+            <div className="flex items-center justify-center gap-2 mb-6">
               <div className="flex gap-1">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="h-6 w-6 fill-yellow-400 text-yellow-400 animate-pulse" style={{ animationDelay: `${i * 0.1}s` }} />
+                  <Star key={i} className="h-5 w-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
-              <span className="text-surface-300 text-lg font-medium">4.9/5 from 1,000+ reviews</span>
+              <span className="text-gray-400">4.9/5 from 1,000+ reviews</span>
             </div>
           </div>
           
-          <div className="grid gap-6 md:grid-cols-2 max-w-5xl mx-auto">
-            {testimonials.map((testimonial, index) => (
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            {testimonials.map((testimonial) => (
               <div 
                 key={testimonial.author} 
-                className="group glass p-8 rounded-3xl hover:bg-white/5 transition-all duration-500 hover:scale-[1.02] border border-white/10 hover:border-white/20"
+                className="p-6 rounded-lg border border-gray-800"
               >
                 <div className="flex gap-1 mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
                     <Star key={i} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
                   ))}
                 </div>
-                <p className="text-lg text-white mb-6 leading-relaxed group-hover:text-surface-100 transition-colors">
+                <p className="text-gray-300 mb-4 leading-relaxed">
                   "{testimonial.quote}"
                 </p>
-                <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-full flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">{testimonial.author.charAt(0)}</span>
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center">
+                    <span className="text-white font-medium text-sm">{testimonial.author.charAt(0)}</span>
                   </div>
                   <div>
-                    <div className="font-semibold text-white group-hover:text-primary-300 transition-colors">{testimonial.author}</div>
-                    <div className="text-sm text-surface-400 group-hover:text-surface-300 transition-colors">{testimonial.role}</div>
+                    <div className="font-medium text-white">{testimonial.author}</div>
+                    <div className="text-sm text-gray-400">{testimonial.role}</div>
                   </div>
                 </div>
               </div>
@@ -501,52 +489,41 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
           </div>
         </section>
 
-        {/* FINAL CTA - Premium UK Market */}
-        <section className="py-16">
-          <div className="relative overflow-hidden rounded-3xl">
-            {/* Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-luxury-600" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-transparent to-black/20" />
+        {/* FINAL CTA - Clean Professional */}
+        <section className="py-20">
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl font-semibold text-white mb-4">
+              Ready to create your professional CV?
+            </h2>
+            <p className="text-lg text-gray-400 mb-8 max-w-2xl mx-auto">
+              Join thousands of professionals who've landed their dream jobs with CVLetterAI
+            </p>
             
-            {/* Content */}
-            <div className="relative px-8 py-16 text-center">
-              <h2 className="text-4xl lg:text-5xl font-black text-white mb-4">
-                Ready to Land Your Dream Job?
-              </h2>
-              <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
-                Join thousands of UK professionals who've transformed their careers with CVLetterAI
-              </p>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+              <Button 
+                asChild 
+                size="lg"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-4"
+              >
+                <Link href="/sign-up" className="flex items-center gap-2">
+                  <span>Get started free</span>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              </Button>
               
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button 
-                  asChild 
-                  size="xl"
-                  className="bg-white text-primary-600 hover:bg-white/90 font-bold shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
-                >
-                  <Link href="/sign-up" className="flex items-center gap-2">
-                    <Rocket className="h-5 w-5" />
-                    <span>Start Creating Now - Free</span>
-                    <ArrowRight className="h-5 w-5" />
-                  </Link>
-                </Button>
-                
-                <div className="flex items-center gap-2 text-white/80 text-sm">
-                  <Shield className="h-4 w-4" />
-                  <span>No credit card required • Cancel anytime</span>
-                </div>
-              </div>
-              
-              {/* Trust indicators */}
-              <div className="flex items-center justify-center gap-8 mt-8 text-white/60 text-sm">
-                <span>✓ GDPR Compliant</span>
-                <span>✓ UK Data Centers</span>
-                <span>✓ 30-day Money Back</span>
-              </div>
+              <span className="text-gray-500 text-sm">
+                No credit card required
+              </span>
             </div>
             
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4 w-20 h-20 bg-white/10 rounded-full blur-xl" />
-            <div className="absolute bottom-4 left-4 w-16 h-16 bg-luxury-400/20 rounded-full blur-lg" />
+            {/* Simple trust indicators */}
+            <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
+              <span>GDPR compliant</span>
+              <span>•</span>
+              <span>Secure & private</span>
+              <span>•</span>
+              <span>Cancel anytime</span>
+            </div>
           </div>
         </section>
       </div>

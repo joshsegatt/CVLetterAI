@@ -93,12 +93,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   
-  /* Ultra Modern Background */
+  /* Minimal Professional Background */
   background: 
-    radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.1) 0%, transparent 50%),
-    linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+    radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #111111 100%);
   background-attachment: fixed;
   background-size: 100% 100%;
   
