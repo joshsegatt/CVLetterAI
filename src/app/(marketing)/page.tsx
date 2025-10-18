@@ -30,7 +30,7 @@ import Link from "next/link";
 import { CheckoutButton } from "../../components/payments/CheckoutButton";
 import { Button } from "../../components/ui/Button";
 import { Header } from "../../components/marketing/Header";
-import { UKOrganizationLogos } from "../../components/marketing/UKOrganizationLogos";
+import { CompanyLogos } from "../../components/marketing/CompanyLogos";
 import { useI18n } from "../../lib/i18n/context";
 import type { PricingPlanId } from "../../services/payments/stripe";
 
@@ -272,7 +272,7 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                   <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
                   <span>Trusted by professionals worldwide</span>
                 </div>
-                <UKOrganizationLogos />
+                <CompanyLogos />
               </div>
 
               {/* Clean, Direct Headline */}
