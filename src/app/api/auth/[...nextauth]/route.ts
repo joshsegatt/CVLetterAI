@@ -66,7 +66,14 @@ async function resolveAuthHandler() {
     providers.push(
       GoogleProvider({
         clientId: env.googleClientId,
-        clientSecret: env.googleClientSecret
+        clientSecret: env.googleClientSecret,
+        authorization: {
+          params: {
+            prompt: "consent",
+            access_type: "offline",
+            response_type: "code"
+          }
+        }
       }) as any
     );
   }
@@ -79,6 +86,7 @@ async function resolveAuthHandler() {
     secret: env.secret,
     pages: {
       signIn: '/sign-in',
+      error: '/sign-in'
     },
     callbacks: {
       async jwt({ token, user }) {
@@ -92,14 +100,21 @@ async function resolveAuthHandler() {
           (session.user as any).id = token.id as string;
         }
         return session;
+      },
+      async signIn({ user, account, profile }) {
+        return true;
+      },
+      async redirect({ url, baseUrl }) {
+        // Allows relative callback URLs
+        if (url.startsWith("/")) return `${baseUrl}${url}`;
+        // Allows callback URLs on the same origin
+        else if (new URL(url).origin === baseUrl) return url;
+        return baseUrl;
       }
     }
   };
 
-  return NextAuth(authOptions) as (
-    request: Request,
-    context: { params: { nextauth: string[] } }
-  ) => Promise<Response>;
+  return NextAuth(authOptions);
 }
 
 async function handleAuth(request: Request, context: { params: { nextauth: string[] } }) {

@@ -276,7 +276,7 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
               </div>
 
               {/* Clean, Direct Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-white tracking-tight">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-white tracking-tight" style={{ color: '#ffffff' }}>
                 {translate('home.title')}
                 <span className="text-blue-400 block">get you hired</span>
               </h1>

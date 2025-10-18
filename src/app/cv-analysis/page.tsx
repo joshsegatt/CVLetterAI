@@ -18,7 +18,7 @@ interface AnalysisResult {
 }
 
 export default function CVAnalysisPage() {
-  const { t } = useI18n();
+  const { translate } = useI18n();
   const [isDragOver, setIsDragOver] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);

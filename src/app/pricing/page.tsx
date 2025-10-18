@@ -4,6 +4,7 @@ import React from 'react';
 import { PublicLayout } from '../../components/layout/PublicLayout';
 import { CheckoutButton } from '../../components/payments/CheckoutButton';
 import { Check, Star, Zap, Shield, Users, Crown } from 'lucide-react';
+import { useI18n } from '../../lib/i18n/context';
 
 const plans = [
   {
@@ -81,6 +82,8 @@ const plans = [
 ];
 
 export default function PricingPage() {
+  const { translate } = useI18n();
+  
   return (
     <PublicLayout
       title="Pricing Plans"
@@ -96,11 +99,11 @@ export default function PricingPage() {
             </div>
             
             <h1 className="text-5xl font-bold text-white mb-6">
-              Choose Your <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
+              {translate('pricing.title')} <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
             </h1>
             
             <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              From free basic features to enterprise solutions. Find the right plan to accelerate your career journey.
+              {translate('pricing.subtitle')}
             </p>
           </div>
 
