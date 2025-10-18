@@ -55,7 +55,7 @@ export function Header() {
             </Link>
             
             <Link 
-              href="#pricing" 
+              href="/pricing" 
               className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 font-medium text-sm rounded-lg hover:bg-white/5"
             >
               Pricing
@@ -134,7 +134,7 @@ export function Header() {
               </Link>
               
               <Link 
-                href="#pricing" 
+                href="/pricing" 
                 className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >

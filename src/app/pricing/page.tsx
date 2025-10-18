@@ -1,90 +1,210 @@
-import Link from 'next/link';
+"use client";
+
+import React from 'react';
+import { PublicLayout } from '../../components/layout/PublicLayout';
 import { CheckoutButton } from '../../components/payments/CheckoutButton';
-import { Button } from '../../components/ui/Button';
+import { Check, Star, Zap, Shield, Users, Crown } from 'lucide-react';
 
 const plans = [
   {
-    id: 'price_one_time' as const,
-    title: 'One-Time Access',
-    price: '£5.99',
-    description: '48 hours of unlimited CV and letter generation for urgent needs.',
-    highlights: [
-      'Unlimited CV drafts for 48h',
-      'Multiple landlord letter formats',
-      'Priority response times'
-    ]
+    id: 'free',
+    name: 'Free',
+    price: '£0',
+    period: 'forever',
+    description: 'Get started with basic CV creation',
+    features: [
+      '1 CV creation per month',
+      'Basic templates',
+      'PDF export',
+      'Email support'
+    ],
+    limitations: [
+      'Limited templates',
+      'No AI optimization',
+      'Basic support'
+    ],
+    cta: 'Get Started Free',
+    popular: false,
+    color: 'from-gray-600 to-gray-700'
   },
   {
-    id: 'price_subscription' as const,
-    title: 'Pro Subscription',
+    id: 'price_one_time',
+    name: 'Pro',
     price: '£9.99',
-    description: 'Unlimited workflows with live AI guidance and admin controls.',
-    highlights: ['Unlimited CV + letters', 'AI advisory chat', 'Multi-language exports']
+    period: 'one-time',
+    description: 'Perfect for job seekers who need professional results',
+    features: [
+      'Unlimited CV & Cover Letters',
+      'AI Content Optimization',
+      'Premium Templates',
+      'ATS Optimization',
+      'PDF Analysis & Feedback',
+      'Multi-language Support',
+      '48h Priority Support'
+    ],
+    limitations: [],
+    cta: 'Unlock Pro Features',
+    popular: true,
+    color: 'from-purple-600 to-blue-600'
+  },
+  {
+    id: 'price_subscription',
+    name: 'Enterprise',
+    price: '£29.99',
+    period: 'per month',
+    description: 'For teams and organizations with advanced needs',
+    features: [
+      'Everything in Pro',
+      'Team Management',
+      'Custom Templates',
+      'API Access',
+      'Advanced Analytics',
+      'White-label Option',
+      'Dedicated Support',
+      'GDPR Compliance'
+    ],
+    limitations: [],
+    cta: 'Contact Sales',
+    popular: false,
+    color: 'from-amber-600 to-orange-600'
   }
 ];
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[#0A0E1F] px-6 py-20 text-slate-100 sm:px-10">
-      <div className="mx-auto flex max-w-5xl flex-col gap-12">
-        <header className="space-y-4 text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.35em] text-slate-200/80">
-            Pricing
-          </span>
-          <h1 className="text-3xl font-semibold text-white sm:text-4xl">
-            Choose the plan that matches your workload
-          </h1>
-          <p className="mx-auto max-w-2xl text-sm text-slate-300 sm:text-base">
-            Switch or cancel anytime. Designed for UK professionals who need compliant CVs and
-            tenant documentation on demand.
-          </p>
-        </header>
+    <PublicLayout
+      title="Pricing Plans"
+      description="Choose the perfect plan for your CV and cover letter needs"
+    >
+      <div className="flex justify-center">
+        <div className="w-full max-w-7xl">
+          {/* Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600/20 to-blue-600/20 border border-purple-500/20 rounded-full px-4 py-2 mb-6">
+              <Star className="h-4 w-4 text-purple-400" />
+              <span className="text-sm font-medium text-purple-300">Pricing Plans</span>
+            </div>
+            
+            <h1 className="text-5xl font-bold text-white mb-6">
+              Choose Your <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
+            </h1>
+            
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+              From free basic features to enterprise solutions. Find the right plan to accelerate your career journey.
+            </p>
+          </div>
 
-        <div className="grid gap-6 md:grid-cols-2">
-          {plans.map((plan) => (
-            <div
-              key={plan.id}
-              className="rounded-3xl border border-white/10 bg-white/10 p-8 shadow-[0_30px_60px_-40px_rgba(56,189,248,0.45)] backdrop-blur-xl"
-            >
-              <div className="space-y-4">
-                <div>
-                  <h2 className="text-lg font-semibold text-white">{plan.title}</h2>
-                  <p className="text-3xl font-bold text-sky-200">{plan.price}</p>
+          {/* Pricing Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+            {plans.map((plan) => (
+              <div 
+                key={plan.id}
+                className={`relative glass-panel border-white/10 rounded-2xl p-8 ${
+                  plan.popular 
+                    ? 'border-purple-500/50 shadow-2xl shadow-purple-500/20 scale-105' 
+                    : 'hover:border-white/20'
+                } transition-all duration-300`}
+              >
+                {plan.popular && (
+                  <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+                      <Crown className="h-4 w-4" />
+                      Most Popular
+                    </div>
+                  </div>
+                )}
+
+                {/* Plan Header */}
+                <div className="text-center mb-8">
+                  <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${plan.color} flex items-center justify-center`}>
+                    {plan.id === 'free' && <Users className="h-8 w-8 text-white" />}
+                    {plan.id === 'price_one_time' && <Zap className="h-8 w-8 text-white" />}
+                    {plan.id === 'price_subscription' && <Shield className="h-8 w-8 text-white" />}
+                  </div>
+                  
+                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                  <p className="text-gray-400 mb-4">{plan.description}</p>
+                  
+                  <div className="mb-6">
+                    <span className="text-4xl font-bold text-white">{plan.price}</span>
+                    <span className="text-gray-400 ml-2">/{plan.period}</span>
+                  </div>
                 </div>
-                <p className="text-sm text-slate-300">{plan.description}</p>
-                <ul className="space-y-2 text-sm text-slate-200">
-                  {plan.highlights.map((item) => (
-                    <li key={item} className="flex items-start gap-2">
-                      <span className="mt-0.5 h-1.5 w-1.5 rounded-full bg-sky-300" />
-                      <span>{item}</span>
-                    </li>
+
+                {/* Features */}
+                <div className="space-y-4 mb-8">
+                  {plan.features.map((feature, index) => (
+                    <div key={index} className="flex items-start gap-3">
+                      <Check className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-300">{feature}</span>
+                    </div>
                   ))}
-                </ul>
+                </div>
+
+                {/* CTA Button */}
+                <div className="mt-auto">
+                  {plan.id === 'free' ? (
+                    <button className="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 py-3 px-6 rounded-lg font-semibold transition-colors">
+                      {plan.cta}
+                    </button>
+                  ) : plan.id === 'price_subscription' ? (
+                    <button className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg">
+                      {plan.cta}
+                    </button>
+                  ) : (
+                    <CheckoutButton
+                      planId={plan.id as 'price_one_time'}
+                      label={plan.cta}
+                      intent="primary"
+                      className="w-full"
+                    />
+                  )}
+                </div>
               </div>
-              <div className="mt-6">
-                <CheckoutButton
-                  planId={plan.id}
-                  label={plan.id === 'price_one_time' ? 'Unlock 48h pass' : 'Subscribe now'}
-                  intent={plan.id === 'price_subscription' ? 'primary' : 'secondary'}
-                />
+            ))}
+          </div>
+
+          {/* FAQ Section */}
+          <div className="glass-panel border-white/10 rounded-2xl p-8">
+            <h2 className="text-3xl font-bold text-white text-center mb-8">Frequently Asked Questions</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">Is there a free trial?</h3>
+                <p className="text-gray-300">Yes! You can create 1 CV per month completely free. No credit card required.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">Can I cancel anytime?</h3>
+                <p className="text-gray-300">Absolutely. Cancel your subscription anytime with no questions asked.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">Do you offer refunds?</h3>
+                <p className="text-gray-300">Yes, we offer 30-day money-back guarantee if you're not satisfied.</p>
+              </div>
+              
+              <div>
+                <h3 className="text-xl font-semibold text-white mb-3">Is my data secure?</h3>
+                <p className="text-gray-300">Yes, we use bank-level encryption and are fully GDPR compliant.</p>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
 
-        <footer className="rounded-3xl border border-white/10 bg-gradient-to-r from-[#111c3c] via-[#14214a] to-[#0f1632] px-10 py-12 text-center shadow-[0_30px_60px_-42px_rgba(59,130,246,0.55)]">
-          <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-            Need enterprise features or compliance reviews?
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm text-slate-300 sm:text-base">
-            Our team can tailor AI workflows to match your HR or property processes. Contact us for
-            bespoke onboarding, managed compliance, and API integrations.
-          </p>
-          <Button asChild intent="ghost" size="lg" className="mt-6">
-            <Link href="/contact">Talk to sales</Link>
-          </Button>
-        </footer>
+          {/* Bottom CTA */}
+          <div className="text-center mt-16">
+            <h2 className="text-3xl font-bold text-white mb-4">Ready to accelerate your career?</h2>
+            <p className="text-xl text-gray-300 mb-8">Join thousands of professionals who've landed their dream jobs with our AI-powered tools.</p>
+            
+            <CheckoutButton
+              planId="price_one_time"
+              label="Start Creating Professional CVs"
+              intent="primary"
+              className="text-lg px-8 py-4"
+            />
+          </div>
+        </div>
       </div>
-    </div>
+    </PublicLayout>
   );
 }
