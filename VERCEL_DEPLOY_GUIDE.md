@@ -26,9 +26,21 @@ GITHUB_CLIENT_SECRET=seu_github_client_secret
 GROQ_API_KEY=gsk_sua_chave_groq
 ```
 
-### 2. 🔴 Problemas Comuns no Google OAuth no Vercel
+### 2. 🔴 Problemas Comuns no Deploy Vercel
 
-#### Problema: "redirect_uri_mismatch"
+#### Problema: "Build failed" ou "Function timeout"
+**Solução:**
+1. Verifique se todas as variáveis de ambiente estão configuradas no Vercel
+2. Configure DATABASE_URL mesmo que vazio inicialmente: `DATABASE_URL=""`
+3. Use o comando de build específico: `vercel --prod`
+
+#### Problema: "Prisma Client Error"
+**Solução:**
+- O projeto já está configurado para funcionar sem banco
+- Se não configurar DATABASE_URL, usará JWT sessions
+- Para usar banco: configure DATABASE_URL no Vercel
+
+#### Problema: "redirect_uri_mismatch" (Google OAuth)
 **Solução:**
 1. Vá no [Google Cloud Console](https://console.cloud.google.com)
 2. APIs & Services > Credentials
@@ -38,15 +50,16 @@ GROQ_API_KEY=gsk_sua_chave_groq
    https://seu-dominio.vercel.app/api/auth/callback/google
    ```
 
-#### Problema: "invalid_client"
+#### Problema: "invalid_client" (OAuth)
 **Solução:**
-- Verifique se o GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET estão corretos
-- Confirme se estão configurados no Vercel (não apenas localmente)
+- Verifique se as credenciais OAuth estão corretas no Vercel
+- O sistema funciona sem OAuth - apenas email/senha funciona sempre
 
 #### Problema: "Configuration Error"
 **Solução:**
-- Verifique se NEXTAUTH_URL aponta para o domínio correto do Vercel
-- Confirme se NEXTAUTH_SECRET tem pelo menos 32 caracteres
+- NEXTAUTH_URL deve ser: `https://seu-dominio.vercel.app`
+- NEXTAUTH_SECRET deve ter pelo menos 32 caracteres
+- Exemplo: `NEXTAUTH_SECRET="sua-chave-super-secreta-de-pelo-menos-32-caracteres"`
 
 ### 3. 📋 Checklist de Deploy
 

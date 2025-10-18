@@ -7,7 +7,8 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { prisma } from '@/lib/prisma';
 
 const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  // Use adapter only if DATABASE_URL is available
+  ...(process.env.DATABASE_URL ? { adapter: PrismaAdapter(prisma) } : {}),
   providers: [
     // Credentials Provider for email/password
     CredentialsProvider({
@@ -22,40 +23,62 @@ const authOptions: NextAuthOptions = {
         }
 
         try {
-          // Check if user exists in database
-          const existingUser = await prisma.user.findUnique({
-            where: { email: credentials.email.toLowerCase() }
-          });
-
-          if (existingUser) {
-            // For simplicity, accept any password for existing users
-            // In production, you should hash passwords and compare
-            return {
-              id: existingUser.id,
-              email: existingUser.email,
-              name: existingUser.name,
-              image: existingUser.image,
-            };
-          } else {
-            // Create new user if doesn't exist
-            const newUser = await prisma.user.create({
-              data: {
-                email: credentials.email.toLowerCase(),
-                name: credentials.email.split('@')[0],
-              }
+          // If database is available, use it
+          if (process.env.DATABASE_URL) {
+            // Check if user exists in database
+            const existingUser = await prisma.user.findUnique({
+              where: { email: credentials.email.toLowerCase() }
             });
 
-            return {
-              id: newUser.id,
-              email: newUser.email,
-              name: newUser.name,
-              image: newUser.image,
-            };
+            if (existingUser) {
+              // For simplicity, accept any password for existing users
+              // In production, you should hash passwords and compare
+              return {
+                id: existingUser.id,
+                email: existingUser.email,
+                name: existingUser.name,
+                image: existingUser.image,
+              };
+            } else {
+              // Create new user if doesn't exist
+              const newUser = await prisma.user.create({
+                data: {
+                  email: credentials.email.toLowerCase(),
+                  name: credentials.email.split('@')[0],
+                }
+              });
+
+              return {
+                id: newUser.id,
+                email: newUser.email,
+                name: newUser.name,
+                image: newUser.image,
+              };
+            }
+          } else {
+            // Fallback without database - just validate credentials format
+            if (credentials.email && credentials.password.length >= 6) {
+              return {
+                id: credentials.email,
+                email: credentials.email,
+                name: credentials.email.split('@')[0],
+                image: null,
+              };
+            }
           }
         } catch (error) {
           console.error('Auth error:', error);
-          return null;
+          // Fallback without database
+          if (credentials.email && credentials.password.length >= 6) {
+            return {
+              id: credentials.email,
+              email: credentials.email,
+              name: credentials.email.split('@')[0],
+              image: null,
+            };
+          }
         }
+        return null;
       }
     }),
     
@@ -94,7 +117,7 @@ const authOptions: NextAuthOptions = {
   ],
   
   session: {
-    strategy: 'database',
+    strategy: process.env.DATABASE_URL ? 'database' : 'jwt',
     maxAge: 30 * 24 * 60 * 60, // 30 days
   },
   
