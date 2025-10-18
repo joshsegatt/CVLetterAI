@@ -1,10 +1,44 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="16" fill="#0B1120" />
-  <path d="M16 20h16v6H22v6h10v6H22v6h10v6H16V20Zm20 0h12c5.523 0 10 4.477 10 10s-4.477 10-10 10h-6v12h-6V20Zm6 16h6a4 4 0 0 0 0-8h-6v8Z" fill="url(#gradient)" />
+  <!-- Background with professional gradient -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGradient)" />
+  
+  <!-- CV Letter Icon with modern design -->
+  <g transform="translate(12, 12)">
+    <!-- Document background -->
+    <rect x="4" y="2" width="28" height="36" rx="3" fill="white" fill-opacity="0.95" />
+    
+    <!-- Document lines (CV content) -->
+    <rect x="8" y="8" width="16" height="2" rx="1" fill="url(#gradient)" />
+    <rect x="8" y="12" width="20" height="1.5" rx="0.75" fill="url(#gradient)" fill-opacity="0.7" />
+    <rect x="8" y="16" width="12" height="1.5" rx="0.75" fill="url(#gradient)" fill-opacity="0.7" />
+    
+    <!-- Letter/envelope element -->
+    <rect x="8" y="22" width="18" height="12" rx="2" fill="url(#gradient)" fill-opacity="0.15" stroke="url(#gradient)" stroke-width="1.5" />
+    <path d="M8 24 L17 29 L26 24" stroke="url(#gradient)" stroke-width="1.5" fill="none" />
+    
+    <!-- AI spark/star element -->
+    <circle cx="26" cy="10" r="3" fill="url(#accentGradient)" />
+    <path d="M26 7 L26.5 9 L28 9 L27 10 L27.5 12 L26 11 L24.5 12 L25 10 L24 9 L25.5 9 Z" fill="white" />
+  </g>
+  
   <defs>
-    <linearGradient id="gradient" x1="16" x2="48" y1="20" y2="44" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#2563EB" />
-      <stop offset="1" stop-color="#0EA5E9" />
+    <!-- Background gradient -->
+    <linearGradient id="bgGradient" x1="0" x2="64" y1="0" y2="64" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e293b" />
+      <stop offset="1" stop-color="#0f172a" />
+    </linearGradient>
+    
+    <!-- Main gradient -->
+    <linearGradient id="gradient" x1="0" x2="40" y1="0" y2="40" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#3b82f6" />
+      <stop offset="0.5" stop-color="#1d4ed8" />
+      <stop offset="1" stop-color="#1e40af" />
+    </linearGradient>
+    
+    <!-- Accent gradient for AI element -->
+    <linearGradient id="accentGradient" x1="0" x2="6" y1="0" y2="6" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f59e0b" />
+      <stop offset="1" stop-color="#d97706" />
     </linearGradient>
   </defs>
 </svg>
