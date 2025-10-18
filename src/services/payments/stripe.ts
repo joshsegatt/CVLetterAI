@@ -59,7 +59,14 @@ export const pricingTable: PricingPlan[] = [
 
 export function getCheckoutConfig(planId: PricingPlanId) {
   const plan = pricingTable.find((item) => item.id === planId);
-  if (!plan || plan.mode === 'free' || !plan.priceId) {
+  if (!plan || plan.mode === 'free') {
+    return null;
+  }
+
+  // Verificar se o Price ID está configurado
+  if (!plan.priceId || plan.priceId === 'undefined') {
+    console.error(`Stripe Price ID não configurado para o plano: ${planId}`);
+    console.error('Configure as variáveis STRIPE_PRICE_ONE_TIME e STRIPE_PRICE_SUBSCRIPTION no .env');
     return null;
   }
 

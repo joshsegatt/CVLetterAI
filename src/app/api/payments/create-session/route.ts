@@ -23,6 +23,17 @@ export async function POST(request: Request) {
     const config = getCheckoutConfig(planId);
 
     if (!config) {
+      // Verificar se é problema de configuração
+      if (!platformEnv.stripePriceOneTime && planId === 'price_one_time') {
+        return NextResponse.json({ 
+          error: 'Pro plan payment not configured. Please contact support.' 
+        }, { status: 503 });
+      }
+      if (!platformEnv.stripePriceSubscription && planId === 'price_subscription') {
+        return NextResponse.json({ 
+          error: 'Enterprise plan payment not configured. Please contact support.' 
+        }, { status: 503 });
+      }
       return NextResponse.json({ error: 'Invalid plan selection.' }, { status: 400 });
     }
 
