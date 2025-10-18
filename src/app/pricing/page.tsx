@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { PublicLayout } from '../../components/layout/PublicLayout';
-import { CheckoutButton } from '../../components/payments/CheckoutButton';
 import { Check, Star, Zap, Shield, Users, Crown } from 'lucide-react';
 import { useI18n } from '../../lib/i18n/context';
 
@@ -91,16 +90,7 @@ export default function PricingPage() {
     >
       <div className="flex justify-center">
         <div className="w-full max-w-7xl">
-          {/* Header */}
-          <div className="text-center mb-16">
-            <h1 className="text-section text-white element-spacing">
-              Choose Your <span className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Perfect Plan</span>
-            </h1>
-            
-            <p className="text-body-large text-gray-300 max-w-3xl mx-auto">
-              {translate('pricing.subtitle')}
-            </p>
-          </div>
+          {/* Header removido conforme solicitado */}
 
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
@@ -156,19 +146,23 @@ export default function PricingPage() {
                       {plan.cta}
                     </button>
                   ) : plan.id === 'price_subscription' ? (
-                    <CheckoutButton
-                      planId={plan.id as 'price_subscription'}
-                      label={plan.cta}
-                      intent="primary"
-                      className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0"
-                    />
+                    <a
+                      href="https://buy.stripe.com/cNicN47dw2qecJ5ewT4ow01"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0 text-center"
+                    >
+                      {plan.cta}
+                    </a>
                   ) : (
-                    <CheckoutButton
-                      planId={plan.id as 'price_one_time'}
-                      label={plan.cta}
-                      intent="primary"
-                      className="w-full"
-                    />
+                    <a
+                      href="https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0 text-center"
+                    >
+                      {plan.cta}
+                    </a>
                   )}
                 </div>
               </div>
@@ -207,12 +201,14 @@ export default function PricingPage() {
             <h2 className="text-3xl font-bold text-white mb-4">Ready to accelerate your career?</h2>
             <p className="text-xl text-gray-300 mb-8">Join thousands of professionals who've landed their dream jobs with our AI-powered tools.</p>
             
-            <CheckoutButton
-              planId="price_one_time"
-              label="Start Creating Professional CVs"
-              intent="primary"
-              className="text-lg px-8 py-4"
-            />
+            <a
+              href="https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg"
+            >
+              Start Creating Professional CVs
+            </a>
           </div>
         </div>
       </div>
