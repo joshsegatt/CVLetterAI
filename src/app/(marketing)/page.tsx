@@ -438,6 +438,13 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                     planId={plan.cta.planId}
                     label={plan.cta.label}
                     intent={plan.featured ? "primary" : "secondary"}
+                    className={
+                      plan.name === "Enterprise" 
+                        ? "w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0"
+                        : plan.featured 
+                        ? "w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+                        : "w-full"
+                    }
                   />
                 ) : (
                   <Button 
