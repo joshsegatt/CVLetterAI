@@ -1,38 +1,10 @@
+import NextAuth from 'next-auth';
+import GoogleProvider from 'next-auth/providers/google';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import type { NextAuthOptions } from 'next-auth';
 
-const missingEnvResponse = new Response(
-  JSON.stringify({ error: 'NextAuth environment variables not configured' }),
-  {
-    status: 500,
-    headers: { 'Content-Type': 'application/json' }
-  }
-);
-
-function loadEnv() {
-  const secret = process.env.NEXTAUTH_SECRET;
-
-  if (!secret) {
-    return null;
-  }
-
-  return { 
-    secret,
-    googleClientId: process.env.GOOGLE_CLIENT_ID,
-    googleClientSecret: process.env.GOOGLE_CLIENT_SECRET
-  };
-}
-
-async function resolveAuthHandler() {
-  const env = loadEnv();
-  if (!env) {
-    return null;
-  }
-
-  const { default: NextAuth } = await import('next-auth/next');
-  const { default: GoogleProvider } = await import('next-auth/providers/google');
-  const { default: CredentialsProvider } = await import('next-auth/providers/credentials');
-
-  const providers = [
+const authOptions: NextAuthOptions = {
+  providers: [
     // Credentials Provider for email/password
     CredentialsProvider({
       name: 'credentials',
@@ -58,77 +30,86 @@ async function resolveAuthHandler() {
 
         return null;
       }
-    })
-  ];
-
-  // Only add Google provider if credentials are available
-  if (env.googleClientId && env.googleClientSecret) {
-    providers.push(
-      GoogleProvider({
-        clientId: env.googleClientId,
-        clientSecret: env.googleClientSecret,
-        authorization: {
-          params: {
-            prompt: "consent",
-            access_type: "offline",
-            response_type: "code"
+    }),
+    
+    // Google Provider - only add if credentials are available
+    ...(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET 
+      ? [GoogleProvider({
+          clientId: process.env.GOOGLE_CLIENT_ID,
+          clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+          authorization: {
+            params: {
+              prompt: "consent",
+              access_type: "offline",
+              response_type: "code",
+              scope: "openid email profile"
+            }
+          },
+          httpOptions: {
+            timeout: 40000,
           }
-        }
-      }) as any
-    );
-  }
-
-  const authOptions: NextAuthOptions = {
-    providers,
-    session: {
-      strategy: 'jwt'
-    },
-    secret: env.secret,
-    pages: {
-      signIn: '/sign-in',
-      error: '/sign-in'
-    },
-    callbacks: {
-      async jwt({ token, user }) {
-        if (user) {
-          token.id = user.id;
-        }
-        return token;
-      },
-      async session({ session, token }) {
-        if (token && session.user) {
-          (session.user as any).id = token.id as string;
-        }
-        return session;
-      },
-      async signIn({ user, account, profile }) {
-        return true;
-      },
-      async redirect({ url, baseUrl }) {
-        // Allows relative callback URLs
-        if (url.startsWith("/")) return `${baseUrl}${url}`;
-        // Allows callback URLs on the same origin
-        else if (new URL(url).origin === baseUrl) return url;
-        return baseUrl;
+        })]
+      : []
+    )
+  ],
+  
+  session: {
+    strategy: 'jwt',
+    maxAge: 30 * 24 * 60 * 60, // 30 days
+  },
+  
+  pages: {
+    signIn: '/sign-in',
+    error: '/sign-in'
+  },
+  
+  callbacks: {
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id;
       }
+      return token;
+    },
+    
+    async session({ session, token }) {
+      if (token && session.user) {
+        (session.user as any).id = token.id as string;
+      }
+      return session;
+    },
+    
+    async signIn({ user, account, profile }) {
+      try {
+        // Allow all sign-ins for now
+        return true;
+      } catch (error) {
+        console.error('Sign in error:', error);
+        return false;
+      }
+    },
+    
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      if (new URL(url).origin === baseUrl) return url;
+      return `${baseUrl}/dashboard`;
     }
-  };
+  },
+  
+  events: {
+    async signIn({ user, account, profile }) {
+      console.log('User signed in:', { user: user.email, provider: account?.provider });
+    },
+    async signOut({ session, token }) {
+      console.log('User signed out');
+    }
+  },
+  
+  debug: process.env.NODE_ENV === 'development',
+  secret: process.env.NEXTAUTH_SECRET,
+};
 
-  return NextAuth(authOptions);
-}
+const handler = NextAuth(authOptions);
 
-async function handleAuth(request: Request, context: { params: { nextauth: string[] } }) {
-  const handler = await resolveAuthHandler();
-  if (!handler) {
-    return missingEnvResponse;
-  }
-  return handler(request, context);
-}
-
-export async function GET(request: Request, context: { params: { nextauth: string[] } }) {
-  return handleAuth(request, context);
-}
-
-export async function POST(request: Request, context: { params: { nextauth: string[] } }) {
-  return handleAuth(request, context);
-}
+export { handler as GET, handler as POST };

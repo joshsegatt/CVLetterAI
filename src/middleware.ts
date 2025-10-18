@@ -281,7 +281,6 @@ function generateNonce(): string {
   return Buffer.from(crypto.getRandomValues(new Uint8Array(16))).toString('base64');
 }
 
-// Aplicar middleware apenas em rotas específicas
 export const config = {
   matcher: [
     /*
@@ -290,7 +289,8 @@ export const config = {
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
      * - public folder
+     * - api/auth (NextAuth routes)
      */
-    '/((?!_next/static|_next/image|favicon.ico|public/).*)',
+    '/((?!_next/static|_next/image|favicon.ico|public/|api/auth).*)',
   ],
 };
