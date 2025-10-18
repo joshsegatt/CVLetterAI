@@ -10,7 +10,7 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 glass backdrop-blur-2xl border-b border-white/[0.08]">
+    <header className="sticky top-0 z-50 glass backdrop-blur-2xl border-b border-white/[0.08] bg-black/20">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           {/* Ultra Modern Logo */}
@@ -99,7 +99,7 @@ export function Header() {
 
         {/* Simple Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-white/10 py-4">
+          <div className="lg:hidden border-t border-white/10 py-4 bg-black/40 backdrop-blur-md rounded-b-lg">
             <nav className="space-y-2">
               <Link 
                 href="/cv-builder" 

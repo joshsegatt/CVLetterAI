@@ -243,9 +243,9 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
       : null;
 
   return (
-    <>
+    <div className="min-h-screen">
       <Header />
-      <div className="container mx-auto px-4 space-y-16 pb-16">
+      <main className="container mx-auto px-4 space-y-16 pb-16">
         {/* Banner de confirmação */}
         {banner ? (
           <div
@@ -544,8 +544,8 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
             </div>
           </div>
         </section>
-      </div>
-    </>
+      </main>
+    </div>
   );
 }
 
