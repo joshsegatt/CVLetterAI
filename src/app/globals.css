@@ -83,6 +83,14 @@
   box-sizing: border-box;
 }
 
+/* Force background everywhere */
+html, body, #__next, [data-nextjs-scroll-focus-boundary] {
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #111111 100%) !important;
+  background-color: #0a0a0a !important;
+}
+
 html {
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
@@ -93,6 +101,10 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  background: 
+    radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%),
+    linear-gradient(180deg, #0a0a0a 0%, #111111 100%) !important;
+  background-color: #0a0a0a !important;
 }
 
 body {

@@ -63,11 +63,23 @@ export default function RootLayout({ children }: RootLayoutProps) {
         
         {/* Critical CSS styles are already included in globals.css */}
       </head>
-      <body className="min-h-screen font-sans antialiased overflow-x-hidden">
+      <body 
+        className="min-h-screen font-sans antialiased overflow-x-hidden bg-slate-900" 
+        style={{
+          background: 'radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
+          backgroundColor: '#0a0a0a'
+        }}
+      >
         <Providers>
           <I18nProvider>
-            {/* Main App Container */}
-            <div className="relative min-h-screen">
+            {/* Main App Container with backup background */}
+            <div 
+              className="relative min-h-screen bg-slate-900"
+              style={{
+                background: 'radial-gradient(circle at 25% 75%, rgba(59, 130, 246, 0.03) 0%, transparent 50%), linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
+                backgroundColor: '#0a0a0a'
+              }}
+            >
               {children}
             </div>
           </I18nProvider>
