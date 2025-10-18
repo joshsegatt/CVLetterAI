@@ -4,8 +4,10 @@ import Link from 'next/link';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { Button } from '../../../components/ui/Button';
+import { useI18n } from '../../../lib/i18n/context';
 
 export function SignInShell() {
+  const { translate } = useI18n();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [showEmailForm, setShowEmailForm] = useState(false);
@@ -22,13 +24,13 @@ export function SignInShell() {
       });
 
       if (result?.error) {
-        setError('Unable to sign in with Google. Please try again.');
+        setError(translate('auth.googleSignInError'));
       }
     } catch (signInError) {
       setError(
         signInError instanceof Error
           ? signInError.message
-          : 'Unexpected error during Google sign-in.'
+          : translate('auth.unexpectedGoogleError')
       );
     } finally {
       setIsLoading(false);
@@ -49,12 +51,12 @@ export function SignInShell() {
       });
 
       if (result?.error) {
-        setError('Invalid email or password. Please try again.');
+        setError(translate('auth.invalidCredentials'));
       } else if (result?.ok) {
         window.location.href = '/dashboard';
       }
     } catch (signInError) {
-      setError('An error occurred during sign in. Please try again.');
+      setError(translate('auth.signInError'));
     } finally {
       setIsLoading(false);
     }
@@ -68,9 +70,9 @@ export function SignInShell() {
   return (
     <div className="mx-auto flex w-full max-w-md flex-col gap-6 rounded-3xl border border-white/10 bg-white/5 p-8 shadow-xl">
       <header className="space-y-2 text-center">
-        <h1 className="text-2xl font-semibold text-white">Welcome back</h1>
+        <h1 className="text-2xl font-semibold text-white">{translate('auth.welcomeBack')}</h1>
         <p className="text-sm text-neutral-300">
-          Sign in to access your saved drafts and AI co-pilot.
+          {translate('auth.signInToAccess')}
         </p>
       </header>
 
@@ -90,13 +92,13 @@ export function SignInShell() {
                 <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                 <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
               </svg>
-              Continue with Google
+              {translate('auth.continueWithGoogle')}
             </Button>
 
             {/* Divider */}
             <div className="flex items-center gap-3">
               <div className="flex-1 h-px bg-white/20"></div>
-              <span className="text-xs text-neutral-400">or</span>
+              <span className="text-xs text-neutral-400">{translate('common.or')}</span>
               <div className="flex-1 h-px bg-white/20"></div>
             </div>
 
@@ -107,7 +109,7 @@ export function SignInShell() {
               className="w-full border-white/20 text-white hover:bg-white/10" 
               onClick={() => setShowEmailForm(true)}
             >
-              Sign in with Email
+              {translate('auth.signInWithEmail')}
             </Button>
 
             {/* Guest Access */}
@@ -117,7 +119,7 @@ export function SignInShell() {
               className="w-full border-green-500/50 text-green-400 hover:bg-green-500/10" 
               onClick={handleGuestAccess}
             >
-              🚀 Try AI Chat (Guest Mode)
+              🚀 {translate('auth.tryAIChatGuest')}
             </Button>
           </>
         ) : (
@@ -126,7 +128,7 @@ export function SignInShell() {
             <form onSubmit={handleEmailSignIn} className="space-y-4">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-white mb-2">
-                  Email
+                  {translate('auth.email')}
                 </label>
                 <input
                   id="email"
@@ -134,14 +136,14 @@ export function SignInShell() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="your@email.com"
+                  placeholder={translate('auth.emailPlaceholder')}
                   required
                 />
               </div>
               
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-white mb-2">
-                  Password
+                  {translate('auth.password')}
                 </label>
                 <input
                   id="password"
@@ -149,7 +151,7 @@ export function SignInShell() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-3 py-2 bg-white/10 border border-white/20 rounded-lg text-white placeholder-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="••••••••"
+                  placeholder={translate('auth.passwordPlaceholder')}
                   required
                 />
               </div>
@@ -159,7 +161,7 @@ export function SignInShell() {
                 className="w-full" 
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isLoading ? translate('common.loading') : translate('auth.signIn')}
               </Button>
             </form>
 
@@ -170,7 +172,7 @@ export function SignInShell() {
               className="w-full border-white/20 text-white hover:bg-white/10" 
               onClick={() => setShowEmailForm(false)}
             >
-              ← Back to options
+              ← {translate('auth.backToOptions')}
             </Button>
           </>
         )}
@@ -183,9 +185,9 @@ export function SignInShell() {
       </div>
 
       <p className="text-center text-xs text-neutral-400">
-        Don&apos;t have an account?{' '}
+        {translate('auth.noAccount')}{' '}
         <Link href="/sign-up" className="text-accent hover:underline">
-          Create one
+          {translate('auth.createOne')}
         </Link>
       </p>
     </div>

@@ -17,7 +17,7 @@ export function LanguageSelector({
   showLabel = true, 
   compact = false 
 }: LanguageSelectorProps) {
-  const { language, setLanguage, t } = useI18n();
+  const { language, setLanguage, translate } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -118,7 +118,7 @@ export function LanguageSelector({
     <div className={`relative ${className}`} ref={dropdownRef}>
       {showLabel && (
         <label className="block text-sm font-medium text-gray-700 mb-2">
-          {t.common.language}
+          {translate('common.language')}
         </label>
       )}
       

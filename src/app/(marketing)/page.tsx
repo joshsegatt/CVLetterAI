@@ -1,3 +1,5 @@
+'use client';
+
 import { 
   ArrowRight, 
   ShieldCheck, 
@@ -29,6 +31,7 @@ import { CheckoutButton } from "../../components/payments/CheckoutButton";
 import { Button } from "../../components/ui/Button";
 import { Header } from "../../components/marketing/Header";
 import { UKOrganizationLogos } from "../../components/marketing/UKOrganizationLogos";
+import { useI18n } from "../../lib/i18n/context";
 import type { PricingPlanId } from "../../services/payments/stripe";
 
 interface LinkCTA {
@@ -130,44 +133,53 @@ const plans: Plan[] = [
   {
     name: "Free",
     price: "£0",
-    description: "One CV, letter, and chat session to experience the workflow.",
+    description: "Get started with basic CV creation",
     highlights: [
-      "Single export per feature",
-      "Generative suggestions",
-      "Email support",
+      "1 CV creation per month",
+      "Basic templates",
+      "PDF export",
+      "Email support"
     ],
-    cta: { type: "link", label: "Start free", href: "/sign-up" },
+    cta: { type: "link", label: "Get Started Free", href: "/sign-up" },
   },
   {
     name: "Pro",
     price: "£5.99",
-    description: "48 hours of unlimited CV and letter generation for urgent needs.",
+    description: "Perfect for job seekers who need professional results",
     highlights: [
-      "Unlimited CV drafts for 48h",
-      "Multiple landlord letter formats",
-      "Priority response times",
+      "🚀 Unlimited CV & Cover Letters",
+      "🤖 Super AI Chat Assistant", 
+      "✨ AI Content Optimization",
+      "🎨 Premium Templates (20+)",
+      "📊 ATS Optimization",
+      "📋 PDF Analysis & Feedback",
+      "🌍 Multi-language Support",
+      "⚡ Priority Support"
     ],
     featured: true,
     cta: {
-      type: "link",
-      label: "Unlock 48h pass",
-      href: "https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00",
+      type: "checkout",
+      label: "Unlock Pro Features",
+      planId: "price_one_time",
     },
   },
   {
     name: "Enterprise",
-    price: "£9.99",
-    description:
-      "Unlimited workflows with live AI guidance and admin controls.",
+    price: "£12.99",
+    description: "For teams and organizations with advanced needs",
     highlights: [
-      "Unlimited CV + letters",
-      "AI advisory chat",
-      "Multi-language exports",
+      "👑 Everything in Pro",
+      "👥 Team Management Dashboard",
+      "🏢 Custom Company Templates",
+      "🔌 API Access & Integration",
+      "📈 Advanced Analytics & Reports",
+      "🎯 White-label Option",
+      "📞 Dedicated Account Manager"
     ],
     cta: {
-      type: "link",
-      label: "Subscribe now",
-      href: "https://buy.stripe.com/cNicN47dw2qecJ5ewT4ow01",
+      type: "checkout",
+      label: "Get Enterprise Access",
+      planId: "price_subscription",
     },
   },
 ];
@@ -213,9 +225,10 @@ interface MarketingPageProps {
   }>;
 }
 
-export default async function MarketingPage({ searchParams }: MarketingPageProps) {
-  const resolvedSearchParams = await searchParams;
-  const purchaseState = resolvedSearchParams?.purchase ?? "";
+function MarketingPageContent({ searchParams }: { searchParams: any }) {
+  const { translate } = useI18n();
+  const purchaseState = searchParams?.purchase ?? "";
+  
   const banner =
     purchaseState === "success"
       ? {
@@ -225,8 +238,7 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
       : purchaseState === "cancelled"
       ? {
           tone: "warning" as const,
-          message:
-            "Checkout cancelled. You can resume your purchase at any time.",
+          message: "Checkout cancelled. You can resume your purchase at any time.",
         }
       : null;
 
@@ -265,14 +277,13 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
 
               {/* Clean, Direct Headline */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-semibold leading-tight mb-6 text-white tracking-tight">
-                Create professional CVs that
+                {translate('home.title')}
                 <span className="text-blue-400 block">get you hired</span>
               </h1>
 
               {/* Simple, Clear Value Proposition */}
               <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed mb-10">
-                AI-powered CV and cover letter builder trusted by thousands of UK professionals. 
-                Create job-winning documents in minutes, not hours.
+                {translate('home.subtitle')}
               </p>
 
               {/* Clean CTA */}
@@ -528,5 +539,13 @@ export default async function MarketingPage({ searchParams }: MarketingPageProps
         </section>
       </div>
     </>
+  );
+}
+
+export default async function MarketingPage({ searchParams }: MarketingPageProps) {
+  const resolvedSearchParams = await searchParams;
+  
+  return (
+    <MarketingPageContent searchParams={resolvedSearchParams} />
   );
 }

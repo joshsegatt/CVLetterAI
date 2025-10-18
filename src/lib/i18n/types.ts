@@ -30,6 +30,7 @@ export interface TranslationKeys {
     language: string;
     theme: string;
     settings: string;
+    or: string;
   };
 
   // Navigation
@@ -179,28 +180,33 @@ export interface TranslationKeys {
 
   // Auth
   auth: {
-    signIn: {
-      title: string;
-      subtitle: string;
-      email: string;
-      password: string;
-      rememberMe: string;
-      forgotPassword: string;
-      noAccount: string;
-      signUp: string;
-    };
-    signUp: {
-      title: string;
-      subtitle: string;
-      firstName: string;
-      lastName: string;
-      email: string;
-      password: string;
-      confirmPassword: string;
-      terms: string;
-      hasAccount: string;
-      signIn: string;
-    };
+    welcomeBack: string;
+    signInToAccess: string;
+    continueWithGoogle: string;
+    signInWithEmail: string;
+    tryAIChatGuest: string;
+    email: string;
+    password: string;
+    emailPlaceholder: string;
+    passwordPlaceholder: string;
+    signIn: string;
+    signUp: string;
+    backToOptions: string;
+    noAccount: string;
+    createOne: string;
+    googleSignInError: string;
+    unexpectedGoogleError: string;
+    invalidCredentials: string;
+    signInError: string;
+    signInDescription: string;
+    signUpDescription: string;
+    firstName: string;
+    lastName: string;
+    confirmPassword: string;
+    terms: string;
+    hasAccount: string;
+    rememberMe: string;
+    forgotPassword: string;
   };
 
   // Dashboard
