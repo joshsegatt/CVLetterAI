@@ -1,0 +1,263 @@
+import type { TranslationKeys } from '../types';
+
+export const es: TranslationKeys = {
+  common: {
+    loading: 'Cargando...',
+    error: 'Error',
+    success: 'Éxito',
+    cancel: 'Cancelar',
+    confirm: 'Confirmar',
+    save: 'Guardar',
+    delete: 'Eliminar',
+    edit: 'Editar',
+    create: 'Crear',
+    back: 'Atrás',
+    next: 'Siguiente',
+    previous: 'Anterior',
+    download: 'Descargar',
+    upload: 'Subir',
+    search: 'Buscar',
+    filter: 'Filtrar',
+    sort: 'Ordenar',
+    language: 'Idioma',
+    theme: 'Tema',
+    settings: 'Configuración',
+  },
+
+  nav: {
+    home: 'Inicio',
+    dashboard: 'Panel',
+    cvBuilder: 'Constructor CV',
+    letterBuilder: 'Constructor Carta',
+    pricing: 'Precios',
+    security: 'Seguridad',
+    signIn: 'Iniciar Sesión',
+    signUp: 'Registrarse',
+    signOut: 'Cerrar Sesión',
+    profile: 'Perfil',
+    overview: 'Resumen',
+    chat: 'Chat IA',
+  },
+
+  home: {
+    title: 'Constructor Profesional de CV y Cartas',
+    subtitle: 'Crea CVs y cartas de presentación impresionantes con asistencia de IA',
+    hero: 'Construye tu CV y carta de presentación perfectos con nuestras herramientas de IA diseñadas específicamente para el mercado laboral del Reino Unido.',
+    getStarted: 'Comenzar',
+    learnMore: 'Saber Más',
+    features: {
+      title: 'Todo lo que necesitas para conseguir el trabajo de tus sueños',
+      cvBuilder: {
+        title: 'Constructor de CV Profesional',
+        description: 'Crea CVs compatibles con ATS usando nuestras plantillas premium diseñadas para empleadores del Reino Unido.',
+      },
+      letterBuilder: {
+        title: 'Constructor de Carta de Presentación',
+        description: 'Elabora cartas de presentación convincentes que complementan perfectamente tu CV.',
+      },
+      aiPowered: {
+        title: 'Asistencia con IA',
+        description: 'Obtén sugerencias personalizadas y optimización de contenido con nuestra IA local.',
+      },
+    },
+  },
+
+  cvBuilder: {
+    title: 'Constructor de CV',
+    subtitle: 'Crea tu CV profesional',
+    templates: {
+      title: 'Elige una Plantilla',
+      selectTemplate: 'Seleccionar Plantilla',
+      preview: 'Vista Previa',
+      customize: 'Personalizar',
+    },
+    sections: {
+      personalInfo: 'Información Personal',
+      experience: 'Experiencia Laboral',
+      education: 'Educación',
+      skills: 'Habilidades',
+      languages: 'Idiomas',
+      certifications: 'Certificaciones',
+    },
+    placeholders: {
+      fullName: 'Nombre Completo',
+      email: 'Correo Electrónico',
+      phone: 'Teléfono',
+      address: 'Dirección',
+      jobTitle: 'Puesto de Trabajo',
+      company: 'Empresa',
+      description: 'Descripción',
+    },
+  },
+
+  letterBuilder: {
+    title: 'Constructor de Cartas',
+    subtitle: 'Crea cartas profesionales',
+    templates: {
+      title: 'Elige una Plantilla',
+      selectTemplate: 'Seleccionar Plantilla',
+      preview: 'Vista Previa',
+      customize: 'Personalizar',
+    },
+    types: {
+      coverLetter: 'Carta de Presentación',
+      businessLetter: 'Carta Comercial',
+      recommendation: 'Carta de Recomendación',
+      resignation: 'Carta de Renuncia',
+    },
+  },
+
+  chat: {
+    title: 'Asistente IA',
+    subtitle: 'Obtén ayuda con tus CVs y cartas de presentación',
+    placeholder: 'Pregúntame cualquier cosa sobre CVs, cartas de presentación o consejos de carrera...',
+    send: 'Enviar',
+    clear: 'Limpiar Chat',
+    language: 'Idioma del Chat',
+    selectLanguage: 'Seleccionar Idioma',
+    thinking: 'Pensando...',
+    examples: {
+      cv: 'Ayúdame a mejorar el resumen de mi CV',
+      letter: 'Escribe una carta de presentación para un puesto de marketing',
+      tips: 'Dame consejos para entrevistas',
+      review: 'Revisa mi sección de experiencia laboral',
+    },
+    messages: {
+      welcome: '¡Hola! Soy tu asistente IA. ¿Cómo puedo ayudarte con tu CV o carta de presentación hoy?',
+      error: 'Me disculpo, pero encontré un error. Por favor, inténtalo de nuevo.',
+      thinking: 'Déjame pensar en eso...',
+    },
+  },
+
+  pricing: {
+    title: 'Elige Tu Plan',
+    subtitle: 'Selecciona el plan perfecto para tus necesidades',
+    monthly: 'Mensual',
+    annually: 'Anual',
+    free: {
+      name: 'Gratuito',
+      price: '£0',
+      features: [
+        '1 plantilla de CV',
+        '1 plantilla de carta',
+        'Asistencia básica de IA',
+        'Descarga en PDF',
+      ],
+    },
+    pro: {
+      name: 'Profesional',
+      price: '£9.99',
+      features: [
+        'Todas las plantillas premium',
+        'Documentos ilimitados',
+        'Asistencia avanzada de IA',
+        'Múltiples formatos',
+        'Soporte prioritario',
+      ],
+    },
+    enterprise: {
+      name: 'Empresarial',
+      price: 'Personalizado',
+      features: [
+        'Plantillas personalizadas',
+        'Colaboración en equipo',
+        'Acceso a API',
+        'Soporte dedicado',
+        'Integraciones personalizadas',
+      ],
+    },
+  },
+
+  security: {
+    title: 'Seguridad y Privacidad',
+    subtitle: 'Tus datos están seguros con nosotros',
+    features: {
+      encryption: 'Cifrado de extremo a extremo para todos tus documentos',
+      privacy: 'Nunca compartimos tu información personal',
+      compliance: 'Compatible con GDPR y protección de datos del Reino Unido',
+      audit: 'Auditorías de seguridad regulares y monitoreo',
+    },
+  },
+
+  auth: {
+    signIn: {
+      title: 'Bienvenido de Vuelta',
+      subtitle: 'Inicia sesión en tu cuenta',
+      email: 'Correo Electrónico',
+      password: 'Contraseña',
+      rememberMe: 'Recordarme',
+      forgotPassword: '¿Olvidaste la contraseña?',
+      noAccount: '¿No tienes una cuenta?',
+      signUp: 'Regístrate',
+    },
+    signUp: {
+      title: 'Crear Cuenta',
+      subtitle: 'Comienza a construir tus documentos profesionales',
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      email: 'Correo Electrónico',
+      password: 'Contraseña',
+      confirmPassword: 'Confirmar Contraseña',
+      terms: 'Acepto los Términos de Servicio y Política de Privacidad',
+      hasAccount: '¿Ya tienes una cuenta?',
+      signIn: 'Iniciar sesión',
+    },
+  },
+
+  dashboard: {
+    welcome: 'Bienvenido de vuelta',
+    overview: {
+      title: 'Resumen',
+      stats: {
+        cvs: 'CVs Creados',
+        letters: 'Cartas Creadas',
+        downloads: 'Descargas',
+        views: 'Vistas de Perfil',
+      },
+    },
+    recent: {
+      title: 'Documentos Recientes',
+      empty: 'No hay documentos recientes',
+    },
+    quickActions: {
+      title: 'Acciones Rápidas',
+      createCV: 'Crear CV',
+      createLetter: 'Crear Carta',
+      chatAI: 'Preguntar a IA',
+      viewTemplates: 'Ver Plantillas',
+    },
+  },
+
+  settings: {
+    title: 'Configuración',
+    profile: {
+      title: 'Información del Perfil',
+      firstName: 'Nombre',
+      lastName: 'Apellido',
+      email: 'Correo Electrónico',
+      phone: 'Teléfono',
+      address: 'Dirección',
+    },
+    preferences: {
+      title: 'Preferencias',
+      language: 'Idioma',
+      theme: 'Tema',
+      notifications: 'Notificaciones',
+    },
+    security: {
+      title: 'Seguridad',
+      changePassword: 'Cambiar Contraseña',
+      twoFactor: 'Autenticación de Dos Factores',
+      sessions: 'Sesiones Activas',
+    },
+  },
+
+  errors: {
+    notFound: 'Página no encontrada',
+    serverError: 'Error interno del servidor',
+    unauthorized: 'No estás autorizado para acceder a esta página',
+    forbidden: 'Acceso denegado',
+    validation: 'Por favor, verifica tu entrada e inténtalo de nuevo',
+    network: 'Error de red. Por favor, verifica tu conexión.',
+  },
+};

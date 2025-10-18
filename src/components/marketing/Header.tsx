@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Sparkles, Menu, X, ChevronDown, Zap, FileText, PenTool, Shield } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { Button } from "../ui/Button";
+import { LanguageSelector } from "../shared/LanguageSelector";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -137,8 +138,9 @@ export function Header() {
             </Link>
           </nav>
 
-          {/* Ultra Modern Auth Buttons - Desktop */}
+          {/* Ultra Modern Auth Buttons & Language Selector - Desktop */}
           <div className="hidden lg:flex items-center gap-4">
+            <LanguageSelector compact className="mr-2" />
             <Button 
               asChild 
               variant="ghost" 
@@ -208,6 +210,7 @@ export function Header() {
               </Link>
               
               <div className="flex flex-col gap-3 pt-4 border-t border-white/10 mt-4">
+                <LanguageSelector className="mb-3" />
                 <Button 
                   asChild 
                   variant="ghost" 

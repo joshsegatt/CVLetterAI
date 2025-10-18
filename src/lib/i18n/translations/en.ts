@@ -1,0 +1,263 @@
+import type { TranslationKeys } from '../types';
+
+export const en: TranslationKeys = {
+  common: {
+    loading: 'Loading...',
+    error: 'Error',
+    success: 'Success',
+    cancel: 'Cancel',
+    confirm: 'Confirm',
+    save: 'Save',
+    delete: 'Delete',
+    edit: 'Edit',
+    create: 'Create',
+    back: 'Back',
+    next: 'Next',
+    previous: 'Previous',
+    download: 'Download',
+    upload: 'Upload',
+    search: 'Search',
+    filter: 'Filter',
+    sort: 'Sort',
+    language: 'Language',
+    theme: 'Theme',
+    settings: 'Settings',
+  },
+
+  nav: {
+    home: 'Home',
+    dashboard: 'Dashboard',
+    cvBuilder: 'CV Builder',
+    letterBuilder: 'Letter Builder',
+    pricing: 'Pricing',
+    security: 'Security',
+    signIn: 'Sign In',
+    signUp: 'Sign Up',
+    signOut: 'Sign Out',
+    profile: 'Profile',
+    overview: 'Overview',
+    chat: 'AI Chat',
+  },
+
+  home: {
+    title: 'Professional CV & Letter Builder',
+    subtitle: 'Create stunning CVs and cover letters with AI assistance',
+    hero: 'Build your perfect CV and cover letter with our AI-powered tools designed specifically for the UK job market.',
+    getStarted: 'Get Started',
+    learnMore: 'Learn More',
+    features: {
+      title: 'Everything you need to land your dream job',
+      cvBuilder: {
+        title: 'Professional CV Builder',
+        description: 'Create ATS-friendly CVs with our premium templates designed for UK employers.',
+      },
+      letterBuilder: {
+        title: 'Cover Letter Builder',
+        description: 'Craft compelling cover letters that complement your CV perfectly.',
+      },
+      aiPowered: {
+        title: 'AI-Powered Assistance',
+        description: 'Get personalized suggestions and content optimization with our local AI.',
+      },
+    },
+  },
+
+  cvBuilder: {
+    title: 'CV Builder',
+    subtitle: 'Create your professional CV',
+    templates: {
+      title: 'Choose a Template',
+      selectTemplate: 'Select Template',
+      preview: 'Preview',
+      customize: 'Customize',
+    },
+    sections: {
+      personalInfo: 'Personal Information',
+      experience: 'Work Experience',
+      education: 'Education',
+      skills: 'Skills',
+      languages: 'Languages',
+      certifications: 'Certifications',
+    },
+    placeholders: {
+      fullName: 'Full Name',
+      email: 'Email Address',
+      phone: 'Phone Number',
+      address: 'Address',
+      jobTitle: 'Job Title',
+      company: 'Company',
+      description: 'Description',
+    },
+  },
+
+  letterBuilder: {
+    title: 'Letter Builder',
+    subtitle: 'Create professional letters',
+    templates: {
+      title: 'Choose a Template',
+      selectTemplate: 'Select Template',
+      preview: 'Preview',
+      customize: 'Customize',
+    },
+    types: {
+      coverLetter: 'Cover Letter',
+      businessLetter: 'Business Letter',
+      recommendation: 'Recommendation Letter',
+      resignation: 'Resignation Letter',
+    },
+  },
+
+  chat: {
+    title: 'AI Assistant',
+    subtitle: 'Get help with your CV and cover letters',
+    placeholder: 'Ask me anything about CVs, cover letters, or career advice...',
+    send: 'Send',
+    clear: 'Clear Chat',
+    language: 'Chat Language',
+    selectLanguage: 'Select Language',
+    thinking: 'Thinking...',
+    examples: {
+      cv: 'Help me improve my CV summary',
+      letter: 'Write a cover letter for a marketing role',
+      tips: 'Give me interview tips',
+      review: 'Review my work experience section',
+    },
+    messages: {
+      welcome: 'Hello! I\'m your AI assistant. How can I help you with your CV or cover letter today?',
+      error: 'I apologize, but I encountered an error. Please try again.',
+      thinking: 'Let me think about that...',
+    },
+  },
+
+  pricing: {
+    title: 'Choose Your Plan',
+    subtitle: 'Select the perfect plan for your needs',
+    monthly: 'Monthly',
+    annually: 'Annually',
+    free: {
+      name: 'Free',
+      price: '£0',
+      features: [
+        '1 CV template',
+        '1 cover letter template',
+        'Basic AI assistance',
+        'PDF download',
+      ],
+    },
+    pro: {
+      name: 'Professional',
+      price: '£9.99',
+      features: [
+        'All premium templates',
+        'Unlimited documents',
+        'Advanced AI assistance',
+        'Multiple formats',
+        'Priority support',
+      ],
+    },
+    enterprise: {
+      name: 'Enterprise',
+      price: 'Custom',
+      features: [
+        'Custom templates',
+        'Team collaboration',
+        'API access',
+        'Dedicated support',
+        'Custom integrations',
+      ],
+    },
+  },
+
+  security: {
+    title: 'Security & Privacy',
+    subtitle: 'Your data is safe with us',
+    features: {
+      encryption: 'End-to-end encryption for all your documents',
+      privacy: 'We never share your personal information',
+      compliance: 'GDPR and UK data protection compliant',
+      audit: 'Regular security audits and monitoring',
+    },
+  },
+
+  auth: {
+    signIn: {
+      title: 'Welcome Back',
+      subtitle: 'Sign in to your account',
+      email: 'Email',
+      password: 'Password',
+      rememberMe: 'Remember me',
+      forgotPassword: 'Forgot password?',
+      noAccount: 'Don\'t have an account?',
+      signUp: 'Sign up',
+    },
+    signUp: {
+      title: 'Create Account',
+      subtitle: 'Start building your professional documents',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      password: 'Password',
+      confirmPassword: 'Confirm Password',
+      terms: 'I agree to the Terms of Service and Privacy Policy',
+      hasAccount: 'Already have an account?',
+      signIn: 'Sign in',
+    },
+  },
+
+  dashboard: {
+    welcome: 'Welcome back',
+    overview: {
+      title: 'Overview',
+      stats: {
+        cvs: 'CVs Created',
+        letters: 'Letters Created',
+        downloads: 'Downloads',
+        views: 'Profile Views',
+      },
+    },
+    recent: {
+      title: 'Recent Documents',
+      empty: 'No recent documents',
+    },
+    quickActions: {
+      title: 'Quick Actions',
+      createCV: 'Create CV',
+      createLetter: 'Create Letter',
+      chatAI: 'Ask AI',
+      viewTemplates: 'Browse Templates',
+    },
+  },
+
+  settings: {
+    title: 'Settings',
+    profile: {
+      title: 'Profile Information',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      email: 'Email',
+      phone: 'Phone',
+      address: 'Address',
+    },
+    preferences: {
+      title: 'Preferences',
+      language: 'Language',
+      theme: 'Theme',
+      notifications: 'Notifications',
+    },
+    security: {
+      title: 'Security',
+      changePassword: 'Change Password',
+      twoFactor: 'Two-Factor Authentication',
+      sessions: 'Active Sessions',
+    },
+  },
+
+  errors: {
+    notFound: 'Page not found',
+    serverError: 'Internal server error',
+    unauthorized: 'You are not authorized to access this page',
+    forbidden: 'Access denied',
+    validation: 'Please check your input and try again',
+    network: 'Network error. Please check your connection.',
+  },
+};

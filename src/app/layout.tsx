@@ -1,6 +1,7 @@
 import React from "react";
 import "./globals.css";
 import { Providers } from "../components/providers/Providers";
+import { I18nProvider } from "../lib/i18n/context";
 
 interface RootLayoutProps {
   children: React.ReactNode;
@@ -75,17 +76,19 @@ export default function RootLayout({ children }: RootLayoutProps) {
         </div>
         
         <Providers>
-          {/* Main App Container */}
-          <div className="relative min-h-screen">
-            {/* Gradient Orbs for Visual Enhancement */}
-            <div className="fixed inset-0 -z-10 overflow-hidden">
-              <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary-500/10 blur-3xl animate-float" />
-              <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-luxury-500/10 blur-3xl animate-float" style={{ animationDelay: '1s' }} />
-              <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-500/5 blur-3xl animate-pulse-glow" />
+          <I18nProvider>
+            {/* Main App Container */}
+            <div className="relative min-h-screen">
+              {/* Gradient Orbs for Visual Enhancement */}
+              <div className="fixed inset-0 -z-10 overflow-hidden">
+                <div className="absolute -top-40 -right-40 h-80 w-80 rounded-full bg-primary-500/10 blur-3xl animate-float" />
+                <div className="absolute -bottom-40 -left-40 h-80 w-80 rounded-full bg-luxury-500/10 blur-3xl animate-float" style={{ animationDelay: '1s' }} />
+                <div className="absolute top-1/2 left-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent-500/5 blur-3xl animate-pulse-glow" />
+              </div>
+              
+              {children}
             </div>
-            
-            {children}
-          </div>
+          </I18nProvider>
         </Providers>
         
         {/* Remove loading overlay after hydration */}
