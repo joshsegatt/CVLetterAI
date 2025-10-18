@@ -19,146 +19,126 @@ export default function ElegantLetterTemplate({
   };
 
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-2xl border border-gray-300 overflow-hidden"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-2xl overflow-hidden"
     : "w-full bg-white text-gray-900";
 
   return (
     <div className={containerClass} style={{ fontFamily: 'Playfair Display, Georgia, serif' }}>
-      {/* Elegant Header */}
-      <header className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black"></div>
-        
-        {/* Ornamental Pattern */}
-        <div className="absolute inset-0 opacity-20" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4af37' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+      {/* Executive Header with Premium Styling */}
+      <header className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
+        {/* Luxury Pattern Overlay */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23d4af37' fill-opacity='0.3'%3E%3Cpath d='M30 30m-20 0a20,20 0 1,1 40,0a20,20 0 1,1 -40,0'/%3E%3C/g%3E%3C/svg%3E")`,
         }}></div>
         
-        <div className="relative z-10 px-16 py-20">
-          <div className="text-center">
-            {/* Ornamental Border */}
-            <div className="inline-block border-4 border-double border-yellow-600 p-12 mb-8">
-              <div className="relative">
-                {/* Decorative corners */}
-                <div className="absolute -top-6 -left-6 w-12 h-12 border-l-4 border-t-4 border-yellow-600"></div>
-                <div className="absolute -top-6 -right-6 w-12 h-12 border-r-4 border-t-4 border-yellow-600"></div>
-                <div className="absolute -bottom-6 -left-6 w-12 h-12 border-l-4 border-b-4 border-yellow-600"></div>
-                <div className="absolute -bottom-6 -right-6 w-12 h-12 border-r-4 border-b-4 border-yellow-600"></div>
-                
-                <h1 className="text-6xl font-serif font-bold text-white mb-4 tracking-wide">
-                  {data.senderInfo.name.split(' ')[0]}
+        <div className="relative z-10 px-12 py-16">
+          {/* Executive Profile Section */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-8">
+              {/* Premium Monogram */}
+              <div className="w-28 h-28 bg-gradient-to-br from-amber-600 via-yellow-600 to-amber-700 rounded-full flex items-center justify-center border-4 border-white/30 shadow-2xl">
+                <span className="text-white font-bold text-3xl tracking-wider">
+                  {data.senderInfo.name.split(' ').map(n => n[0]).join('')}
+                </span>
+              </div>
+              
+              {/* Executive Name & Title */}
+              <div>
+                <h1 className="text-5xl font-bold text-white mb-3 tracking-wide">
+                  {data.senderInfo.name}
                 </h1>
-                <h1 className="text-6xl font-serif font-bold text-yellow-600 tracking-wide">
-                  {data.senderInfo.name.split(' ').slice(1).join(' ')}
-                </h1>
+                <p className="text-amber-300 text-xl font-medium tracking-wide">
+                  Executive Professional
+                </p>
               </div>
             </div>
             
-            {/* Decorative divider */}
-            <div className="flex items-center justify-center mb-8">
-              <div className="w-16 h-px bg-yellow-600"></div>
-              <div className="w-6 h-6 border-2 border-yellow-600 bg-gray-900 rotate-45 mx-4"></div>
-              <div className="w-16 h-px bg-yellow-600"></div>
+            {/* Premium Badge */}
+            <div className="text-right">
+              <div className="inline-block bg-gradient-to-r from-amber-600 to-yellow-600 px-8 py-4 rounded-full border-2 border-white/30 shadow-lg">
+                <span className="text-white font-bold text-sm tracking-[0.3em]">EXECUTIVE ELITE</span>
+              </div>
             </div>
-            
-            {/* Contact Information */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 text-gray-300 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="w-12 h-12 border-2 border-yellow-600 bg-yellow-600/10 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-yellow-600 font-bold">✉</span>
-                </div>
-                <p className="text-sm font-light">{data.senderInfo.email}</p>
-              </div>
-              <div className="text-center">
-                <div className="w-12 h-12 border-2 border-yellow-600 bg-yellow-600/10 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-yellow-600 font-bold">☏</span>
-                </div>
-                <p className="text-sm font-light">{data.senderInfo.phone}</p>
-              </div>
-              <div className="text-center md:col-span-2">
-                <div className="w-12 h-12 border-2 border-yellow-600 bg-yellow-600/10 mx-auto mb-3 flex items-center justify-center">
-                  <span className="text-yellow-600 font-bold">⚲</span>
-                </div>
-                <p className="text-sm font-light">{data.senderInfo.address}</p>
-              </div>
+          </div>
+          
+          {/* Executive Contact Grid */}
+          <div className="mt-12 grid grid-cols-3 gap-8">
+            <div className="text-center">
+              <div className="text-amber-300 text-sm font-bold mb-2 tracking-widest">EMAIL</div>
+              <div className="text-white text-lg font-light">{data.senderInfo.email}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-amber-300 text-sm font-bold mb-2 tracking-widest">PHONE</div>
+              <div className="text-white text-lg font-light">{data.senderInfo.phone}</div>
+            </div>
+            <div className="text-center">
+              <div className="text-amber-300 text-sm font-bold mb-2 tracking-widest">LOCATION</div>
+              <div className="text-white text-lg font-light">{data.senderInfo.address.split(',')[0]}</div>
             </div>
           </div>
         </div>
       </header>
 
-      {/* Letter Content */}
-      <main className="px-16 py-16">
-        
-        {/* Date and Recipient */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Date */}
-          <div></div>
-          <div className="text-right">
-            <div className="inline-block">
-              <div className="border-2 border-yellow-600 p-6 bg-gradient-to-br from-gray-50 to-white">
-                <div className="border border-gray-300 p-4">
-                  <p className="text-gray-600 text-sm font-medium uppercase tracking-wider mb-2">Date</p>
-                  <p className="text-2xl font-serif font-bold text-gray-900">{data.letterInfo.date}</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Recipient Information */}
+      {/* Executive Content Area */}
+      <main className="px-12 py-12">
+        {/* Date and Recipient with Executive Styling */}
         <div className="mb-12">
-          <div className="bg-gradient-to-r from-yellow-600/10 to-transparent border-l-4 border-yellow-600 p-8">
-            <h3 className="text-2xl font-serif font-bold text-gray-900 mb-4">{data.recipientInfo.name}</h3>
-            {data.recipientInfo.title && (
-              <p className="text-lg text-gray-700 font-medium mb-2">{data.recipientInfo.title}</p>
-            )}
-            {data.recipientInfo.company && (
-              <p className="text-xl text-yellow-700 font-serif font-semibold mb-2">{data.recipientInfo.company}</p>
-            )}
-            <p className="text-gray-600 italic">{data.recipientInfo.address}</p>
+          <div className="text-right mb-10">
+            <time className="text-slate-600 text-xl font-medium tracking-wide">{data.letterInfo.date}</time>
+          </div>
+          
+          {/* Executive Divider */}
+          <div className="flex items-center justify-center mb-10">
+            <div className="w-24 h-1 bg-gradient-to-r from-amber-600 to-yellow-600"></div>
+            <div className="mx-4 w-5 h-5 bg-gradient-to-br from-amber-600 to-yellow-600 transform rotate-45"></div>
+            <div className="w-24 h-1 bg-gradient-to-l from-amber-600 to-yellow-600"></div>
+          </div>
+          
+          <div className="bg-gradient-to-r from-slate-50 to-gray-50 border-l-8 border-amber-600 p-10 rounded-r-2xl shadow-lg">
+            <address className="not-italic text-slate-800 text-lg leading-relaxed space-y-3">
+              <div className="font-bold text-2xl text-slate-900 mb-2">{data.recipientInfo.name}</div>
+              {data.recipientInfo.title && (
+                <div className="text-amber-700 font-semibold text-lg">{data.recipientInfo.title}</div>
+              )}
+              {data.recipientInfo.company && (
+                <div className="font-bold text-xl text-slate-800">{data.recipientInfo.company}</div>
+              )}
+              <div className="text-slate-600 font-light">{data.recipientInfo.address}</div>
+            </address>
           </div>
         </div>
 
-        {/* Subject */}
-        <div className="text-center mb-16">
-          <div className="inline-block">
-            <div className="border-t-2 border-b-2 border-yellow-600 py-6 px-12">
-              <h2 className="text-3xl font-serif font-bold text-gray-900 tracking-wide">
-                {data.letterInfo.subject}
-              </h2>
-            </div>
+        {/* Executive Subject Line */}
+        <div className="mb-10 text-center">
+          <div className="inline-block bg-gradient-to-r from-slate-900 to-slate-800 text-white px-12 py-5 rounded-full shadow-lg">
+            <h2 className="text-2xl font-bold tracking-wide">
+              RE: {data.letterInfo.subject}
+            </h2>
           </div>
         </div>
 
-        {/* Salutation */}
-        <div className="mb-12">
-          <p className="text-2xl font-serif text-gray-800 font-medium">
+        {/* Executive Salutation */}
+        <div className="mb-10">
+          <p className="text-3xl text-slate-800 font-bold">
             {data.letterInfo.salutation}
           </p>
         </div>
 
-        {/* Body */}
-        <div className="prose prose-xl max-w-none mb-16">
-          <div className="space-y-10">
+        {/* Executive Letter Body */}
+        <div className="prose prose-xl prose-slate max-w-none">
+          <div className="text-slate-700 leading-relaxed space-y-8">
             {data.letterInfo.body.split('\n\n').map((paragraph: string, index: number) => (
               <div key={index} className="relative">
-                {/* Decorative initial letter for first paragraph */}
-                {index === 0 && (
-                  <span className="float-left text-8xl font-serif font-bold text-yellow-600 leading-none pr-4 pt-2">
-                    {paragraph.charAt(0)}
-                  </span>
-                )}
-                <p className={`text-gray-800 leading-relaxed text-lg font-light ${
-                  index === 0 ? 'pt-4' : ''
-                }`} style={{ textAlign: 'justify', textIndent: index === 0 ? '0' : '2rem' }}>
-                  {index === 0 ? paragraph.slice(1) : paragraph}
+                <p className="text-xl leading-relaxed first-letter:text-7xl first-letter:font-bold first-letter:text-amber-600 first-letter:float-left first-letter:mr-4 first-letter:mt-2">
+                  {paragraph}
                 </p>
                 
-                {/* Decorative elements between paragraphs */}
+                {/* Elegant paragraph separator */}
                 {index < data.letterInfo.body.split('\n\n').length - 1 && (
                   <div className="flex justify-center mt-8 mb-6">
-                    <div className="w-2 h-2 bg-yellow-600 rotate-45"></div>
-                    <div className="w-2 h-2 bg-yellow-600 rotate-45 mx-4"></div>
-                    <div className="w-2 h-2 bg-yellow-600 rotate-45"></div>
+                    <div className="w-3 h-3 bg-amber-600 rounded-full"></div>
+                    <div className="w-3 h-3 bg-amber-600 rounded-full mx-6"></div>
+                    <div className="w-3 h-3 bg-amber-600 rounded-full"></div>
                   </div>
                 )}
               </div>
@@ -166,51 +146,41 @@ export default function ElegantLetterTemplate({
           </div>
         </div>
 
-        {/* Closing and Signature */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div></div>
-          <div>
-            {/* Closing */}
-            <div className="mb-12">
-              <p className="text-2xl font-serif text-gray-800 font-medium mb-8">
-                {data.letterInfo.closing}
-              </p>
-              
-              {/* Signature Area */}
-              <div className="relative">
-                <div className="border-t-2 border-yellow-600 pt-8 pb-4">
-                  <div className="relative">
-                    {/* Decorative signature flourish */}
-                    <div className="absolute -left-8 top-0 w-16 h-16 border border-yellow-600 rounded-full opacity-20"></div>
-                    
-                    <p className="text-3xl font-serif font-bold text-gray-900 mb-2">
-                      {data.senderInfo.name}
-                    </p>
-                    <p className="text-lg text-gray-600 italic">
-                      {data.letterInfo.signature}
-                    </p>
-                  </div>
-                </div>
-              </div>
+        {/* Executive Closing */}
+        <div className="mt-20">
+          <div className="text-center mb-16">
+            <div className="inline-block bg-gradient-to-r from-slate-900 to-slate-800 text-white py-4 px-16 rounded-full shadow-lg">
+              <p className="text-2xl font-bold tracking-wide">{data.letterInfo.closing}</p>
             </div>
           </div>
-        </div>
-
-        {/* Elegant Footer */}
-        <div className="mt-20 pt-8 border-t border-gray-300">
-          <div className="text-center">
-            <div className="flex items-center justify-center">
-              <div className="w-20 h-px bg-yellow-600"></div>
-              <div className="w-4 h-4 border border-yellow-600 bg-yellow-600 rotate-45 mx-6"></div>
-              <div className="w-20 h-px bg-yellow-600"></div>
+          
+          <div className="mt-16 text-center">
+            <div className="inline-block">
+              <div className="bg-gradient-to-r from-amber-600 to-yellow-600 h-2 w-60 mb-6 rounded-full"></div>
+              <p className="text-4xl font-bold text-slate-900 tracking-wide mb-3">{data.senderInfo.name}</p>
+              <p className="text-lg text-amber-700 font-semibold tracking-wide">{data.letterInfo.signature}</p>
+              <div className="bg-gradient-to-r from-amber-600 to-yellow-600 h-1 w-40 mx-auto mt-4 rounded-full"></div>
             </div>
           </div>
         </div>
       </main>
 
+      {/* Executive Footer */}
+      <footer className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 px-12 py-8">
+        <div className="text-center">
+          <div className="flex items-center justify-center gap-4 mb-4">
+            <div className="w-16 h-px bg-amber-600"></div>
+            <div className="w-4 h-4 bg-gradient-to-br from-amber-600 to-yellow-600 rounded-full"></div>
+            <div className="w-16 h-px bg-amber-600"></div>
+          </div>
+          <p className="text-white/80 text-xs tracking-[0.4em] font-bold">EXECUTIVE CORRESPONDENCE</p>
+        </div>
+      </footer>
+
+      {/* Premium Preview Badge */}
       {preview && (
-        <div className="absolute top-4 right-4 bg-gradient-to-r from-gray-900 to-black text-yellow-400 px-6 py-3 rounded text-sm font-bold tracking-wider">
-          ✨ ELEGANT
+        <div className="absolute top-6 right-6 bg-gradient-to-r from-amber-600 to-yellow-600 text-white px-6 py-3 rounded-full shadow-lg">
+          <span className="text-sm font-bold tracking-widest">✨ EXECUTIVE ELITE</span>
         </div>
       )}
     </div>

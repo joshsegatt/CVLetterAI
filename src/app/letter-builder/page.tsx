@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { PublicLayout } from "../../components/layout/PublicLayout";
 import MinimalModernLetterTemplate from "../../components/builder/Letter-templates/MinimalModernLetterTemplate";
 import CleanBusinessLetterTemplate from "../../components/builder/Letter-templates/CleanBusinessLetterTemplate";
+import ElegantLetterTemplate from "../../components/builder/Letter-templates/ElegantLetterTemplate";
 import PDFDownloadButton from "../../components/shared/PDFDownloadButton";
 import { sampleLetterData } from "../../lib/sampleData";
 import { LetterTemplate } from "../../types/builder";
@@ -40,7 +41,7 @@ export default function LetterBuilderPage() {
       case 'polite':
         return <CleanBusinessLetterTemplate {...props} />;
       case 'firm':
-        return <CleanBusinessLetterTemplate {...props} />;
+        return <ElegantLetterTemplate {...props} />;
       default:
         return <MinimalModernLetterTemplate {...props} />;
     }
