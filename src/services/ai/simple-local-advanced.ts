@@ -54,13 +54,13 @@ export class SimpleLocalAI {
   }
 
   private initializeLanguageTemplates() {
-    // Templates multilinguagem avançados
+    // Templates humanizados e conversacionais
     this.languageTemplates.set('en', {
-      greeting: "🤖 Hello! I'm your advanced AI career assistant specializing in the UK job market.",
-      cvHelp: "I'll help you create a standout CV that impresses UK employers with ATS-optimized content.",
-      letterHelp: "I'll craft compelling letters that get results - from cover letters to landlord communications.",
-      interviewHelp: "I'll prepare you for UK interviews with industry-specific insights and proven strategies.",
-      followUp: "What specific area would you like me to focus on?",
+      greeting: "Hey there! 👋 I'm here to help you nail the UK job market - think of me as your friendly career coach who happens to know all the insider tricks.",
+      cvHelp: "Let's make your CV absolutely shine! I know exactly what UK employers are looking for, and I'm excited to help you stand out from the crowd.",
+      letterHelp: "Time to write some killer letters! Whether it's a cover letter that opens doors or a landlord letter that gets things sorted - I've got you covered.",
+      interviewHelp: "Interview prep time! 🎯 I'll share the insider secrets that actually work in UK interviews. No generic advice here - just proven strategies.",
+      followUp: "So, what would you like to tackle next?",
       suggestions: [
         "📄 CV optimization with quantified achievements",
         "✉️ Cover letter writing with company research",
@@ -78,11 +78,11 @@ export class SimpleLocalAI {
     });
 
     this.languageTemplates.set('pt', {
-      greeting: "🤖 Olá! Sou seu assistente avançado de carreira especializado no mercado de trabalho do Reino Unido.",
-      cvHelp: "Vou te ajudar a criar um CV excepcional que impressiona empregadores do Reino Unido com conteúdo otimizado para ATS.",
-      letterHelp: "Vou criar cartas convincentes que geram resultados - desde cartas de apresentação até comunicações com landlords.",
-      interviewHelp: "Vou te preparar para entrevistas no Reino Unido com insights específicos da indústria e estratégias comprovadas.",
-      followUp: "Em que área específica você gostaria que eu me concentrasse?",
+      greeting: "Oi! 👋 Que bom te ver aqui! Sou seu parceiro de carreira especialista no mercado britânico - vamos fazer sua carreira decolar no Reino Unido!",
+      cvHelp: "Bora criar um CV que vai fazer os recrutadores pararem tudo para te chamar! Eu conheço todos os segredinhos que funcionam por lá.",
+      letterHelp: "Hora de escrever cartas que realmente funcionam! Seja carta de apresentação que abre portas ou comunicação com landlord que resolve na hora - estou aqui pra isso!",
+      interviewHelp: "Preparação para entrevista é comigo mesmo! 🎯 Vou te ensinar as táticas que realmente funcionam no Reino Unido. Nada de dica genérica não!",
+      followUp: "Então, o que vamos trabalhar agora?",
       suggestions: [
         "📄 Otimização de CV com conquistas quantificadas",
         "✉️ Redação de carta de apresentação com pesquisa da empresa",
@@ -100,11 +100,11 @@ export class SimpleLocalAI {
     });
 
     this.languageTemplates.set('es', {
-      greeting: "🤖 ¡Hola! Soy tu asistente avanzado de carrera especializado en el mercado laboral del Reino Unido.",
-      cvHelp: "Te ayudaré a crear un CV excepcional que impresione a los empleadores del Reino Unido con contenido optimizado para ATS.",
-      letterHelp: "Crearé cartas convincentes que generen resultados - desde cartas de presentación hasta comunicaciones con landlords.",
-      interviewHelp: "Te prepararé para entrevistas en el Reino Unido con insights específicos de la industria y estrategias probadas.",
-      followUp: "¿En qué área específica te gustaría que me enfoque?",
+      greeting: "¡Hola! 👋 ¡Qué alegría tenerte aquí! Soy tu compañero de carrera experto en el mercado británico - ¡vamos a hacer que triunfes en el Reino Unido!",
+      cvHelp: "¡Vamos a crear un CV que haga que los reclutadores se detengan para llamarte! Conozco todos los trucos que realmente funcionan allí.",
+      letterHelp: "¡Hora de escribir cartas que den resultados de verdad! Ya sea carta de presentación que abra puertas o comunicación con el landlord que resuelva al instante - ¡estoy aquí para eso!",
+      interviewHelp: "¡La preparación para entrevistas es lo mío! 🎯 Te enseñaré las tácticas que realmente funcionan en el Reino Unido. ¡Nada de consejos genéricos!",
+      followUp: "Entonces, ¿qué vamos a trabajar ahora?",
       suggestions: [
         "📄 Optimización de CV con logros cuantificados",
         "✉️ Redacción de carta de presentación con investigación de empresa",
@@ -438,6 +438,9 @@ export class SimpleLocalAI {
       response += this.getCVOptimizationChecklist(params.language);
     }
 
+    // Adicionar próximo passo humanizado
+    response += this.getNextStepQuestion('cv', params.language);
+
     return response;
   }
 
@@ -452,6 +455,9 @@ export class SimpleLocalAI {
       response += this.getLetterImprovementTips(params.language);
     }
 
+    // Adicionar próximo passo humanizado
+    response += this.getNextStepQuestion('letter', params.language);
+
     return response;
   }
 
@@ -460,6 +466,9 @@ export class SimpleLocalAI {
 
     response += '🎯 **Advanced Interview Mastery:**\n\n';
     response += this.getInterviewMasteryGuide(params.language);
+
+    // Adicionar próximo passo humanizado
+    response += this.getNextStepQuestion('interview', params.language);
 
     return response;
   }
@@ -602,6 +611,69 @@ export class SimpleLocalAI {
     };
 
     return questions[language] || questions.en;
+  }
+
+  private getNextStepQuestion(context: string, language: string): string {
+    const nextStepQuestions = {
+      en: {
+        cv: [
+          "\n\n💭 **What's next?** Would you like me to help you write specific bullet points for your experience? Or maybe work on your personal statement?",
+          "\n\n🎯 **Ready for the next step?** I can help you tailor this CV for a specific job posting, or we could work on optimizing it for ATS systems. What sounds good?",
+          "\n\n✨ **How can we make this even better?** Should we focus on quantifying your achievements with specific numbers, or would you prefer to work on a particular section?"
+        ],
+        letter: [
+          "\n\n💭 **What's your next move?** Want me to help you write a specific cover letter for a job you're eyeing? Or need help with a landlord letter?",
+          "\n\n🎯 **Ready to take action?** I can help you craft the perfect opening paragraph, or we could work on matching your experience to job requirements. Your call!",
+          "\n\n✨ **Let's keep the momentum going!** Should we write a complete letter together, or would you prefer tips on researching the company first?"
+        ],
+        interview: [
+          "\n\n💭 **Feeling more confident already?** Want to practice answers to specific questions, or should we work on your 'tell me about yourself' pitch?",
+          "\n\n🎯 **Ready to ace that interview?** I can help you prepare STAR method examples, or we could work on questions to ask the interviewer. What feels most important?",
+          "\n\n✨ **Let's nail this!** Should we practice behavioral questions, or would you prefer to work on technical interview prep for your field?"
+        ]
+      },
+      pt: {
+        cv: [
+          "\n\n💭 **E agora, o que achou?** Que tal eu te ajudar a escrever bullet points específicos da sua experiência? Ou podemos trabalhar no seu resumo pessoal?",
+          "\n\n🎯 **Pronto pro próximo passo?** Posso te ajudar a adaptar esse CV para uma vaga específica, ou trabalhar na otimização para sistemas ATS. O que prefere?",
+          "\n\n✨ **Como podemos deixar ainda melhor?** Vamos focar em quantificar suas conquistas com números específicos, ou prefere trabalhar em alguma seção particular?"
+        ],
+        letter: [
+          "\n\n💭 **Qual o próximo passo?** Quer que eu te ajude a escrever uma carta específica para alguma vaga que você está de olho? Ou precisa de ajuda com carta pro landlord?",
+          "\n\n🎯 **Bora colocar em prática?** Posso te ajudar a criar o parágrafo de abertura perfeito, ou trabalhar em como conectar sua experiência com os requisitos da vaga. Você escolhe!",
+          "\n\n✨ **Vamos manter o ritmo!** Escrevemos uma carta completa juntos, ou prefere dicas de como pesquisar a empresa primeiro?"
+        ],
+        interview: [
+          "\n\n💭 **Já se sentindo mais confiante?** Quer praticar respostas para perguntas específicas, ou trabalhamos no seu pitch de 'me fale sobre você'?",
+          "\n\n🎯 **Pronto pra arrasar na entrevista?** Posso te ajudar a preparar exemplos usando método STAR, ou trabalhar em perguntas pra fazer pro entrevistador. O que é mais importante?",
+          "\n\n✨ **Vamos mandar bem!** Praticamos perguntas comportamentais, ou prefere preparação técnica específica da sua área?"
+        ]
+      },
+      es: {
+        cv: [
+          "\n\n💭 **¿Qué te parece?** ¿Te ayudo a escribir puntos específicos de tu experiencia? ¿O trabajamos en tu resumen personal?",
+          "\n\n🎯 **¿Listo para el siguiente paso?** Puedo ayudarte a adaptar este CV para una vacante específica, o trabajar en la optimización para sistemas ATS. ¿Qué prefieres?",
+          "\n\n✨ **¿Cómo podemos mejorarlo aún más?** ¿Nos enfocamos en cuantificar tus logros con números específicos, o prefieres trabajar en alguna sección particular?"
+        ],
+        letter: [
+          "\n\n💭 **¿Cuál es tu próximo paso?** ¿Quieres que te ayude a escribir una carta específica para algún trabajo que tienes en mente? ¿O necesitas ayuda con una carta para el landlord?",
+          "\n\n🎯 **¿Listo para ponerlo en práctica?** Puedo ayudarte a crear el párrafo de apertura perfecto, o trabajar en cómo conectar tu experiencia con los requisitos del trabajo. ¡Tú eliges!",
+          "\n\n✨ **¡Mantengamos el impulso!** ¿Escribimos una carta completa juntos, o prefieres consejos sobre cómo investigar la empresa primero?"
+        ],
+        interview: [
+          "\n\n💭 **¿Ya te sientes más confiado?** ¿Quieres practicar respuestas a preguntas específicas, o trabajamos en tu presentación de 'háblame de ti'?",
+          "\n\n🎯 **¿Listo para brillar en la entrevista?** Puedo ayudarte a preparar ejemplos usando el método STAR, o trabajar en preguntas para hacer al entrevistador. ¿Qué es más importante?",
+          "\n\n✨ **¡Vamos a hacerlo genial!** ¿Practicamos preguntas de comportamiento, o prefieres preparación técnica específica de tu área?"
+        ]
+      }
+    };
+
+    const questions = (nextStepQuestions as any)[language] || nextStepQuestions.en;
+    const contextQuestions = (questions as any)[context] || questions.cv;
+    
+    // Escolher pergunta aleatória para variar
+    const randomIndex = Math.floor(Math.random() * contextQuestions.length);
+    return contextQuestions[randomIndex];
   }
 
   // Método principal para compatibilidade com API existente

@@ -1,43 +1,13 @@
 "use client";
 
 import Link from "next/link";
-import { Sparkles, Menu, X, ChevronDown, Zap, FileText, PenTool, Shield } from "lucide-react";
-import { useState, useRef, useEffect } from "react";
+import { Sparkles } from "lucide-react";
+import { useState } from "react";
 import { Button } from "../ui/Button";
 import { LanguageSelector } from "../shared/LanguageSelector";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProductsOpen, setIsProductsOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsProductsOpen(false);
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (timeoutRef.current) {
-      clearTimeout(timeoutRef.current);
-    }
-    setIsProductsOpen(true);
-  };
-
-  const handleMouseLeave = () => {
-    timeoutRef.current = setTimeout(() => {
-      setIsProductsOpen(false);
-    }, 150); // Small delay to prevent flickering
-  };
 
   return (
     <header className="sticky top-0 z-50 glass backdrop-blur-2xl border-b border-white/[0.08]">
@@ -56,72 +26,26 @@ export function Header() {
 
           {/* Ultra Modern Navigation - Desktop */}
           <nav className="hidden lg:flex items-center gap-8">
-            {/* Products Dropdown - Enhanced Functionality */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setIsProductsOpen(!isProductsOpen)}
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-                className="flex items-center gap-1.5 px-4 py-2.5 text-white/90 hover:text-white transition-all duration-200 font-medium rounded-lg hover:bg-white/8 active:scale-95"
-              >
-                <span className="text-sm font-semibold">Products</span>
-                <ChevronDown className={`h-4 w-4 transition-all duration-200 ${isProductsOpen ? 'rotate-180 text-primary-400' : ''}`} />
-              </button>
-              
-              {isProductsOpen && (
-                <div 
-                  className="absolute top-full left-0 mt-2 w-80 bg-surface-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl animate-fade-in z-50"
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                >
-                  <div className="p-6">
-                    <div className="grid gap-2">
-                      <Link 
-                        href="/cv-builder" 
-                        className="group flex items-center gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-primary-500/10 hover:to-primary-600/10 transition-all duration-300 cursor-pointer"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-primary-500 to-primary-600 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-primary-500/25 transition-all duration-300">
-                          <FileText className="h-6 w-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-white text-base group-hover:text-primary-300 transition-colors">CV Builder</h3>
-                          <p className="text-sm text-surface-400 mt-1 group-hover:text-surface-300 transition-colors">Create stunning professional resumes with AI</p>
-                        </div>
-                        <ChevronDown className="h-4 w-4 text-surface-400 rotate-[-90deg] group-hover:text-primary-400 transition-colors" />
-                      </Link>
-                      
-                      <Link 
-                        href="/letter-builder" 
-                        className="group flex items-center gap-4 p-4 rounded-xl hover:bg-gradient-to-r hover:from-luxury-500/10 hover:to-luxury-600/10 transition-all duration-300 cursor-pointer"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-luxury-500 to-luxury-600 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-luxury-500/25 transition-all duration-300">
-                          <PenTool className="h-6 w-6 text-white" />
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-white text-base group-hover:text-luxury-300 transition-colors">Cover Letters</h3>
-                          <p className="text-sm text-surface-400 mt-1 group-hover:text-surface-300 transition-colors">Craft compelling personalized letters instantly</p>
-                        </div>
-                        <ChevronDown className="h-4 w-4 text-surface-400 rotate-[-90deg] group-hover:text-luxury-400 transition-colors" />
-                      </Link>
-                    </div>
-                    
-                    {/* CTA Footer */}
-                    <div className="mt-4 pt-4 border-t border-white/10">
-                      <Link 
-                        href="/sign-up"
-                        className="flex items-center justify-center gap-2 w-full py-2.5 bg-gradient-brand hover:shadow-lg hover:shadow-primary-500/25 text-white font-semibold rounded-lg transition-all duration-200 hover:scale-[1.02]"
-                        onClick={() => setIsProductsOpen(false)}
-                      >
-                        <Sparkles className="h-4 w-4" />
-                        <span className="text-sm">Start Creating Free</span>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
+            <Link 
+              href="/cv-builder" 
+              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 font-medium text-sm rounded-lg hover:bg-white/5"
+            >
+              CV Builder
+            </Link>
+            
+            <Link 
+              href="/letter-builder" 
+              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 font-medium text-sm rounded-lg hover:bg-white/5"
+            >
+              Cover Letters
+            </Link>
+
+            <Link 
+              href="/cv-analysis" 
+              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 font-medium text-sm rounded-lg hover:bg-white/5"
+            >
+              CV Analysis
+            </Link>
 
             <Link 
               href="/chat" 
@@ -191,6 +115,14 @@ export function Header() {
                 onClick={() => setIsMenuOpen(false)}
               >
                 Cover Letters
+              </Link>
+
+              <Link 
+                href="/cv-analysis" 
+                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                CV Analysis
               </Link>
               
               <Link 

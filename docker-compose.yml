@@ -1,0 +1,228 @@
+# Docker Compose para Desenvolvimento e Produção
+# Inclui todos os serviços necessários para ambiente completo
+
+version: '3.8'
+
+services:
+  # Main Application
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: ${BUILD_TARGET:-runner}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=${NEXTAUTH_URL}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-cvletterai}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./scripts/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis Cache
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    networks:
+      - app-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl/certs:ro
+    depends_on:
+      - app
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Prometheus Monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Grafana Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD:-admin}
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana-dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana-datasources:/etc/grafana/provisioning/datasources:ro
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Jaeger Tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "14268:14268"
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # MinIO S3-Compatible Storage
+  minio:
+    image: minio/minio:latest
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      - MINIO_ROOT_USER=${MINIO_ROOT_USER:-minioadmin}
+      - MINIO_ROOT_PASSWORD=${MINIO_ROOT_PASSWORD:-minioadmin}
+    volumes:
+      - minio_data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+  # Background Job Worker
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      - NODE_ENV=${NODE_ENV:-production}
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=${REDIS_URL:-redis://redis:6379}
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - app-network
+    restart: unless-stopped
+    deploy:
+      replicas: 2
+
+  # AI Service (Local LLM)
+  ai-service:
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - app-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+
+# Networks
+networks:
+  app-network:
+    driver: bridge
+
+# Volumes
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+  minio_data:
+    driver: local
+  ollama_data:
+    driver: local
+
+# Development Override
+# Use: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+---
+# docker-compose.dev.yml
+version: '3.8'
+
+services:
+  app:
+    build:
+      target: deps
+    environment:
+      - NODE_ENV=development
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+    ports:
+      - "3000:3000"
+
+  postgres:
+    environment:
+      POSTGRES_DB: cvletterai_dev
+    ports:
+      - "5433:5432"

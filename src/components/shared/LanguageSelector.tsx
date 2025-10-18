@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useI18n } from '@/lib/i18n/context';
 import { SUPPORTED_LANGUAGES } from '@/lib/i18n/config';
 import type { Language } from '@/lib/i18n/types';
+import { Globe, ChevronDown } from 'lucide-react';
 
 interface LanguageSelectorProps {
   className?: string;
@@ -19,6 +20,7 @@ export function LanguageSelector({
   const { language, setLanguage, t } = useI18n();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const currentLanguage = SUPPORTED_LANGUAGES.find(lang => lang.code === language);
 
@@ -36,6 +38,19 @@ export function LanguageSelector({
     };
   }, []);
 
+  const handleMouseEnter = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+    setIsOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setIsOpen(false);
+    }, 150);
+  };
+
   const handleLanguageChange = (newLanguage: Language) => {
     setLanguage(newLanguage);
     setIsOpen(false);
@@ -46,35 +61,52 @@ export function LanguageSelector({
       <div className={`relative ${className}`} ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center space-x-2 px-3 py-2 rounded-lg bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-200"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="flex items-center gap-1.5 px-3 py-2.5 text-white/90 hover:text-white transition-all duration-200 font-medium rounded-lg hover:bg-white/8 active:scale-95"
           aria-label="Select language"
         >
-          <span className="text-lg">{currentLanguage?.flag}</span>
-          <svg
-            className={`w-4 h-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-          </svg>
+          <Globe className="h-4 w-4" />
+          <span className="text-sm font-semibold">{currentLanguage?.flag}</span>
+          <ChevronDown className={`h-4 w-4 transition-all duration-200 ${isOpen ? 'rotate-180 text-primary-400' : ''}`} />
         </button>
 
         {isOpen && (
-          <div className="absolute top-full left-0 mt-2 w-48 bg-white/95 backdrop-blur-md rounded-xl border border-white/20 shadow-xl z-50">
-            <div className="py-2">
-              {SUPPORTED_LANGUAGES.map((lang) => (
-                <button
-                  key={lang.code}
-                  onClick={() => handleLanguageChange(lang.code)}
-                  className={`w-full flex items-center space-x-3 px-4 py-2 text-left hover:bg-blue-50 transition-colors ${
-                    language === lang.code ? 'bg-blue-100 text-blue-600' : 'text-gray-700'
-                  }`}
-                >
-                  <span className="text-lg">{lang.flag}</span>
-                  <span className="font-medium">{lang.nativeName}</span>
-                </button>
-              ))}
+          <div 
+            className="absolute top-full right-0 mt-2 w-64 bg-surface-900/95 backdrop-blur-2xl border border-white/10 rounded-2xl shadow-2xl animate-fade-in z-50"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <div className="p-4">
+              <div className="mb-3">
+                <h3 className="text-sm font-semibold text-white mb-1">Select Language</h3>
+                <p className="text-xs text-surface-400">Choose your preferred language</p>
+              </div>
+              
+              <div className="grid gap-1">
+                {SUPPORTED_LANGUAGES.map((lang) => (
+                  <button
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`group flex items-center gap-3 p-3 rounded-xl hover:bg-gradient-to-r hover:from-primary-500/10 hover:to-primary-600/10 transition-all duration-300 cursor-pointer ${
+                      language === lang.code ? 'bg-primary-500/10 ring-1 ring-primary-500/20' : ''
+                    }`}
+                  >
+                    <div className="text-2xl">{lang.flag}</div>
+                    <div className="flex-1 text-left">
+                      <div className={`font-medium text-sm ${language === lang.code ? 'text-primary-300' : 'text-white group-hover:text-primary-300'} transition-colors`}>
+                        {lang.name}
+                      </div>
+                      <div className={`text-xs ${language === lang.code ? 'text-primary-400/80' : 'text-surface-400 group-hover:text-surface-300'} transition-colors`}>
+                        {lang.nativeName}
+                      </div>
+                    </div>
+                    {language === lang.code && (
+                      <div className="w-2 h-2 bg-primary-400 rounded-full animate-pulse" />
+                    )}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
         )}
