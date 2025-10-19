@@ -53,7 +53,7 @@ export class HybridAIService {
    */
   async generateResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string = 'anonymous'
   ): Promise<HybridAIResponse> {
     
@@ -116,7 +116,7 @@ export class HybridAIService {
    */
   private async generateLocalResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string
   ): Promise<HybridAIResponse> {
     
@@ -144,7 +144,7 @@ export class HybridAIService {
     }
     
     const data = await response.json();
-    const content = data.response || 'Sorry, I could not generate a response.';
+    const content = data.response ?? 'Sorry, I could not generate a response.';
     
     return {
       content: this.formatLocalResponse(content),
@@ -159,7 +159,7 @@ export class HybridAIService {
    */
   private async generateHybridResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string
   ): Promise<HybridAIResponse> {
     
@@ -234,8 +234,8 @@ export class HybridAIService {
       // Add abstract if available
       if (data.Abstract) {
         results.unshift({
-          title: data.Heading || 'Overview',
-          url: data.AbstractURL || '#',
+          title: data.Heading ?? 'Overview',
+          url: data.AbstractURL ?? '#',
           snippet: data.Abstract,
           relevance: 1.0
         });
@@ -254,7 +254,7 @@ export class HybridAIService {
    */
   private async generateLocalWithWebContext(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     searchResults: SearchResult[],
     userId: string
   ): Promise<HybridAIResponse> {
@@ -280,7 +280,7 @@ export class HybridAIService {
     });
     
     const data = await response.json();
-    const content = data.response || 'Sorry, I could not generate a response with web search.';
+    const content = data.response ?? 'Sorry, I could not generate a response with web search.';
     
     return {
       content: this.formatHybridResponse(content, searchResults),
@@ -295,7 +295,7 @@ export class HybridAIService {
    */
   private async generateExternalResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string
   ): Promise<HybridAIResponse> {
     
@@ -303,8 +303,7 @@ export class HybridAIService {
       const aiResponse = await freeAIService.generateResponse(
         message,
         conversationHistory,
-        'premium', // Use premium for better quality
-        userId
+        'premium' // Use premium for better quality
       );
       
       return {
@@ -328,7 +327,7 @@ export class HybridAIService {
    */
   private async generateExternalWithWebContext(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     searchResults: SearchResult[],
     userId: string
   ): Promise<HybridAIResponse> {
@@ -340,8 +339,7 @@ export class HybridAIService {
       const aiResponse = await freeAIService.generateResponse(
         enhancedMessage,
         conversationHistory,
-        'premium',
-        userId
+        'premium'
       );
       
       return {
@@ -380,12 +378,12 @@ export class HybridAIService {
     ).join('\n\n');
   }
   
-  private buildPrompt(systemPrompt: string, message: string, history: Array<{ role: string; content: string }>): string {
+  private buildPrompt(systemPrompt: string, message: string, history: { role: string; content: string }[]): string {
     const historyText = history.slice(-3).map(h => `${h.role}: ${h.content}`).join('\n');
     return `${systemPrompt}\n\nConversation History:\n${historyText}\n\nUser: ${message}\n\nAssistant:`;
   }
   
-  private buildHybridPrompt(systemPrompt: string, message: string, history: Array<{ role: string; content: string }>, webContext: string): string {
+  private buildHybridPrompt(systemPrompt: string, message: string, history: { role: string; content: string }[], webContext: string): string {
     const historyText = history.slice(-3).map(h => `${h.role}: ${h.content}`).join('\n');
     return `${systemPrompt}\n\nWeb Search Results:\n${webContext}\n\nConversation History:\n${historyText}\n\nUser: ${message}\n\nAssistant:`;
   }

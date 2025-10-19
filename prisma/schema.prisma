@@ -34,10 +34,11 @@ model User {
   updatedAt        DateTime  @updatedAt
 
   // Relations
-  cvDrafts      CvDraft[]
-  letterDrafts  LetterDraft[]
-  sessions      Session[]
-  accounts      Account[]
+  cvDrafts             CvDraft[]
+  letterDrafts         LetterDraft[]
+  sessions             Session[]
+  accounts             Account[]
+  passwordResetTokens  PasswordResetToken[]
 
   @@index([email])
   @@index([username])
@@ -88,6 +89,21 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@index([expires])
+}
+
+// Password Reset Token model for secure password resets
+model PasswordResetToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([token])
+  @@index([userId])
+  @@index([expiresAt])
 }
 
 model CvDraft {

@@ -33,7 +33,7 @@ export class NaturalConversationalAI {
    */
   static async generateNaturalResponse(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     language: string = 'en'
   ): Promise<NaturalResponse> {
     
@@ -74,7 +74,7 @@ export class NaturalConversationalAI {
    */
   private static analyzeConversationContext(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     language: string
   ): ConversationContext {
     
@@ -179,7 +179,7 @@ export class NaturalConversationalAI {
    */
   private static async generateHumanLikeResponse(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     context: ConversationContext,
     webResults: SearchResult[],
     language: string
@@ -274,8 +274,8 @@ export class NaturalConversationalAI {
       }
     };
     
-    const lang = styles[language as keyof typeof styles] || styles.en;
-    return lang[context.userPersonality] || lang.professional;
+    const lang = styles[language as keyof typeof styles] ?? styles.en;
+    return lang[context.userPersonality] ?? lang.professional;
   }
 
   /**
@@ -303,7 +303,7 @@ export class NaturalConversationalAI {
       }
     };
     
-    const langIntents = intents[language as keyof typeof intents] || intents.en;
+    const langIntents = intents[language as keyof typeof intents] ?? intents.en;
     const lowerMessage = message.toLowerCase();
     
     for (const [intent, keywords] of Object.entries(langIntents)) {
@@ -358,7 +358,7 @@ ${closing}`;
    */
   private static generateConversationalResponse(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     context: ConversationContext,
     responseStyles: any,
     intent: string,
@@ -393,8 +393,8 @@ ${closing}`;
       }
     };
     
-    const langResponses = responses[language as keyof typeof responses] || responses.en;
-    const response = langResponses[intent as keyof typeof langResponses] || langResponses.general_chat;
+    const langResponses = responses[language as keyof typeof responses] ?? responses.en;
+    const response = langResponses[intent as keyof typeof langResponses] ?? langResponses.general_chat;
     
     return `${response}\n\n${closing}`;
   }
@@ -445,8 +445,8 @@ ${closing}`;
       }
     };
     
-    const langSuggestions = suggestions[language as keyof typeof suggestions] || suggestions.en;
-    return langSuggestions[intent as keyof typeof langSuggestions] || langSuggestions.general_chat;
+    const langSuggestions = suggestions[language as keyof typeof suggestions] ?? suggestions.en;
+    return langSuggestions[intent as keyof typeof langSuggestions] ?? langSuggestions.general_chat;
   }
 
   /**
@@ -468,6 +468,6 @@ ${closing}`;
       'fr': 'French'
     };
     
-    return contexts[language as keyof typeof contexts] || 'International';
+    return contexts[language as keyof typeof contexts] ?? 'International';
   }
 }

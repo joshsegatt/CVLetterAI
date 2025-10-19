@@ -84,7 +84,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
     <div className="space-y-6">
       {/* Color Palette */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">🎨 Paleta de Cores</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">🎨 Color Palette</h3>
         <div className="grid grid-cols-2 gap-3">
           {colorPalettes.map((palette) => (
             <button
@@ -121,7 +121,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Typography */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">📝 Tipografia</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">📝 Typography</h3>
         <div className="space-y-3">
           {fontOptions.map((font) => (
             <button
@@ -155,7 +155,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Font Size */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">📏 Tamanho da Fonte</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">📏 Font Size</h3>
         <div className="grid grid-cols-3 gap-2">
           {fontSizeOptions.map((size) => (
             <button
@@ -175,7 +175,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Spacing */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">📐 Espaçamento</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">📐 Spacing</h3>
         <div className="grid grid-cols-3 gap-2">
           {spacingOptions.map((spacing) => (
             <button
@@ -195,7 +195,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Layout Options */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">🎯 Opções de Layout</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">🎯 Layout Options</h3>
         <div className="space-y-3">
           <label className="flex items-center justify-between p-3 glass-panel border border-white/10 rounded-lg">
             <span className="text-white font-medium">Mostrar foto</span>
@@ -241,7 +241,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Section Order */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">📋 Ordem das Seções</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">📋 Section Order</h3>
         <div className="space-y-2">
           <div className="text-sm text-gray-400 mb-3">Arraste para reordenar (em desenvolvimento)</div>
           {['Experiência', 'Educação', 'Habilidades', 'Projetos', 'Idiomas', 'Certificados'].map((section, index) => (
@@ -261,7 +261,7 @@ export default function CustomizationControls({ config, onConfigChange }: Custom
 
       {/* Custom Colors */}
       <div>
-        <h3 className="text-lg font-semibold text-white mb-4">🌈 Cores Personalizadas</h3>
+        <h3 className="text-lg font-semibold text-white mb-4">🌈 Custom Colors</h3>
         <div className="space-y-3">
           <div>
             <label className="block text-sm font-medium text-white mb-2">Cor Primária</label>

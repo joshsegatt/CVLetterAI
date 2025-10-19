@@ -1,51 +1,80 @@
 "use client";
 
 import React from "react";
-import { PublicLayout } from "../../components/layout/PublicLayout";
-import InteractiveLetterBuilder from "../../components/builder/InteractiveLetterBuilder";
-import { sampleLetterData } from "../../lib/sampleData";
+import { PublicLayout } from "@/components/layout/PublicLayout";
+import InteractiveLetterBuilder from "@/components/builder/InteractiveLetterBuilder";
+import { FeatureCard } from "@/components/shared/FeatureCard";
+import { Badge } from "@/components/ui/Badge";
+import { sampleLetterData } from "@/lib/sampleData";
+import { Edit3, FileText, Eye, Download, Sparkles, Zap, Shield } from "lucide-react";
 
 export default function LetterBuilderPage() {
   return (
     <PublicLayout
-      title="Create Your Professional Letter"
-      description="Build your perfect letter with our interactive editor. Choose templates, customize content, and download in minutes!"
+      title=""
+      description=""
     >
-      <div className="space-y-8">
-        {/* Badge */}
-        <div className="text-center">
-          <span className="inline-block bg-purple-500/20 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
-            📄 Editor Profissional - Primeira Carta Grátis
-          </span>
-        </div>
+      <div className="min-h-screen bg-white -mt-8">
+        {/* Premium Hero Section */}
+        <section className="relative py-16 overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-50 via-white to-blue-50" />
+          <div className="relative container-lg text-center">
+            <Badge className="mb-6">
+              <Sparkles className="w-4 h-4 mr-2" />
+              Professional Letter Builder
+            </Badge>
+            
+            <h2 className="text-display font-bold text-gray-900 mb-6 leading-tight">
+              Create <span className="text-gradient bg-gradient-to-r from-purple-600 to-blue-600">Professional Letters</span>
+              <br />in Minutes
+            </h2>
+            
+            <p className="text-heading text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+              Build elegant, professional letters with our guided editor. 
+              Choose from premium templates and get real-time preview.
+            </p>
 
-        {/* Interactive Builder */}
-        <InteractiveLetterBuilder initialData={sampleLetterData} />
+            {/* Feature Cards */}
+            <div className="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto mb-16">
+              <FeatureCard
+                icon={Edit3}
+                title="Smart Editor"
+                description="Guided interface that helps you craft the perfect letter"
+              />
+              <FeatureCard
+                icon={Eye}
+                title="Live Preview"
+                description="See your letter as you write with real-time formatting"
+              />
+              <FeatureCard
+                icon={Download}
+                title="PDF Export"
+                description="Download professional PDF ready for printing or sending"
+              />
+            </div>
 
-        {/* Features Grid */}
-        <div className="grid gap-6 md:grid-cols-3 mt-12">
-          <div className="glass-panel border-white/10 p-6 text-center">
-            <div className="text-3xl mb-4">📝</div>
-            <h3 className="font-semibold text-white mb-2">Templates Profissionais</h3>
-            <p className="text-sm text-neutral-300">
-              Formatos modernos para correspondência comercial e formal
-            </p>
+            {/* Trust Indicators */}
+            <div className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500">
+              <div className="flex items-center gap-2">
+                <Shield className="w-4 h-4" />
+                <span>Privacy Protected</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Zap className="w-4 h-4" />
+                <span>Instant Generation</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <FileText className="w-4 h-4" />
+                <span>Professional Templates</span>
+              </div>
+            </div>
           </div>
-          <div className="glass-panel border-white/10 p-6 text-center">
-            <div className="text-3xl mb-4">⚡</div>
-            <h3 className="font-semibold text-white mb-2">Editor em Tempo Real</h3>
-            <p className="text-sm text-neutral-300">
-              Veja suas mudanças instantaneamente enquanto edita
-            </p>
-          </div>
-          <div className="glass-panel border-white/10 p-6 text-center">
-            <div className="text-3xl mb-4">🏢</div>
-            <h3 className="font-semibold text-white mb-2">Padrão Corporativo</h3>
-            <p className="text-sm text-neutral-300">
-              Cartas com formatação profissional aceita em empresas
-            </p>
-          </div>
-        </div>
+        </section>
+
+        {/* Letter Builder Component */}
+        <section>
+          <InteractiveLetterBuilder initialData={sampleLetterData} />
+        </section>
       </div>
     </PublicLayout>
   );

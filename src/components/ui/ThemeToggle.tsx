@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import Switch from "./Switch";
 
 export function ThemeToggle(): JSX.Element {
-  const [isDark, setIsDark] = useState<boolean>(false); // Always false
-
   useEffect(() => {
     // Force light mode always
     try {

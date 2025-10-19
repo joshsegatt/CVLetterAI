@@ -47,7 +47,7 @@ interface OptimizationSuggestion {
 class ContentIntelligenceEngine {
   private industryKeywords: Map<string, string[]> = new Map();
   private atsPatterns: RegExp[] = [];
-  private qualityPatterns: Array<{pattern: RegExp; score: number; message: string}> = [];
+  private qualityPatterns: {pattern: RegExp; score: number; message: string}[] = [];
 
   constructor() {
     this.initializeKeywordDatabase();

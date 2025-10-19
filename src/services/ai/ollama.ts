@@ -48,7 +48,7 @@ export class OllamaClient {
       if (!response.ok) return [];
       
       const data = await response.json();
-      return data.models?.map((model: any) => model.name) || [];
+      return data.models?.map((model: any) => model.name) ?? [];
     } catch {
       return [];
     }
@@ -106,7 +106,7 @@ export class OllamaClient {
 
         buffer += decoder.decode(value, { stream: true });
         const lines = buffer.split('\n');
-        buffer = lines.pop() || '';
+        buffer = lines.pop() ?? '';
 
         for (const line of lines) {
           if (line.trim()) {

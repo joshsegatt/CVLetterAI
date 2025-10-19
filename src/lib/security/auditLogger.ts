@@ -48,8 +48,8 @@ export interface SecurityMetrics {
   failedLogins: number;
   suspiciousActivities: number;
   dataAccesses: number;
-  topRiskyUsers: Array<{ userId: string; riskScore: number }>;
-  timelineEvents: Array<{ hour: number; count: number }>;
+  topRiskyUsers: { userId: string; riskScore: number }[];
+  timelineEvents: { hour: number; count: number }[];
 }
 
 class SecurityAuditLogger {
@@ -293,7 +293,7 @@ class SecurityAuditLogger {
     return metrics;
   }
 
-  private calculateRiskyUsers(logs: AuditLogEntry[]): Array<{ userId: string; riskScore: number }> {
+  private calculateRiskyUsers(logs: AuditLogEntry[]): { userId: string; riskScore: number }[] {
     const userRisks = new Map<string, number>();
 
     logs.forEach(log => {
@@ -318,7 +318,7 @@ class SecurityAuditLogger {
       .slice(0, 10);
   }
 
-  private generateTimeline(logs: AuditLogEntry[], timeframe: string): Array<{ hour: number; count: number }> {
+  private generateTimeline(logs: AuditLogEntry[], timeframe: string): { hour: number; count: number }[] {
     const timeline = new Map<number, number>();
     const hours = timeframe === 'hour' ? 1 : timeframe === 'day' ? 24 : 168;
 

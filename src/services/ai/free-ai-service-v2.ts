@@ -27,7 +27,7 @@ export interface AIProvider {
  * Manages multiple 100% FREE AI providers
  */
 export class FreeAIService {
-  private providers: Map<string, AIProvider> = new Map();
+  private providers = new Map<string, AIProvider>();
   
   constructor() {
     this.initializeProviders();
@@ -141,9 +141,8 @@ export class FreeAIService {
    */
   async generateResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
-    qualityLevel: 'basic' | 'premium' | 'enterprise',
-    userId: string
+    conversationHistory: { role: string; content: string }[],
+    qualityLevel: 'basic' | 'premium' | 'enterprise'
   ): Promise<AIResponse> {
     
     try {
@@ -151,15 +150,15 @@ export class FreeAIService {
       const provider = this.selectProvider(qualityLevel);
       
       if (provider.name === 'Enhanced Local AI') {
-        return await this.generateLocalEnhancedResponse(message, conversationHistory, userId);
+        return await this.generateLocalEnhancedResponse(message, conversationHistory);
       }
       
-      return await this.callExternalProvider(provider, message, conversationHistory, userId);
+      return await this.callExternalProvider(provider, message, conversationHistory);
       
     } catch (error) {
       console.error('AI generation error:', error);
       // Fallback to local enhanced system
-      return await this.generateLocalEnhancedResponse(message, conversationHistory, userId);
+      return await this.generateLocalEnhancedResponse(message, conversationHistory);
     }
   }
   
@@ -172,14 +171,14 @@ export class FreeAIService {
     
     if (qualityLevel === 'enterprise' || qualityLevel === 'premium') {
       // Try 100% FREE premium providers first
-      return freeProviders.find(p => p.name === 'Groq Llama 3.1') ||
+      return (freeProviders.find(p => p.name === 'Groq Llama 3.1') ||
              freeProviders.find(p => p.name === 'HF Llama 3.1') ||
              freeProviders.find(p => p.name === 'HF Mixtral') ||
              freeProviders.find(p => p.name === 'Cohere Command-R') ||
              freeProviders.find(p => p.name === 'DeepInfra Llama') ||
              freeProviders.find(p => p.name === 'Perplexity Llama') ||
              freeProviders.find(p => p.name === 'Ollama Local') ||
-             availableProviders.find(p => p.name === 'Together AI') || // Fallback to paid if needed
+             availableProviders.find(p => p.name === 'Together AI')) ?? // Fallback to paid if needed
              freeProviders.find(p => p.name === 'Enhanced Local AI')!;
     }
     
@@ -196,20 +195,19 @@ export class FreeAIService {
   private async callExternalProvider(
     provider: AIProvider,
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
-    userId: string
+    conversationHistory: { role: string; content: string }[]
   ): Promise<AIResponse> {
     
     if (provider.name === 'Ollama Local') {
-      return await this.callOllama(provider, message, userId);
+      return await this.callOllama(provider, message);
     }
     
     if (provider.name.startsWith('HF ')) {
-      return await this.callHuggingFace(provider, message, userId);
+      return await this.callHuggingFace(provider, message);
     }
     
     if (provider.name === 'Cohere Command-R') {
-      return await this.callCohere(provider, message, conversationHistory, userId);
+      return await this.callCohere(provider, message, conversationHistory);
     }
     
     // Standard OpenAI-compatible API call (Groq, DeepInfra, Together AI, Perplexity)
@@ -244,9 +242,12 @@ export class FreeAIService {
       throw new Error(`${provider.name} API error: ${response.status}`);
     }
     
-    const data = await response.json();
-    const content = data.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
-    const tokensUsed = data.usage?.total_tokens || this.estimateTokens(message + content);
+    const data = await response.json() as {
+      choices?: { message?: { content?: string } }[];
+      usage?: { total_tokens?: number };
+    };
+    const content = data.choices?.[0]?.message?.content ?? 'Sorry, I could not generate a response.';
+    const tokensUsed = data.usage?.total_tokens ?? this.estimateTokens(message + content);
     
     return {
       content,
@@ -263,8 +264,7 @@ export class FreeAIService {
   private async callCohere(
     provider: AIProvider,
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
-    userId: string
+    conversationHistory: { role: string; content: string }[]
   ): Promise<AIResponse> {
     
     const response = await fetch(provider.endpoint, {
@@ -289,8 +289,10 @@ export class FreeAIService {
       throw new Error(`Cohere API error: ${response.status}`);
     }
     
-    const data = await response.json();
-    const content = data.text || 'Sorry, I could not generate a response.';
+    const data = await response.json() as {
+      text?: string;
+    };
+    const content = data.text ?? 'Sorry, I could not generate a response.';
     
     return {
       content,
@@ -306,8 +308,7 @@ export class FreeAIService {
    */
   private async callHuggingFace(
     provider: AIProvider,
-    message: string,
-    userId: string
+    message: string
   ): Promise<AIResponse> {
     
     const systemPrompt = this.getSystemPrompt(provider.quality);
@@ -338,12 +339,12 @@ export class FreeAIService {
       throw new Error(`Hugging Face API error: ${response.status}`);
     }
     
-    const data = await response.json();
+    const data = await response.json() as { generated_text?: string }[] | { generated_text?: string };
     let content = '';
     
     if (Array.isArray(data) && data[0]?.generated_text) {
       content = data[0].generated_text;
-    } else if (data.generated_text) {
+    } else if (typeof data === 'object' && data !== null && 'generated_text' in data && data.generated_text) {
       content = data.generated_text;
     } else {
       content = 'Sorry, I could not generate a response.';
@@ -366,8 +367,7 @@ export class FreeAIService {
    */
   private async callOllama(
     provider: AIProvider,
-    message: string,
-    userId: string
+    message: string
   ): Promise<AIResponse> {
     
     try {
@@ -389,8 +389,10 @@ export class FreeAIService {
         throw new Error('Ollama not available');
       }
       
-      const data = await response.json();
-      const content = data.response || 'Sorry, I could not generate a response.';
+      const data = await response.json() as {
+        response?: string;
+      };
+      const content = data.response ?? 'Sorry, I could not generate a response.';
       
       return {
         content,
@@ -411,8 +413,7 @@ export class FreeAIService {
    */
   private async generateLocalEnhancedResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
-    userId: string
+    conversationHistory: { role: string; content: string }[]
   ): Promise<AIResponse> {
     
     try {
@@ -421,7 +422,7 @@ export class FreeAIService {
       
       const response = await SuperIntelligentAI.generateSuperIntelligentResponse(
         message,
-        `${userId}-enhanced`
+        'enhanced-user'
       );
       
       return {
@@ -497,7 +498,7 @@ export class FreeAIService {
   /**
    * Get available FREE providers status
    */
-  getProvidersStatus(): Array<{ name: string; quality: string; available: boolean; isFree: boolean }> {
+  getProvidersStatus(): { name: string; quality: string; available: boolean; isFree: boolean }[] {
     return Array.from(this.providers.values()).map(provider => ({
       name: provider.name,
       quality: provider.quality,

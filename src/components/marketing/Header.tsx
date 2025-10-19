@@ -4,14 +4,12 @@ import Link from "next/link";
 import { Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "../ui/Button";
-import { useI18n } from "@/lib/i18n/context";
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { translate } = useI18n();
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-2xl border-b border-white/[0.08] force-transparent-bg">
+    <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/90 border-b border-gray-200">
       <div className="container mx-auto px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo Equilibrado */}
@@ -19,47 +17,47 @@ export function Header() {
             href="/" 
             className="group flex items-center gap-2 hover:opacity-80 transition-all duration-200"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-brand transition-all duration-200 group-hover:scale-105">
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600 transition-all duration-200 group-hover:scale-105">
               <Sparkles className="h-4 w-4 text-white" />
             </div>
-            <span className="text-subsection text-white">CVLetterAI</span>
+            <span className="text-subsection text-gray-900">CVLetterAI</span>
           </Link>
 
           {/* Navegação Equilibrada - Desktop */}
           <nav className="hidden lg:flex items-center gap-6">
             <Link 
               href="/cv-builder" 
-              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
+              className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              {translate('nav.cvBuilder')}
+              CV Builder
             </Link>
             
             <Link 
               href="/letter-builder" 
-              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
+              className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              {translate('nav.coverLetters')}
+              Cover Letters
             </Link>
 
             <Link 
               href="/cv-analysis" 
-              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
+              className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              {translate('nav.cvAnalysis')}
+              CV Analysis
             </Link>
 
             <Link 
               href="/chat" 
-              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
+              className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              {translate('nav.chat')}
+              AI Chat
             </Link>
             
             <Link 
               href="/pricing" 
-              className="px-3 py-2 text-white/90 hover:text-white transition-all duration-200 text-body rounded-lg hover:bg-white/5"
+              className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              {translate('nav.pricing')}
+              Pricing
             </Link>
           </nav>
 
@@ -68,17 +66,16 @@ export function Header() {
             <Button 
               asChild 
               variant="ghost" 
-              className="text-white/80 hover:text-white hover:bg-white/5 border border-white/10 hover:border-white/20 text-caption px-4 py-2"
+              className="text-gray-700 hover:text-gray-900 hover:bg-gray-100 border border-gray-300 hover:border-gray-400 text-caption px-4 py-2"
             >
-              <Link href="/sign-in">{translate('nav.signIn')}</Link>
+              <Link href="/sign-in">Sign In</Link>
             </Button>
             <Button 
               asChild 
-              className="bg-gradient-brand hover:shadow-glow transition-all duration-300 hover:scale-105 relative overflow-hidden group"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
             >
               <Link href="/sign-up">
-                <span className="relative z-10">{translate('nav.getStarted')}</span>
-                <div className="absolute inset-0 bg-gradient-luxury opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <span className="relative z-10">Get Started</span>
               </Link>
             </Button>
           </div>
@@ -86,74 +83,74 @@ export function Header() {
           {/* Ultra Modern Mobile Menu Button */}
           <button
             onClick={() => setIsMenuOpen(!isMenuOpen)}
-            className="lg:hidden p-3 text-white hover:bg-white/10 rounded-xl transition-all duration-300 hover:scale-105"
+            className="lg:hidden p-3 text-gray-700 hover:bg-gray-100 rounded-xl transition-all duration-300 hover:scale-105"
             aria-label="Toggle menu"
           >
             <div className="relative w-6 h-6">
-              <span className={`absolute top-1 left-0 w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-3' : ''}`} />
-              <span className={`absolute top-3 left-0 w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`} />
-              <span className={`absolute top-5 left-0 w-6 h-0.5 bg-white transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-3' : ''}`} />
+              <span className={`absolute top-1 left-0 w-6 h-0.5 bg-gray-700 transition-all duration-300 ${isMenuOpen ? 'rotate-45 top-3' : ''}`} />
+              <span className={`absolute top-3 left-0 w-6 h-0.5 bg-gray-700 transition-all duration-300 ${isMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`absolute top-5 left-0 w-6 h-0.5 bg-gray-700 transition-all duration-300 ${isMenuOpen ? '-rotate-45 top-3' : ''}`} />
             </div>
           </button>
         </div>
 
         {/* Simple Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-white/10 py-4 backdrop-blur-md rounded-b-lg">
+          <div className="lg:hidden border-t border-gray-200 py-4 bg-white rounded-b-lg">
             <nav className="space-y-2">
               <Link 
                 href="/cv-builder" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {translate('nav.cvBuilder')}
+                CV Builder
               </Link>
               
               <Link 
                 href="/letter-builder" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {translate('nav.coverLetters')}
+                Cover Letters
               </Link>
 
               <Link 
                 href="/cv-analysis" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {translate('nav.cvAnalysis')}
+                CV Analysis
               </Link>
               
               <Link 
                 href="/chat" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {translate('nav.chat')}
+                AI Chat
               </Link>
               
               <Link 
                 href="/pricing" 
-                className="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+                className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                {translate('nav.pricing')}
+                Pricing
               </Link>
               
-              <div className="flex flex-col gap-3 pt-4 border-t border-white/10 mt-4">
+              <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 mt-4">
                 <Button 
                   asChild 
                   variant="ghost" 
-                  className="justify-center border border-white/20"
+                  className="justify-center border border-gray-300 text-gray-700 hover:text-gray-900"
                 >
-                  <Link href="/sign-in">{translate('nav.signIn')}</Link>
+                  <Link href="/sign-in">Sign In</Link>
                 </Button>
                 <Button 
                   asChild 
-                  className="bg-gradient-brand"
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 text-white"
                 >
-                  <Link href="/sign-up">{translate('nav.getStarted')}</Link>
+                  <Link href="/sign-up">Get Started</Link>
                 </Button>
               </div>
             </nav>

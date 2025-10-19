@@ -15,35 +15,35 @@ export async function* streamChatCompletion(
   history: ChatCompletionMessage[],
   options: StreamOptions = {}
 ) {
-  // Pegar a última mensagem do usuário
-  const lastMessage = history[history.length - 1]?.content || '';
-  const userId = options.userId || 'anonymous';
+  // Get the last user message
+  const lastMessage = history[history.length - 1]?.content ?? '';
+  const userId = options.userId ?? 'anonymous';
   
   try {
-    // Verificar tokens disponíveis
+    // Check available tokens
     const tokenCheck = userPlanManager.canUseAIChat(userId, 150); // Estimate 150 tokens
     
     if (!tokenCheck.canUse && tokenCheck.dailyLimit !== -1) {
-      yield await generateTokenLimitMessage(tokenCheck, options.locale);
+      yield generateTokenLimitMessage(tokenCheck, options.locale);
       return;
     }
     
-    // Obter qualidade baseada no plano do usuário
+    // Get quality based on user plan
     const aiQuality = userPlanManager.getAIChatQuality(userId);
     
-    // Usar sistema híbrido (local + web search quando necessário)
+    // Use hybrid system (local + web search when necessary)
     const aiResponse = await hybridAIService.generateResponse(
       lastMessage,
       history.slice(-10).map(msg => ({ role: msg.role, content: msg.content })),
       userId
     );
     
-    // Consumir tokens se for plano limitado
+    // Consume tokens if limited plan
     if (tokenCheck.dailyLimit !== -1) {
       userPlanManager.consumeTokens(userId, aiResponse.tokensUsed);
     }
 
-    // Stream da resposta
+    // Stream the response
     const response = aiResponse.content;
     const chunks = response.split(' ');
     
@@ -51,39 +51,39 @@ export async function* streamChatCompletion(
       const chunk = chunks[i] + (i < chunks.length - 1 ? ' ' : '');
       yield chunk;
       
-      // Pausa baseada na qualidade (premium é mais rápido)
+      // Pause based on quality (premium is faster)
       const delay = aiQuality === 'basic' ? 50 : aiQuality === 'premium' ? 30 : 20;
       await new Promise(resolve => setTimeout(resolve, delay));
     }
 
-    // Adicionar informações sobre o modelo usado e modo
+    // Add information about model and mode used
     if (aiQuality !== 'basic') {
       const modeIcon = aiResponse.mode === 'offline' ? '🧠' : aiResponse.mode === 'hybrid' ? '🌐' : '🔍';
       yield `\n\n_${modeIcon} ${aiResponse.model} (${aiResponse.mode})_`;
     }
     
-    // Mostrar uso de tokens para planos limitados
+    // Show token usage for limited plans
     if (tokenCheck.dailyLimit !== -1) {
       const usage = userPlanManager.getTokenUsageStats(userId);
-      yield `\n\n� **Tokens:** ${usage.todayUsed}/${usage.dailyLimit} usados hoje`;
+      yield `\n\n📊 **Tokens:** ${usage.todayUsed}/${usage.dailyLimit} used today`;
       
       if (usage.percentUsed >= 80) {
-        yield `\n⚠️ Você usou ${usage.percentUsed}% dos seus tokens diários. [Upgrade para Pro →](/pricing)`;
+        yield `\n⚠️ You've used ${usage.percentUsed}% of your daily tokens. [Upgrade to Pro →](/pricing)`;
       }
     }
 
   } catch (error) {
     console.error('AI Service Error:', error);
     
-    // Fallback para resposta local
-    yield await generateLocalFallbackResponse(lastMessage, options.locale, userId);
+    // Fallback to local response
+    yield generateLocalFallbackResponse(lastMessage, options.locale, userId);
   }
 }
 
 /**
  * Generate message when user hits token limit
  */
-async function generateTokenLimitMessage(tokenCheck: { dailyLimit: number; remainingTokens: number }, locale?: string): Promise<string> {
+function generateTokenLimitMessage(tokenCheck: { dailyLimit: number; remainingTokens: number }, locale?: string): string {
   const isPortuguese = locale === 'pt' || locale === 'pt-BR';
   
   if (isPortuguese) {
@@ -112,7 +112,7 @@ async function generateTokenLimitMessage(tokenCheck: { dailyLimit: number; remai
 /**
  * Resposta de fallback local caso o sistema super inteligente falhe
  */
-async function generateLocalFallbackResponse(message: string, locale?: string, userId?: string): Promise<string> {
+function generateLocalFallbackResponse(message: string, locale?: string, userId?: string): string {
   const isPortuguese = locale === 'pt' || /[áàâãéèêíìîóòôõúùû]/.test(message);
   
   if (isPortuguese) {

@@ -9,6 +9,8 @@ export interface PersonalInfo {
   linkedin?: string;
   github?: string;
   summary: string;
+  photo?: string;
+  title?: string;
 }
 
 export interface WorkExperience {
@@ -21,6 +23,9 @@ export interface WorkExperience {
   current: boolean;
   description: string[];
 }
+
+// Alias for consistency with component naming
+export type ExperienceItem = WorkExperience;
 
 export interface Education {
   id: string;

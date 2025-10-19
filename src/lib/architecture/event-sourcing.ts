@@ -171,7 +171,7 @@ class CVAggregate extends Aggregate {
   private template: string = '';
   private personalInfo: any = {};
   private sections: Record<string, any> = {};
-  private publishedVersions: Array<{ version: number; publishedAt: Date; format: string }> = [];
+  private publishedVersions: { version: number; publishedAt: Date; format: string }[] = [];
 
   static create(id: string, userId: string, template: string, personalInfo: any): CVAggregate {
     const cv = new CVAggregate(id);

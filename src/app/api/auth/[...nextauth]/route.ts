@@ -122,8 +122,40 @@ const authOptions: NextAuthOptions = {
     updateAge: 2 * 60 * 60, // Update session every 2 hours
   },
   
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+        domain: process.env.NODE_ENV === 'production' ? process.env.COOKIE_DOMAIN : undefined
+      }
+    },
+    callbackUrl: {
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.callback-url' : 'next-auth.callback-url',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    },
+    csrfToken: {
+      name: process.env.NODE_ENV === 'production' ? '__Host-next-auth.csrf-token' : 'next-auth.csrf-token',
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    }
+  },
+  
   pages: {
     signIn: '/sign-in',
+    signOut: '/sign-in',
     error: '/sign-in'
   },
   
@@ -229,6 +261,11 @@ const authOptions: NextAuthOptions = {
   
   debug: process.env.NODE_ENV === 'development',
   secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-for-development-only-change-in-production',
+  
+  // Enhanced security options
+  useSecureCookies: process.env.NODE_ENV === 'production',
+  
+  // CSRF protection is enabled by default in NextAuth
 };
 
 const handler = NextAuth(authOptions);

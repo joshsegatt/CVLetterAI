@@ -140,7 +140,7 @@ export class InvisibleWebSearch {
       ]
     };
     
-    return languageVariations[language as keyof typeof languageVariations] || languageVariations.en;
+    return languageVariations[language as keyof typeof languageVariations] ?? languageVariations.en;
   }
 
   /**
@@ -164,7 +164,7 @@ export class InvisibleWebSearch {
     const lowerQuery = query.toLowerCase();
     
     // Career-related searches
-    if (lowerQuery.includes('job') || lowerQuery.includes('career') || lowerQuery.includes('emprego') || lowerQuery.includes('carreira')) {
+    if (lowerQuery.includes('job') ?? lowerQuery.includes('career') ?? lowerQuery.includes('emprego') ?? lowerQuery.includes('carreira')) {
       results.push(
         {
           title: language === 'pt' ? 'Tendências do Mercado de Trabalho 2024' : 'Job Market Trends 2024',
@@ -186,7 +186,7 @@ export class InvisibleWebSearch {
     }
     
     // Technology-related searches
-    if (lowerQuery.includes('tech') || lowerQuery.includes('software') || lowerQuery.includes('programming') || lowerQuery.includes('tecnologia')) {
+    if (lowerQuery.includes('tech') ?? lowerQuery.includes('software') ?? lowerQuery.includes('programming') ?? lowerQuery.includes('tecnologia')) {
       results.push(
         {
           title: language === 'pt' ? 'Habilidades de Programação Mais Demandadas' : 'Most In-Demand Programming Skills',
@@ -208,7 +208,7 @@ export class InvisibleWebSearch {
     }
 
     // Industry-specific searches
-    if (lowerQuery.includes('finance') || lowerQuery.includes('banking') || lowerQuery.includes('finanças')) {
+    if (lowerQuery.includes('finance') ?? lowerQuery.includes('banking') ?? lowerQuery.includes('finanças')) {
       results.push(
         {
           title: language === 'pt' ? 'FinTech Revoluciona Mercado Financeiro' : 'FinTech Revolutionizes Financial Market',
@@ -222,7 +222,7 @@ export class InvisibleWebSearch {
     }
 
     // AI and emerging tech
-    if (lowerQuery.includes('ai') || lowerQuery.includes('artificial intelligence') || lowerQuery.includes('machine learning')) {
+    if (lowerQuery.includes('ai') ?? lowerQuery.includes('artificial intelligence') ?? lowerQuery.includes('machine learning')) {
       results.push(
         {
           title: language === 'pt' ? 'IA Transforma Mercado de Trabalho' : 'AI Transforms Job Market',
@@ -282,7 +282,7 @@ export class InvisibleWebSearch {
    * Calculate relevance score for search result
    */
   private static calculateRelevance(result: SearchResult, queryWords: string[]): number {
-    let score = result.relevanceScore || 0;
+    let score = result.relevanceScore ?? 0;
     
     const titleWords = result.title.toLowerCase();
     const snippetWords = result.snippet.toLowerCase();
@@ -294,9 +294,9 @@ export class InvisibleWebSearch {
     });
     
     // Boost for recent/current information
-    if (titleWords.includes('2024') || snippetWords.includes('2024')) score += 0.1;
-    if (titleWords.includes('latest') || titleWords.includes('current') || 
-        titleWords.includes('atual') || titleWords.includes('tendência')) score += 0.15;
+    if (titleWords.includes('2024') ?? snippetWords.includes('2024')) score += 0.1;
+    if (titleWords.includes('latest') ?? titleWords.includes('current') ?? 
+        titleWords.includes('atual') ?? titleWords.includes('tendência')) score += 0.15;
     
     return Math.min(score, 1.0);
   }

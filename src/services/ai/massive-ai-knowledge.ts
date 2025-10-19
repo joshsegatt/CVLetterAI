@@ -445,21 +445,21 @@ export class MassiveAIKnowledgeSystem {
    * Get comprehensive market intelligence for a country
    */
   static getMarketIntelligence(country: string): MarketData | null {
-    return this.GLOBAL_MARKET_DATA[country] || null;
+    return this.GLOBAL_MARKET_DATA[country] ?? null;
   }
 
   /**
    * Get industry-specific intelligence and trends
    */
   static getIndustryIntelligence(industry: string): IndustryData | null {
-    return this.INDUSTRY_INTELLIGENCE[industry] || null;
+    return this.INDUSTRY_INTELLIGENCE[industry] ?? null;
   }
 
   /**
    * Get skill analysis and market demand data
    */
   static getSkillIntelligence(skill: string): SkillData | null {
-    return this.SKILLS_MATRIX[skill] || null;
+    return this.SKILLS_MATRIX[skill] ?? null;
   }
 
   /**
@@ -476,13 +476,14 @@ export class MassiveAIKnowledgeSystem {
     language: string = 'en'
   ): string {
     
-    const marketData = this.getMarketIntelligence(userProfile.location || 'United Kingdom');
-    const industryData = this.getIndustryIntelligence(userProfile.industry || 'Technology');
+    const marketData = this.getMarketIntelligence(userProfile.location ?? 'United Kingdom');
+    const industryData = this.getIndustryIntelligence(userProfile.industry ?? 'Technology');
     
     if (!marketData || !industryData) {
       return this.getGenericAdvice(language);
     }
 
+    // Now TypeScript knows these are not null
     const advice = {
       'en': `## 🎯 Personalized Career Intelligence Report
 
@@ -545,7 +546,7 @@ ${Object.entries(industryData.salaryRanges).slice(0, 3).map(([role, range]) =>
 Baseado no seu perfil, foque em desenvolver habilidades em **${industryData.keySkills.slice(0, 2).join(' e ')}** para maximizar oportunidades no setor ${industryData.name} no ${marketData.country}.`
     };
 
-    return advice[language as keyof typeof advice] || advice.en;
+    return advice[language as keyof typeof advice] ?? advice.en;
   }
 
   private static getGenericAdvice(language: string): string {
@@ -554,7 +555,7 @@ Baseado no seu perfil, foque em desenvolver habilidades em **${industryData.keyS
       'pt': 'Posso fornecer conselhos de carreira personalizados assim que você compartilhar mais sobre seu histórico e objetivos.'
     };
     
-    return advice[language as keyof typeof advice] || advice.en;
+    return advice[language as keyof typeof advice] ?? advice.en;
   }
 
   /**
@@ -616,6 +617,6 @@ Esteja pronto para discutir:
 ${marketData.recruitmentTrends.slice(0, 3).map(trend => `- ${trend}`).join('\n')}`
     };
 
-    return prep[language as keyof typeof prep] || prep.en;
+    return prep[language as keyof typeof prep] ?? prep.en;
   }
 }

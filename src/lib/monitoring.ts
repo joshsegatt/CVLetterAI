@@ -326,3 +326,22 @@ export function measurePerformance(target: any, propertyName: string, descriptor
   
   return descriptor;
 }
+
+// Modern monitoring service interface for compatibility
+export const monitoringService = {
+  recordMetric: async (name: string, value: number, metadata?: Record<string, any>) => {
+    console.log(`📊 Metric: ${name} = ${value}`, metadata);
+  },
+  
+  recordError: async (error: Error, context?: Record<string, any>) => {
+    ProductionMonitoring.recordError();
+    console.error('🚨 Application Error:', { message: error.message, context });
+  },
+  
+  recordTiming: async (operation: string, duration: number, success: boolean = true) => {
+    ProductionMonitoring.recordRequest(duration);
+    if (!success) {
+      ProductionMonitoring.recordError();
+    }
+  }
+};

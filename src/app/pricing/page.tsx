@@ -3,7 +3,6 @@
 import React from 'react';
 import { PublicLayout } from '../../components/layout/PublicLayout';
 import { Check, Star, Zap, Shield, Users, Crown } from 'lucide-react';
-import { useI18n } from '../../lib/i18n/context';
 
 const plans = [
   {
@@ -81,131 +80,132 @@ const plans = [
 ];
 
 export default function PricingPage() {
-  const { translate } = useI18n();
   
   return (
     <PublicLayout
       title="Pricing Plans"
       description="Choose the perfect plan for your CV and cover letter needs"
     >
-      <div className="flex justify-center">
-        <div className="w-full max-w-7xl">
-          {/* Header removido conforme solicitado */}
-
+      <div className="section">
+        <div className="container-lg">
           {/* Pricing Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             {plans.map((plan) => (
               <div 
                 key={plan.id}
-                className={`relative glass-panel border-white/10 rounded-2xl p-8 ${
+                className={`card relative ${
                   plan.popular 
-                    ? 'border-purple-500/50 shadow-2xl shadow-purple-500/20 scale-105' 
-                    : 'hover:border-white/20'
-                } transition-all duration-300`}
+                    ? 'border-purple-500 shadow-xl shadow-purple-500/10 scale-105' 
+                    : ''
+                } ${plan.popular ? '' : 'hover-lift'}`}
               >
                 {plan.popular && (
                   <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+                    <div className="badge bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg">
                       <Crown className="h-4 w-4" />
                       Most Popular
                     </div>
                   </div>
                 )}
 
-                {/* Plan Header */}
-                <div className="text-center mb-8">
-                  <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${plan.color} flex items-center justify-center`}>
-                    {plan.id === 'free' && <Users className="h-8 w-8 text-white" />}
-                    {plan.id === 'price_one_time' && <Zap className="h-8 w-8 text-white" />}
-                    {plan.id === 'price_subscription' && <Shield className="h-8 w-8 text-white" />}
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
-                  <p className="text-gray-400 mb-4">{plan.description}</p>
-                  
-                  <div className="mb-6">
-                    <span className="text-4xl font-bold text-white">{plan.price}</span>
-                    <span className="text-gray-400 ml-2">/{plan.period}</span>
-                  </div>
-                </div>
-
-                {/* Features */}
-                <div className="space-y-4 mb-8">
-                  {plan.features.map((feature, index) => (
-                    <div key={index} className="flex items-start gap-3">
-                      <Check className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
-                      <span className="text-gray-300">{feature}</span>
+                <div className="card-body">
+                  {/* Plan Header */}
+                  <div className="text-center mb-8">
+                    <div className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${plan.color} flex items-center justify-center shadow-md`}>
+                      {plan.id === 'free' && <Users className="h-8 w-8 text-white" />}
+                      {plan.id === 'price_one_time' && <Zap className="h-8 w-8 text-white" />}
+                      {plan.id === 'price_subscription' && <Shield className="h-8 w-8 text-white" />}
                     </div>
-                  ))}
-                </div>
+                    
+                    <h3 className="text-title text-gray-900 mb-2">{plan.name}</h3>
+                    <p className="text-body text-gray-600 mb-4">{plan.description}</p>
+                    
+                    <div className="mb-6">
+                      <span className="text-4xl font-bold text-gray-900">{plan.price}</span>
+                      <span className="text-gray-600 ml-2">/{plan.period}</span>
+                    </div>
+                  </div>
 
-                {/* CTA Button */}
-                <div className="mt-auto">
-                  {plan.id === 'free' ? (
-                    <button className="w-full bg-white/10 hover:bg-white/20 text-white border border-white/20 py-3 px-6 rounded-lg font-semibold transition-colors">
-                      {plan.cta}
-                    </button>
-                  ) : plan.id === 'price_subscription' ? (
-                    <a
-                      href="https://buy.stripe.com/cNicN47dw2qecJ5ewT4ow01"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0 text-center"
-                    >
-                      {plan.cta}
-                    </a>
-                  ) : (
-                    <a
-                      href="https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg border-0 text-center"
-                    >
-                      {plan.cta}
-                    </a>
-                  )}
+                  {/* Features */}
+                  <div className="space-y-4 mb-8">
+                    {plan.features.map((feature, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <Check className="h-5 w-5 text-emerald-600 mt-0.5 flex-shrink-0" />
+                        <span className="text-body text-gray-700">{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <div className="mt-auto">
+                    {plan.id === 'free' ? (
+                      <button className="btn btn-secondary w-full">
+                        {plan.cta}
+                      </button>
+                    ) : plan.id === 'price_subscription' ? (
+                      <a
+                        href="https://buy.stripe.com/cNicN47dw2qecJ5ewT4ow01"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn w-full bg-gradient-brand text-white hover:shadow-lg hover:scale-105 transition-all duration-300 text-center"
+                      >
+                        {plan.cta}
+                      </a>
+                    ) : (
+                      <a
+                        href="https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-primary w-full hover:shadow-lg hover:scale-105 transition-all duration-300 text-center"
+                      >
+                        {plan.cta}
+                      </a>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* FAQ Section */}
-          <div className="glass-panel border-white/10 rounded-2xl p-8">
-            <h2 className="text-3xl font-bold text-white text-center mb-8">Frequently Asked Questions</h2>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Is there a free trial?</h3>
-                <p className="text-gray-300">Yes! You can create 1 CV per month completely free. No credit card required.</p>
-              </div>
+          <div className="card">
+            <div className="card-body">
+              <h2 className="text-heading text-gray-900 text-center mb-8">Frequently Asked Questions</h2>
               
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Can I cancel anytime?</h3>
-                <p className="text-gray-300">Absolutely. Cancel your subscription anytime with no questions asked.</p>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Do you offer refunds?</h3>
-                <p className="text-gray-300">Yes, we offer 30-day money-back guarantee if you're not satisfied.</p>
-              </div>
-              
-              <div>
-                <h3 className="text-xl font-semibold text-white mb-3">Is my data secure?</h3>
-                <p className="text-gray-300">Yes, we use bank-level encryption and are fully GDPR compliant.</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                  <h3 className="text-title text-gray-900 mb-3">Is there a free trial?</h3>
+                  <p className="text-body text-gray-600">Yes! You can create 1 CV per month completely free. No credit card required.</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-title text-gray-900 mb-3">Can I cancel anytime?</h3>
+                  <p className="text-body text-gray-600">Absolutely. Cancel your subscription anytime with no questions asked.</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-title text-gray-900 mb-3">Do you offer refunds?</h3>
+                  <p className="text-body text-gray-600">Yes, we offer 30-day money-back guarantee if you're not satisfied.</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-title text-gray-900 mb-3">Is my data secure?</h3>
+                  <p className="text-body text-gray-600">Yes, we use bank-level encryption and are fully GDPR compliant.</p>
+                </div>
               </div>
             </div>
           </div>
 
           {/* Bottom CTA */}
           <div className="text-center mt-16">
-            <h2 className="text-3xl font-bold text-white mb-4">Ready to accelerate your career?</h2>
-            <p className="text-xl text-gray-300 mb-8">Join thousands of professionals who've landed their dream jobs with our AI-powered tools.</p>
+            <h2 className="text-heading text-gray-900 mb-4">Ready to accelerate your career?</h2>
+            <p className="text-body-lg text-gray-600 mb-8">Join thousands of professionals who've landed their dream jobs with our AI-powered tools.</p>
             
             <a
               href="https://buy.stripe.com/fZu00i69sc0O8sP1K74ow00"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white text-lg px-8 py-4 rounded-lg font-semibold transition-all duration-300 hover:shadow-lg"
+              className="btn btn-primary btn-xl hover:shadow-lg hover:scale-105 transition-all duration-300"
             >
               Start Creating Professional CVs
             </a>

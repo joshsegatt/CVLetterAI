@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { hybridAIService } from '@/services/ai/hybrid-ai-service';
-import { freeAIService } from '@/services/ai/free-ai-service-v2';
+
 
 interface ServiceStatus {
   name: string;

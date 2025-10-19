@@ -56,12 +56,12 @@ export async function logSecurityEvent(
 
     // Para eventos críticos, alertar imediatamente
     if (event.severity === 'critical') {
-      await alertCriticalSecurity(event);
+      alertCriticalSecurity(event);
     }
 
     // Para alta frequência de ataques do mesmo IP, considerar bloqueio automático
     if (shouldAutoBlock(data.ip)) {
-      await autoBlockIP(data.ip);
+      autoBlockIP(data.ip);
     }
 
   } catch (error) {
@@ -96,7 +96,7 @@ function shouldBlockEvent(type: SecurityEventType): boolean {
   return ['ATTACK_DETECTED', 'DATA_BREACH_ATTEMPT'].includes(type);
 }
 
-async function alertCriticalSecurity(event: SecurityEvent): Promise<void> {
+function alertCriticalSecurity(event: SecurityEvent): void {
   // Em produção: enviar para Slack, email, PagerDuty, etc.
   console.error(`🚨 CRITICAL SECURITY EVENT: ${event.type} from ${event.ip}`);
   
@@ -133,7 +133,7 @@ function shouldAutoBlock(ip: string): boolean {
   return count >= 5;
 }
 
-async function autoBlockIP(ip: string): Promise<void> {
+function autoBlockIP(ip: string): void {
   ipBlockList.add(ip);
   console.error(`🚫 AUTO-BLOCKED IP: ${ip} due to repeated security violations`);
   

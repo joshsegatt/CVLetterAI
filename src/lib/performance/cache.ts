@@ -1,6 +1,6 @@
 /**
- * Caching Strategy - Redis + In-Memory com TTL inteligente
- * Implementa cache multicamada para otimização de performance
+ * High-performance caching system with intelligent TTL and automatic cleanup
+ * Implements multi-layer cache optimization for banking-grade performance
  */
 
 type CacheKey = string;
@@ -260,7 +260,12 @@ export function Cacheable(ttl?: number) {
   };
 }
 
-// Singleton cache instance
+// Singleton cache instances for different use cases
+export const appCache = new IntelligentCache(5000, 25); // 5000 items, 25MB
+export const aiCache = new IntelligentCache(2000, 50); // 2000 items, 50MB 
+export const sessionCache = new IntelligentCache(1000, 10); // 1000 items, 10MB
+
+// Legacy export
 const globalCache = new IntelligentCache();
 
 export { IntelligentCache, globalCache };

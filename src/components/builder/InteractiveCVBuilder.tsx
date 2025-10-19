@@ -127,13 +127,13 @@ function EditableField({ value, onChange, className = "", placeholder = "", mult
     <div
       onClick={() => setIsEditing(true)}
       className={`${className} cursor-pointer hover:bg-blue-50 hover:shadow-sm transition-all rounded px-1 py-0.5 border border-transparent hover:border-blue-200 group relative`}
-      title="Clique para editar"
+      title="Click to edit"
     >
       {value || (
         <span className="text-gray-400 italic">{placeholder}</span>
       )}
       <div className="opacity-0 group-hover:opacity-100 absolute -top-6 left-0 bg-gray-800 text-white text-xs px-2 py-1 rounded pointer-events-none transition-opacity">
-        Clique para editar
+        Click to edit
       </div>
     </div>
   );
@@ -168,7 +168,7 @@ export default function InteractiveCVBuilder({ initialData }: InteractiveCVBuild
     {
       id: 'modern',
       name: 'Minimal Modern',
-      description: 'Design limpo e contemporâneo com espaçamento perfeito',
+      description: 'Clean and contemporary design with perfect spacing',
       preview: '/thumbs/cv-modern.png'
     },
     {
@@ -471,7 +471,7 @@ export default function InteractiveCVBuilder({ initialData }: InteractiveCVBuild
 
         {/* Right Side - Live Preview */}
         <div className="lg:col-span-3 space-y-4">
-          <h2 className="text-xl font-semibold text-white">Preview em Tempo Real</h2>
+          <h2 className="text-xl font-semibold text-white">Live Preview</h2>
           
           <div className="glass-panel border-white/10 p-6">
             <div className="flex justify-center">

@@ -47,7 +47,7 @@ export function createTokenPair(
   ipAddress: string,
   userAgent: string
 ): TokenPair {
-  // Gerar ID de sessão único
+  // Generate unique session ID
   const sessionId = crypto.randomBytes(32).toString('hex');
   
   // Payload do Access Token (vida curta)
@@ -168,8 +168,8 @@ export function refreshTokenPair(
   // Invalidar a sessão atual
   revokeSession(refreshData.sessionId);
   
-  // Criar novo par de tokens
-  // Nota: Em uma implementação real, você precisaria buscar dados do usuário do banco
+  // Create new token pair
+  // Note: In a real implementation, you would need to fetch user data from database
   return createTokenPair(
     {
       userId: refreshData.userId,

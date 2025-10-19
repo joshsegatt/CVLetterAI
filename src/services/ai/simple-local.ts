@@ -92,11 +92,11 @@ export class SimpleLocalAI {
     
     // Extrair indústria/área
     const industries = ['tech', 'finance', 'healthcare', 'education', 'marketing', 'sales', 'engineering', 'design'];
-    context.industry = industries.find(ind => lowerMessage.includes(ind)) || '';
+    context.industry = industries.find(ind => lowerMessage.includes(ind)) ?? '';
     
     // Extrair role
     const roles = ['manager', 'developer', 'analyst', 'consultant', 'specialist', 'coordinator', 'assistant'];
-    context.role = roles.find(role => lowerMessage.includes(role)) || '';
+    context.role = roles.find(role => lowerMessage.includes(role)) ?? '';
     
     return context;
   }
@@ -105,7 +105,7 @@ export class SimpleLocalAI {
   private generateCVResponse(message: string, context: any): LocalAIResponse {
     const lowerMessage = message.toLowerCase();
     
-    if (lowerMessage.includes('summary') || lowerMessage.includes('personal statement')) {
+    if (lowerMessage.includes('summary') ?? lowerMessage.includes('personal statement')) {
       return {
         content: `**Professional Summary Tips:**
 
@@ -117,7 +117,7 @@ Para um CV profissional no Reino Unido, sua personal statement deve:
 • **Mostrar valor**: O que você traz para a empresa
 
 **Exemplo:**
-"Experienced ${context.role || 'professional'} with 5+ years in ${context.industry || 'the industry'}. Proven track record in project management and team leadership. Strong analytical skills with focus on delivering results and driving business growth."`,
+"Experienced ${context.role ?? 'professional'} with 5+ years in ${context.industry ?? 'the industry'}. Proven track record in project management and team leadership. Strong analytical skills with focus on delivering results and driving business growth."`,
         suggestions: [
           "Como quantificar minhas conquistas?",
           "Qual a diferença entre CV UK e outros países?", 
@@ -127,7 +127,7 @@ Para um CV profissional no Reino Unido, sua personal statement deve:
       };
     }
 
-    if (lowerMessage.includes('skills') || lowerMessage.includes('competências')) {
+    if (lowerMessage.includes('skills') ?? lowerMessage.includes('competências')) {
       return {
         content: `**Como Organizar Skills no CV:**
 
@@ -187,7 +187,7 @@ Para um CV profissional no Reino Unido, sua personal statement deve:
   private generateLetterResponse(message: string, context: any): LocalAIResponse {
     const lowerMessage = message.toLowerCase();
     
-    if (lowerMessage.includes('cover letter') || lowerMessage.includes('application')) {
+    if (lowerMessage.includes('cover letter') ?? lowerMessage.includes('application')) {
       return {
         content: `**Cover Letter Profissional UK:**
 
@@ -225,7 +225,7 @@ Email | Telefone
       };
     }
 
-    if (lowerMessage.includes('landlord') || lowerMessage.includes('tenant')) {
+    if (lowerMessage.includes('landlord') ?? lowerMessage.includes('tenant')) {
       return {
         content: `**Letter para Landlord/Property:**
 
@@ -360,6 +360,6 @@ Faça uma pergunta específica e eu te ajudo! 🚀`,
       ]
     };
 
-    return suggestions[queryType] || suggestions.general;
+    return suggestions[queryType] ?? suggestions.general;
   }
 }

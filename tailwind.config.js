@@ -82,16 +82,16 @@ const config = {
           800: '#1e293b',
           900: '#0f172a',
           950: '#020617',
-          DEFAULT: '#0f172a',
-          muted: '#1e293b',
-          subtle: '#334155',
-          highlight: '#475569'
+          DEFAULT: '#f8fafc',
+          muted: '#f1f5f9',
+          subtle: '#e2e8f0',
+          highlight: '#cbd5e1'
         },
         glass: {
-          DEFAULT: 'rgba(255, 255, 255, 0.02)',
-          hover: 'rgba(255, 255, 255, 0.04)',
-          border: 'rgba(255, 255, 255, 0.08)',
-          'border-hover': 'rgba(255, 255, 255, 0.12)'
+          DEFAULT: 'rgba(255, 255, 255, 0.8)',
+          hover: 'rgba(255, 255, 255, 0.9)',
+          border: 'rgba(0, 0, 0, 0.08)',
+          'border-hover': 'rgba(0, 0, 0, 0.12)'
         }
       },
       backgroundImage: {
@@ -138,9 +138,9 @@ const config = {
         '3xl': '64px'
       },
       fontFamily: {
-        sans: ['-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'Segoe UI', 'Roboto', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['SF Pro Display', 'Inter', 'system-ui', 'sans-serif'],
-        mono: ['SF Mono', 'JetBrains Mono', 'Consolas', 'Monaco', 'monospace']
+        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'system-ui', 'sans-serif'],
+        display: ['Inter', 'SF Pro Display', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'SF Mono', 'Consolas', 'Monaco', 'monospace']
       },
       fontSize: {
         'xs': ['0.75rem', { lineHeight: '1rem' }],
@@ -226,14 +226,14 @@ const config = {
     function({ addUtilities, theme }) {
       const glassUtilities = {
         '.glass': {
-          background: 'rgba(255, 255, 255, 0.02)',
+          background: 'rgba(255, 255, 255, 0.8)',
           backdropFilter: 'blur(20px)',
           WebkitBackdropFilter: 'blur(20px)',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
+          border: '1px solid rgba(0, 0, 0, 0.08)',
         },
         '.glass-hover': {
-          background: 'rgba(255, 255, 255, 0.04)',
-          border: '1px solid rgba(255, 255, 255, 0.12)',
+          background: 'rgba(255, 255, 255, 0.9)',
+          border: '1px solid rgba(0, 0, 0, 0.12)',
         },
         '.text-gradient': {
           background: 'linear-gradient(135deg, #8b5cf6 0%, #ec4899 50%, #06b6d4 100%)',

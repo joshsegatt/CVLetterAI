@@ -213,7 +213,7 @@ export class SimpleLocalAI {
     // 1. Gerenciar sessão e memória
     let currentSessionId = sessionId;
     if (!currentSessionId) {
-      currentSessionId = conversationMemory.createSession(params.context || 'default-user');
+      currentSessionId = conversationMemory.createSession(params.context ?? 'default-user');
     }
     
     // Adicionar mensagem do usuário à memória
@@ -221,7 +221,7 @@ export class SimpleLocalAI {
 
     // 2. Análise avançada de contexto com IA semântica
     const semanticContext = this.performSemanticAnalysis(message);
-    const detectedIndustry = this.detectIndustryContext(message) || params.industry;
+    const detectedIndustry = this.detectIndustryContext(message) ?? params.industry;
     const intentAnalysis = this.analyzeUserIntent(message);
     const complexityLevel = this.assessComplexityNeeds(message, params.experience);
 
@@ -293,16 +293,16 @@ export class SimpleLocalAI {
     }
 
     // Detectar urgência
-    if (messageLower.includes('urgent') || messageLower.includes('asap') || messageLower.includes('tomorrow')) {
+    if (messageLower.includes('urgent') ?? messageLower.includes('asap') ?? messageLower.includes('tomorrow')) {
       urgency = 'high';
-    } else if (messageLower.includes('when possible') || messageLower.includes('no rush')) {
+    } else if (messageLower.includes('when possible') ?? messageLower.includes('no rush')) {
       urgency = 'low';
     }
 
     // Detectar complexidade
-    if (messageLower.includes('executive') || messageLower.includes('senior') || messageLower.includes('director')) {
+    if (messageLower.includes('executive') ?? messageLower.includes('senior') ?? messageLower.includes('director')) {
       complexity = 'high';
-    } else if (messageLower.includes('entry') || messageLower.includes('graduate') || messageLower.includes('junior')) {
+    } else if (messageLower.includes('entry') ?? messageLower.includes('graduate') ?? messageLower.includes('junior')) {
       complexity = 'low';
     }
 
@@ -352,7 +352,7 @@ export class SimpleLocalAI {
     }
 
     return {
-      primary: detectedIntents[0] || 'general',
+      primary: detectedIntents[0] ?? 'general',
       all: detectedIntents,
       confidence: detectedIntents.length > 0 ? 0.8 : 0.4
     };
@@ -360,14 +360,14 @@ export class SimpleLocalAI {
 
   private assessComplexityNeeds(message: string, experience?: string): string {
     if (experience) {
-      return experience === 'entry' ? 'basic' : experience === 'senior' || experience === 'executive' ? 'advanced' : 'intermediate';
+      return experience === 'entry' ? 'basic' : (experience === 'senior' || experience === 'executive') ? 'advanced' : 'intermediate';
     }
 
     const messageLower = message.toLowerCase();
     
-    if (messageLower.includes('executive') || messageLower.includes('c-level') || messageLower.includes('director')) {
+    if (messageLower.includes('executive') ?? messageLower.includes('c-level') ?? messageLower.includes('director')) {
       return 'advanced';
-    } else if (messageLower.includes('graduate') || messageLower.includes('entry') || messageLower.includes('first job')) {
+    } else if (messageLower.includes('graduate') ?? messageLower.includes('entry') ?? messageLower.includes('first job')) {
       return 'basic';
     }
     
@@ -420,7 +420,7 @@ export class SimpleLocalAI {
     industry?: string,
     complexity?: string
   ): Promise<string> {
-    const templates = this.languageTemplates.get(params.language) || this.languageTemplates.get('en')!;
+    const templates = this.languageTemplates.get(params.language) ?? this.languageTemplates.get('en')!;
     
     let response = templates.greeting + '\n\n';
 
@@ -604,7 +604,7 @@ export class SimpleLocalAI {
   }
 
   private generateContextualSuggestions(semanticContext: any, language: string, industry?: string): string[] {
-    const templates = this.languageTemplates.get(language) || this.languageTemplates.get('en')!;
+    const templates = this.languageTemplates.get(language) ?? this.languageTemplates.get('en')!;
     
     let suggestions = [...templates.suggestions];
     
@@ -644,7 +644,7 @@ export class SimpleLocalAI {
       ]
     };
 
-    return questions[language] || questions.en;
+    return questions[language] ?? questions.en;
   }
 
   private getNextStepQuestion(context: string, language: string): string {
@@ -702,8 +702,8 @@ export class SimpleLocalAI {
       }
     };
 
-    const questions = (nextStepQuestions as any)[language] || nextStepQuestions.en;
-    const contextQuestions = (questions as any)[context] || questions.cv;
+    const questions = (nextStepQuestions as any)[language] ?? nextStepQuestions.en;
+    const contextQuestions = (questions as any)[context] ?? questions.cv;
     
     // Escolher pergunta aleatória para variar
     const randomIndex = Math.floor(Math.random() * contextQuestions.length);
@@ -725,7 +725,7 @@ export class SimpleLocalAI {
   // Enhanced method using Massive Multilingual AI System
   async generateEnhancedResponse(
     message: string, 
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     sessionId: string = 'default'
   ): Promise<LocalAIResponse> {
     try {
@@ -751,7 +751,7 @@ export class SimpleLocalAI {
         type: this.mapContextToType(context.userIntent),
         language: massiveResponse.language,
         sessionId,
-        canGeneratePDF: documentOffers.offerCV || documentOffers.offerLetter ? {
+        canGeneratePDF: documentOffers.offerCV ?? documentOffers.offerLetter ? {
           cv: documentOffers.offerCV,
           letter: documentOffers.offerLetter,
           message: documentOffers.message
@@ -811,6 +811,6 @@ export class SimpleLocalAI {
       'general_inquiry': 'general'
     };
     
-    return mapping[intent] || 'general';
+    return mapping[intent] ?? 'general';
   }
 }

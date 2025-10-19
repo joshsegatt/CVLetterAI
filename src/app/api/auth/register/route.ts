@@ -2,15 +2,50 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { registerSchema } from '@/lib/validations/auth';
 import { PasswordUtils, SecurityUtils } from '@/lib/security/auth-utils';
+import { checkRateLimit } from '@/lib/security/rateLimit';
+import { getClientIp } from '@/lib/security/environment';
 import { z } from 'zod';
 
 export async function POST(request: NextRequest) {
   try {
+    const clientIp = getClientIp(request);
+    
+    // Rate limiting - 3 registration attempts per 15 minutes per IP
+    const rateLimitResult = await checkRateLimit(
+      clientIp,
+      '/api/auth/register',
+      { requests: 3, window: 900000 }
+    );
+
+    if (!rateLimitResult.success) {
+      return NextResponse.json(
+        { 
+          success: false,
+          error: 'Too many registration attempts. Please try again later.',
+          resetTime: rateLimitResult.resetTime 
+        },
+        { status: 429 }
+      );
+    }
+
     // Parse and validate request body
     const body = await request.json();
     
     // Validate input data
     const validatedData = registerSchema.parse(body);
+    
+    // Additional security check on email domain (optional)
+    const emailDomain = validatedData.email.split('@')[1].toLowerCase();
+    const blockedDomains = ['tempmail.com', '10minutemail.com', 'guerrillamail.com'];
+    if (blockedDomains.includes(emailDomain)) {
+      return NextResponse.json(
+        { 
+          success: false, 
+          error: 'Please use a valid email address.' 
+        },
+        { status: 400 }
+      );
+    }
     
     // Check if user already exists
     const existingUser = await prisma.user.findFirst({
@@ -101,8 +136,8 @@ export async function POST(request: NextRequest) {
       },
     });
     
-    // Log successful registration
-    console.log(`[AUTH] New user registered: ${user.email} (${user.username})`);
+    // Log successful registration (without sensitive data)
+    console.log(`[AUTH] New user registered: ${user.email} (${user.username}) from IP: ${clientIp}`);
     
     return NextResponse.json({
       success: true,

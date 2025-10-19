@@ -47,6 +47,7 @@
     "node_modules",
     ".next",
     "coverage",
-    "playwright-report"
+    "playwright-report",
+    "tests/**/*"
   ]
 }

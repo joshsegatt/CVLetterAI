@@ -86,7 +86,7 @@ export class FreeAIService {
    */
   async generateResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     qualityLevel: 'basic' | 'premium' | 'enterprise',
     userId: string
   ): Promise<AIResponse> {
@@ -141,7 +141,7 @@ export class FreeAIService {
   private async callExternalProvider(
     provider: AIProvider,
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string
   ): Promise<AIResponse> {
     
@@ -186,8 +186,8 @@ export class FreeAIService {
     }
     
     const data = await response.json();
-    const content = data.choices[0]?.message?.content || 'Sorry, I could not generate a response.';
-    const tokensUsed = data.usage?.total_tokens || this.estimateTokens(message + content);
+    const content = data.choices[0]?.message?.content ?? 'Sorry, I could not generate a response.';
+    const tokensUsed = data.usage?.total_tokens ?? this.estimateTokens(message + content);
     
     return {
       content,
@@ -227,7 +227,7 @@ export class FreeAIService {
       }
       
       const data = await response.json();
-      const content = data.response || 'Sorry, I could not generate a response.';
+      const content = data.response ?? 'Sorry, I could not generate a response.';
       
       return {
         content,
@@ -275,7 +275,7 @@ export class FreeAIService {
     }
     
     const data = await response.json();
-    const content = data.generated_text || data.response || 'Sorry, I could not generate a response.';
+    const content = data.generated_text ?? data.response ?? 'Sorry, I could not generate a response.';
     
     return {
       content,
@@ -291,7 +291,7 @@ export class FreeAIService {
    */
   private async generateLocalEnhancedResponse(
     message: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     userId: string
   ): Promise<AIResponse> {
     
@@ -359,7 +359,7 @@ export class FreeAIService {
   /**
    * Get available providers status
    */
-  getProvidersStatus(): Array<{ name: string; quality: string; available: boolean }> {
+  getProvidersStatus(): { name: string; quality: string; available: boolean }[] {
     return Array.from(this.providers.values()).map(provider => ({
       name: provider.name,
       quality: provider.quality,

@@ -6,10 +6,10 @@ let openaiClient: OpenAI | null = null;
 
 function getOpenAIClient() {
   // For LM Studio, we always create a client even with dummy API key
-  if (platformEnv.openaiBaseUrl?.includes('localhost') || platformEnv.openaiBaseUrl?.includes('127.0.0.1')) {
+  if (platformEnv.openaiBaseUrl?.includes('localhost') ?? platformEnv.openaiBaseUrl?.includes('127.0.0.1')) {
     if (!openaiClient) {
       openaiClient = new OpenAI({
-        apiKey: platformEnv.openaiApiKey || 'lm-studio',
+        apiKey: platformEnv.openaiApiKey ?? 'lm-studio',
         baseURL: platformEnv.openaiBaseUrl
       });
     }
@@ -24,7 +24,7 @@ function getOpenAIClient() {
   if (!openaiClient) {
     openaiClient = new OpenAI({
       apiKey: platformEnv.openaiApiKey,
-      baseURL: platformEnv.openaiBaseUrl || undefined
+      baseURL: platformEnv.openaiBaseUrl ?? undefined
     });
   }
 

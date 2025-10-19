@@ -1,4 +1,34 @@
 import crypto from 'crypto';
+import { NextRequest } from 'next/server';
+import { z } from 'zod';
+
+export function getClientIp(request: NextRequest): string {
+  // Check various headers for client IP (in order of preference)
+  const xForwardedFor = request.headers.get('x-forwarded-for');
+  const xRealIp = request.headers.get('x-real-ip');
+  const xClientIp = request.headers.get('x-client-ip');
+  const cfConnectingIp = request.headers.get('cf-connecting-ip'); // Cloudflare
+  
+  if (xForwardedFor) {
+    // X-Forwarded-For can contain multiple IPs, get the first one
+    return xForwardedFor.split(',')[0].trim();
+  }
+  
+  if (xRealIp) {
+    return xRealIp;
+  }
+  
+  if (xClientIp) {
+    return xClientIp;
+  }
+  
+  if (cfConnectingIp) {
+    return cfConnectingIp;
+  }
+  
+  // Fallback to a default IP if none found
+  return '127.0.0.1';
+}
 
 export interface SecurityConfig {
   jwt: {
@@ -120,7 +150,7 @@ class EnvironmentValidator {
       }
     }
 
-    // Construir configuração segura
+    // Build secure configuration
     this.config = {
       jwt: {
         secret: jwtSecret || this.generateSecureDefault('jwt'),
@@ -280,6 +310,188 @@ export class SecureDataHandler {
   }
 }
 
-// Export singleton
+// Modern environment validation schemas
+const requiredEnvSchema = z.object({
+  NODE_ENV: z.enum(['development', 'production', 'test']),
+  DATABASE_URL: z.string().min(10, 'DATABASE_URL is required'),
+  NEXTAUTH_URL: z.string().url('NEXTAUTH_URL must be a valid URL'),
+  NEXTAUTH_SECRET: z.string().min(32, 'NEXTAUTH_SECRET must be at least 32 characters'),
+});
+
+const productionEnvSchema = requiredEnvSchema.extend({
+  // Production-only requirements
+  DATABASE_URL: z.string().refine(
+    (url) => !url.includes('sqlite'), 
+    'Production should use PostgreSQL/MySQL, not SQLite'
+  ),
+  STRIPE_SECRET_KEY: z.string().startsWith('sk_live_', 'Production must use live Stripe key').optional(),
+  NEXTAUTH_URL: z.string().refine(
+    (url) => url.startsWith('https://') && !url.includes('localhost'),
+    'Production NEXTAUTH_URL must use HTTPS and not localhost'
+  ),
+});
+
+/**
+ * Enhanced environment security with comprehensive validation
+ */
+export class EnhancedEnvironmentSecurity {
+  /**
+   * Validate environment with modern schema validation
+   */
+  static validateModernEnvironment() {
+    const env = process.env;
+    const errors: string[] = [];
+    const warnings: string[] = [];
+    const recommendations: string[] = [];
+    
+    try {
+      // Choose schema based on environment
+      const schema = env.NODE_ENV === 'production' ? productionEnvSchema : requiredEnvSchema;
+      const result = schema.safeParse(env);
+      
+      if (!result.success) {
+        errors.push(...result.error.errors.map(err => 
+          `${err.path.join('.')}: ${err.message}`
+        ));
+      }
+      
+      // Additional security checks
+      this.performAdvancedSecurityChecks(env, errors, warnings, recommendations);
+      
+      const securityScore = this.calculateAdvancedSecurityScore(env, errors.length, warnings.length);
+      
+      return {
+        isValid: errors.length === 0,
+        errors,
+        warnings,
+        recommendations,
+        securityScore
+      };
+    } catch (error) {
+      errors.push(`Validation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      return { isValid: false, errors, warnings, recommendations, securityScore: 0 };
+    }
+  }
+  
+  /**
+   * Advanced security checks
+   */
+  private static performAdvancedSecurityChecks(
+    env: NodeJS.ProcessEnv,
+    errors: string[],
+    warnings: string[],
+    recommendations: string[]
+  ) {
+    // Check for weak secrets
+    const secrets = ['NEXTAUTH_SECRET', 'JWT_SECRET', 'ENCRYPTION_KEY'];
+    secrets.forEach(secretName => {
+      const secret = env[secretName];
+      if (secret && secret.length < 32) {
+        warnings.push(`${secretName} should be at least 32 characters for security`);
+      }
+    });
+    
+    // Production-specific checks
+    if (env.NODE_ENV === 'production') {
+      if (!env.SENTRY_DSN && !env.MONITORING_ENDPOINT) {
+        recommendations.push('Add error monitoring (Sentry) for production');
+      }
+      
+      if (!env.REDIS_URL) {
+        recommendations.push('Consider Redis for production caching and sessions');
+      }
+      
+      // Security headers
+      if (!env.CSP_REPORT_URI) {
+        recommendations.push('Add CSP_REPORT_URI for Content Security Policy monitoring');
+      }
+    }
+  }
+  
+  /**
+   * Calculate advanced security score
+   */
+  private static calculateAdvancedSecurityScore(
+    env: NodeJS.ProcessEnv,
+    errorCount: number,
+    warningCount: number
+  ): number {
+    let score = 100;
+    
+    // Deduct for issues
+    score -= errorCount * 25;
+    score -= warningCount * 10;
+    
+    // Bonus points for security features
+    const bonusFeatures = [
+      env.SENTRY_DSN && 5,
+      env.REDIS_URL && 5,
+      env.CSP_REPORT_URI && 5,
+      (env.NEXTAUTH_SECRET && env.NEXTAUTH_SECRET.length >= 64) && 5,
+      env.NODE_ENV === 'production' && !env.DATABASE_URL?.includes('sqlite') && 10
+    ].filter(Boolean) as number[];
+    
+    score += bonusFeatures.reduce((sum, points) => sum + points, 0);
+    
+    return Math.max(0, Math.min(100, score));
+  }
+  
+  /**
+   * Generate comprehensive security report
+   */
+  static generateSecurityReport(): string {
+    const validation = this.validateModernEnvironment();
+    
+    return `
+# Environment Security Report
+Generated: ${new Date().toISOString()}
+
+## Security Score: ${validation.securityScore}/100
+
+## Status: ${validation.isValid ? '✅ VALID' : '❌ INVALID'}
+
+${validation.errors.length > 0 ? `
+### ❌ Critical Errors
+${validation.errors.map(error => `- ${error}`).join('\n')}
+` : ''}
+
+${validation.warnings.length > 0 ? `
+### ⚠️ Warnings
+${validation.warnings.map(warning => `- ${warning}`).join('\n')}
+` : ''}
+
+${validation.recommendations.length > 0 ? `
+### 💡 Recommendations
+${validation.recommendations.map(rec => `- ${rec}`).join('\n')}
+` : ''}
+
+## Security Checklist for Production
+
+### ✅ Required
+- [ ] Strong NEXTAUTH_SECRET (32+ characters)
+- [ ] Production database (not SQLite)
+- [ ] HTTPS URLs only
+- [ ] Environment variables properly set
+
+### 🔒 Recommended
+- [ ] Error monitoring (Sentry)
+- [ ] Redis for caching
+- [ ] CSP monitoring
+- [ ] Regular secret rotation
+- [ ] Monitoring and alerting
+
+### 🛡️ Best Practices
+- [ ] Secrets stored securely (not in code)
+- [ ] Regular security audits
+- [ ] Access logging enabled
+- [ ] Rate limiting configured
+- [ ] Backup and recovery tested
+`;
+  }
+}
+
+// Export both legacy and modern systems
 export const environmentValidator = EnvironmentValidator.getInstance();
 export const getSecurityConfig = () => environmentValidator.validateAndGetConfig();
+export const validateEnvironment = () => EnhancedEnvironmentSecurity.validateModernEnvironment();
+export const generateSecurityReport = () => EnhancedEnvironmentSecurity.generateSecurityReport();

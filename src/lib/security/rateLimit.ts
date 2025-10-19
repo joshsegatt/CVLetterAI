@@ -1,6 +1,6 @@
 // Rate Limit Store Global
-declare global {
-  var rateLimitStore: Map<string, { count: number; resetTime: number }> | undefined;
+declare const global: {
+  rateLimitStore: Map<string, { count: number; resetTime: number }> | undefined;
 }
 
 interface RateLimitConfig {
@@ -14,11 +14,11 @@ interface RateLimitResult {
   remaining: number;
 }
 
-export async function checkRateLimit(
+export function checkRateLimit(
   identifier: string, 
   path: string, 
   config: RateLimitConfig
-): Promise<RateLimitResult> {
+): RateLimitResult {
   const key = `ratelimit:${identifier}:${path.split('/')[1] || 'root'}`;
   
   // Initialize global store if needed

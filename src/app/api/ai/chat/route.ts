@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { streamChatCompletion } from '../../../../services/ai/chat';
 import { SuperIntelligentAI } from '../../../../services/ai/super-intelligent-ai';
-import { SimpleLocalAI } from '../../../../services/ai/simple-local-advanced';
+
 import type { ChatCompletionMessage } from '../../../../services/ai/types';
 
 export const runtime = 'nodejs';
@@ -10,7 +10,7 @@ interface ChatRequestBody {
   messages?: ChatCompletionMessage[];
   locale?: string;
   message?: string;
-  conversationHistory?: Array<{ role: string; content: string }>;
+  conversationHistory?: { role: string; content: string }[];
   sessionId?: string;
 }
 

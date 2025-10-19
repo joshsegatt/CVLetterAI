@@ -21,7 +21,7 @@ export interface SuperIntelligentResponse {
 
 export interface ConversationSession {
   sessionId: string;
-  messages: Array<{ role: 'user' | 'assistant'; content: string; timestamp: number }>;
+  messages: { role: 'user' | 'assistant'; content: string; timestamp: number }[];
   userProfile: {
     language: string;
     personality: string;
@@ -345,7 +345,7 @@ export class SuperIntelligentAI {
       'fr': 'French'
     };
     
-    return backgrounds[language as keyof typeof backgrounds] || 'International';
+    return backgrounds[language as keyof typeof backgrounds] ?? 'International';
   }
 
   /**
@@ -372,7 +372,7 @@ export class SuperIntelligentAI {
     const assistantMessages = session.messages.filter(m => m.role === 'assistant');
     if (assistantMessages.length === 0) return 0;
     
-    return assistantMessages.reduce((sum, msg) => sum + (msg.timestamp || 0), 0) / assistantMessages.length;
+    return assistantMessages.reduce((sum, msg) => sum + (msg.timestamp ?? 0), 0) / assistantMessages.length;
   }
 
   /**

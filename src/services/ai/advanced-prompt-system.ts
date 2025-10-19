@@ -277,7 +277,7 @@ This approach will position you effectively in the current UK job market, where 
    * Analyze conversation and determine optimal response strategy
    */
   static analyzeConversation(
-    messages: Array<{ role: string; content: string }>,
+    messages: { role: string; content: string }[],
     context?: Partial<ConversationContext>
   ): ConversationContext {
     const conversationText = messages.map(m => m.content).join(' ');
@@ -506,7 +506,7 @@ ${summary}
 
 I can generate your CV right now with:
 • ✅ **ATS-optimized formatting** for UK job boards
-• ✅ **Industry-specific keywords** for ${data.industry || 'your sector'}
+• ✅ **Industry-specific keywords** for ${data.industry ?? 'your sector'}
 • ✅ **Achievement-focused content** that gets results
 • ✅ **Professional design** that stands out
 

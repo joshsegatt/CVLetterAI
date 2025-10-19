@@ -32,8 +32,8 @@ export default function OverviewPage() {
 
   if (!mounted || !user) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+      <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
       </div>
     );
   }
@@ -55,25 +55,25 @@ export default function OverviewPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100">
       {/* Header with mobile menu */}
       <Header />
       
       <main className="container mx-auto px-4 pt-24 pb-16 space-y-8">
         {/* Welcome Section */}
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8">
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
           <div className="flex flex-col md:flex-row items-start justify-between gap-6">
             <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2">
                 Welcome back, {user.firstName || user.name}!
               </h1>
-              <p className="text-slate-300">
+              <p className="text-gray-600">
                 Ready to create professional CVs and cover letters with AI assistance.
               </p>
             </div>
             
             {/* Plan Badge */}
-            <div className={`bg-gradient-to-r ${getPlanColor()} px-4 py-2 rounded-full flex items-center gap-2`}>
+            <div className={`bg-gradient-to-r ${getPlanColor()} px-4 py-2 rounded-full flex items-center gap-2 shadow-lg`}>
               {isEnterprise && <Crown className="h-5 w-5 text-white" />}
               {isPro && <Zap className="h-5 w-5 text-white" />}
               {isFree && <Shield className="h-5 w-5 text-white" />}
@@ -84,47 +84,47 @@ export default function OverviewPage() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 p-6">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <FileText className="h-8 w-8 text-blue-400" />
-              <span className="text-2xl font-bold text-white">3</span>
+              <FileText className="h-8 w-8 text-blue-500" />
+              <span className="text-2xl font-bold text-gray-900">3</span>
             </div>
-            <p className="text-slate-300 text-sm">CVs Created</p>
+            <p className="text-gray-600 text-sm">CVs Created</p>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 p-6">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <FileSignature className="h-8 w-8 text-green-400" />
-              <span className="text-2xl font-bold text-white">5</span>
+              <FileSignature className="h-8 w-8 text-green-500" />
+              <span className="text-2xl font-bold text-gray-900">5</span>
             </div>
-            <p className="text-slate-300 text-sm">Cover Letters</p>
+            <p className="text-gray-600 text-sm">Cover Letters</p>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 p-6">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <Download className="h-8 w-8 text-purple-400" />
-              <span className="text-2xl font-bold text-white">12</span>
+              <Download className="h-8 w-8 text-purple-500" />
+              <span className="text-2xl font-bold text-gray-900">12</span>
             </div>
-            <p className="text-slate-300 text-sm">Downloads</p>
+            <p className="text-gray-600 text-sm">Downloads</p>
           </div>
           
-          <div className="bg-white/10 backdrop-blur-xl rounded-xl border border-white/20 p-6">
+          <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-lg hover:shadow-xl transition-shadow">
             <div className="flex items-center justify-between mb-4">
-              <Clock className="h-8 w-8 text-orange-400" />
-              <span className="text-2xl font-bold text-white">Today</span>
+              <Clock className="h-8 w-8 text-orange-500" />
+              <span className="text-2xl font-bold text-gray-900">Today</span>
             </div>
-            <p className="text-slate-300 text-sm">Last Active</p>
+            <p className="text-gray-600 text-sm">Last Active</p>
           </div>
         </div>
 
         {/* Quick Actions */}
-        <div className="bg-white/10 backdrop-blur-xl rounded-2xl border border-white/20 p-8">
-          <h2 className="text-2xl font-bold text-white mb-6">Quick Actions</h2>
+        <div className="bg-white rounded-2xl border border-gray-200 p-8 shadow-lg">
+          <h2 className="text-2xl font-bold text-gray-900 mb-6">Quick Actions</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Button 
               asChild 
-              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-6 h-auto flex-col space-y-2"
+              className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white p-6 h-auto flex-col space-y-2 shadow-lg hover:shadow-xl transition-shadow"
             >
               <Link href="/cv-builder">
                 <FileText className="h-8 w-8" />
@@ -135,7 +135,7 @@ export default function OverviewPage() {
             
             <Button 
               asChild 
-              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-6 h-auto flex-col space-y-2"
+              className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white p-6 h-auto flex-col space-y-2 shadow-lg hover:shadow-xl transition-shadow"
             >
               <Link href="/letter-builder">
                 <FileSignature className="h-8 w-8" />
@@ -146,7 +146,7 @@ export default function OverviewPage() {
             
             <Button 
               asChild 
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-6 h-auto flex-col space-y-2"
+              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white p-6 h-auto flex-col space-y-2 shadow-lg hover:shadow-xl transition-shadow"
             >
               <Link href="/chat">
                 <BarChart3 className="h-8 w-8" />
@@ -157,7 +157,7 @@ export default function OverviewPage() {
             
             <Button 
               asChild 
-              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white p-6 h-auto flex-col space-y-2"
+              className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white p-6 h-auto flex-col space-y-2 shadow-lg hover:shadow-xl transition-shadow"
             >
               <Link href="/settings">
                 <Settings className="h-8 w-8" />

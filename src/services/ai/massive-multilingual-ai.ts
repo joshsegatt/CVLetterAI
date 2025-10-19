@@ -462,7 +462,7 @@ export class MassiveMultilingualAI {
    */
   static async generateMultilingualResponse(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     detectedLanguage?: string
   ): Promise<{
     content: string;
@@ -480,7 +480,7 @@ export class MassiveMultilingualAI {
 
     // Get country-specific data based on language
     const countryContext = this.getCountryContext(lang);
-    const documentPatterns = this.MASSIVE_KNOWLEDGE_BASE.documentPatterns[lang] || 
+    const documentPatterns = this.MASSIVE_KNOWLEDGE_BASE.documentPatterns[lang] ?? 
                            this.MASSIVE_KNOWLEDGE_BASE.documentPatterns['en'];
 
     // Analyze user intent with cultural context
@@ -517,8 +517,8 @@ export class MassiveMultilingualAI {
       'fr': 'France'
     };
 
-    const country = countryMapping[language] || 'UK';
-    return this.MASSIVE_KNOWLEDGE_BASE.careerData[country] || 
+    const country = countryMapping[language] ?? 'UK';
+    return this.MASSIVE_KNOWLEDGE_BASE.careerData[country] ?? 
            this.MASSIVE_KNOWLEDGE_BASE.careerData['UK'];
   }
 
@@ -556,7 +556,7 @@ export class MassiveMultilingualAI {
       }
     };
 
-    const intents = culturalIntents[language as keyof typeof culturalIntents] || culturalIntents.en;
+    const intents = culturalIntents[language as keyof typeof culturalIntents] ?? culturalIntents.en;
     const lowerMessage = message.toLowerCase();
 
     for (const [intent, keywords] of Object.entries(intents)) {
@@ -570,7 +570,7 @@ export class MassiveMultilingualAI {
 
   private static async generateContextualResponse(
     userMessage: string,
-    conversationHistory: Array<{ role: string; content: string }>,
+    conversationHistory: { role: string; content: string }[],
     language: string,
     countryContext: any,
     documentPatterns: any,
@@ -596,7 +596,7 @@ export class MassiveMultilingualAI {
       const countryName = this.getCountryFromLanguage(language);
       return MassiveAIKnowledgeSystem.generateInterviewPrep(
         countryName, 
-        userProfile.industry || 'Technology', 
+        userProfile.industry ?? 'Technology', 
         language
       );
     }
@@ -607,7 +607,7 @@ export class MassiveMultilingualAI {
     );
 
     const industryData = MassiveAIKnowledgeSystem.getIndustryIntelligence(
-      userProfile.industry || 'Technology'
+      userProfile.industry ?? 'Technology'
     );
 
     // Massive response templates by language and intent with real market data
@@ -647,7 +647,7 @@ ${documentPatterns.cvStructure.map((item: string) => `• ${item}`).join('\n')}
 ${industryData ? `
 ### 🎯 **Estratégias para ${industryData.name}**
 • **Trends Principais**: ${industryData.globalTrends.slice(0, 2).join(', ')}
-• **Empresas Alvo**: ${marketData?.topEmployers.slice(0, 3).join(', ') || 'Principais empregadores'}
+• **Empresas Alvo**: ${marketData?.topEmployers.slice(0, 3).join(', ') ?? 'Principais empregadores'}
 • **Skills Valorizadas**: ${industryData.keySkills.slice(0, 3).join(', ')}
 ` : ''}
 
@@ -678,7 +678,7 @@ ${industryData ? `
 
 ### 💰 **Salary Ranges**
 ${Object.entries(industryData.salaryRanges).slice(0, 2).map(([role, range]) => 
-  `• **${role}**: ${marketData?.currency || 'USD'} ${range[0].toLocaleString()} - ${range[1].toLocaleString()}`
+  `• **${role}**: ${marketData?.currency ?? 'USD'} ${range[0].toLocaleString()} - ${range[1].toLocaleString()}`
 ).join('\n')}
 ` : ''}
 
@@ -695,7 +695,7 @@ ${documentPatterns.cvStructure.map((item: string) => `• ${item}`).join('\n')}
 ${industryData ? `
 ### 🎯 **${industryData.name} Strategy**
 • **Key Trends**: ${industryData.globalTrends.slice(0, 2).join(', ')}
-• **Target Companies**: ${marketData?.topEmployers.slice(0, 3).join(', ') || 'Top employers'}
+• **Target Companies**: ${marketData?.topEmployers.slice(0, 3).join(', ') ?? 'Top employers'}
 • **Valued Skills**: ${industryData.keySkills.slice(0, 3).join(', ')}
 ` : ''}
 
@@ -709,8 +709,8 @@ ${documentPatterns.letterFormats.map((item: string) => `• ${item}`).join('\n')
       }
     };
 
-    const templates = responseTemplates[language as keyof typeof responseTemplates] || responseTemplates.en;
-    return templates[intent as keyof typeof templates] || 
+    const templates = responseTemplates[language as keyof typeof responseTemplates] ?? responseTemplates.en;
+    return templates[intent as keyof typeof templates] ?? 
            MassiveAIKnowledgeSystem.generateCareerAdvice(userProfile, language);
   }
 
@@ -722,10 +722,10 @@ ${documentPatterns.letterFormats.map((item: string) => `• ${item}`).join('\n')
       'de': 'Germany',
       'fr': 'France'
     };
-    return mapping[language] || 'United Kingdom';
+    return mapping[language] ?? 'United Kingdom';
   }
 
-  private static extractUserProfile(conversationHistory: Array<{ role: string; content: string }>, currentMessage: string) {
+  private static extractUserProfile(conversationHistory: { role: string; content: string }[], currentMessage: string) {
     const allText = [...conversationHistory.map(m => m.content), currentMessage].join(' ').toLowerCase();
     
     // Extract industry
@@ -738,14 +738,14 @@ ${documentPatterns.letterFormats.map((item: string) => `• ${item}`).join('\n')
     
     // Extract career level
     let careerLevel = 'mid';
-    if (allText.includes('senior') || allText.includes('manager') || allText.includes('director')) {
+    if (allText.includes('senior') ?? allText.includes('manager') ?? allText.includes('director')) {
       careerLevel = 'senior';
-    } else if (allText.includes('junior') || allText.includes('entry') || allText.includes('graduate')) {
+    } else if (allText.includes('junior') ?? allText.includes('entry') ?? allText.includes('graduate')) {
       careerLevel = 'entry';
     }
     
     return {
-      industry: detectedIndustry || 'Technology',
+      industry: detectedIndustry ?? 'Technology',
       skills: detectedSkills,
       careerLevel,
       experience: allText.includes('years') ? 'experienced' : 'developing'

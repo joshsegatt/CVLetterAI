@@ -17,7 +17,7 @@ class IntelligentPDFService {
       const cvData = this.buildCompleteCV(memory);
       
       // Generate PDF using the template system
-      const pdfBlob = await this.renderCVToPDF(cvData, memory.extractedData.preferences?.template_preference || 'modern');
+      const pdfBlob = await this.renderCVToPDF(cvData, memory.extractedData.preferences?.template_preference ?? 'modern');
       
       // Create download URL
       const downloadUrl = await this.createDownloadURL(pdfBlob, `${cvData.personal.firstName}_CV.pdf`);
@@ -42,7 +42,7 @@ class IntelligentPDFService {
       const letterData = this.buildCompleteLetter(memory);
       
       // Generate PDF using the template system
-      const pdfBlob = await this.renderLetterToPDF(letterData, memory.extractedData.preferences?.template_preference || 'formal');
+      const pdfBlob = await this.renderLetterToPDF(letterData, memory.extractedData.preferences?.template_preference ?? 'formal');
       
       // Create download URL
       const downloadUrl = await this.createDownloadURL(pdfBlob, `${letterData.senderInfo.name.replace(/\s/g, '_')}_Letter.pdf`);
@@ -62,55 +62,55 @@ class IntelligentPDFService {
   }
 
   private buildCompleteCV(memory: ConversationMemory): CVData {
-    const extracted = memory.extractedData.cv || {};
+    const extracted = memory.extractedData.cv ?? {};
     
     // Start with sample data as base and merge with extracted info
     const completeCV: CVData = {
       personal: {
-        firstName: extracted.personal?.firstName || 'John',
-        lastName: extracted.personal?.lastName || 'Doe',
-        email: extracted.personal?.email || 'john.doe@email.com',
-        phone: extracted.personal?.phone || '+44 20 1234 5678',
-        location: extracted.personal?.location || 'London, UK',
+        firstName: extracted.personal?.firstName ?? 'John',
+        lastName: extracted.personal?.lastName ?? 'Doe',
+        email: extracted.personal?.email ?? 'john.doe@email.com',
+        phone: extracted.personal?.phone ?? '+44 20 1234 5678',
+        location: extracted.personal?.location ?? 'London, UK',
         website: extracted.personal?.website,
         linkedin: extracted.personal?.linkedin,
         github: extracted.personal?.github,
-        summary: extracted.personal?.summary || this.generateSummaryFromConversation(memory)
+        summary: extracted.personal?.summary ?? this.generateSummaryFromConversation(memory)
       },
-      experience: extracted.experience || sampleCVData.experience,
-      education: extracted.education || sampleCVData.education,
-      skills: extracted.skills || sampleCVData.skills,
-      projects: extracted.projects || sampleCVData.projects,
-      languages: extracted.languages || sampleCVData.languages,
-      certificates: extracted.certificates || sampleCVData.certificates
+      experience: extracted.experience ?? sampleCVData.experience,
+      education: extracted.education ?? sampleCVData.education,
+      skills: extracted.skills ?? sampleCVData.skills,
+      projects: extracted.projects ?? sampleCVData.projects,
+      languages: extracted.languages ?? sampleCVData.languages,
+      certificates: extracted.certificates ?? sampleCVData.certificates
     };
 
     return completeCV;
   }
 
   private buildCompleteLetter(memory: ConversationMemory): LetterData {
-    const extracted = memory.extractedData.letter || {};
+    const extracted = memory.extractedData.letter ?? {};
     
     const completeLetter: LetterData = {
       senderInfo: {
-        name: extracted.senderInfo?.name || 'John Doe',
-        address: extracted.senderInfo?.address || '123 Main Street, London, SW1A 1AA',
-        phone: extracted.senderInfo?.phone || '+44 20 1234 5678',
-        email: extracted.senderInfo?.email || 'john.doe@email.com'
+        name: extracted.senderInfo?.name ?? 'John Doe',
+        address: extracted.senderInfo?.address ?? '123 Main Street, London, SW1A 1AA',
+        phone: extracted.senderInfo?.phone ?? '+44 20 1234 5678',
+        email: extracted.senderInfo?.email ?? 'john.doe@email.com'
       },
       recipientInfo: {
-        name: extracted.recipientInfo?.name || 'Hiring Manager',
-        title: extracted.recipientInfo?.title || 'Recruitment Team',
-        company: extracted.recipientInfo?.company || 'Company Name',
-        address: extracted.recipientInfo?.address || 'Company Address, London, UK'
+        name: extracted.recipientInfo?.name ?? 'Hiring Manager',
+        title: extracted.recipientInfo?.title ?? 'Recruitment Team',
+        company: extracted.recipientInfo?.company ?? 'Company Name',
+        address: extracted.recipientInfo?.address ?? 'Company Address, London, UK'
       },
       letterInfo: {
         date: new Date().toLocaleDateString('en-GB'),
-        subject: extracted.letterInfo?.subject || this.generateSubjectFromConversation(memory),
-        salutation: extracted.letterInfo?.salutation || 'Dear Hiring Manager,',
-        body: extracted.letterInfo?.body || this.generateBodyFromConversation(memory),
-        closing: extracted.letterInfo?.closing || 'Yours faithfully,',
-        signature: extracted.letterInfo?.signature || 'Professional Signature'
+        subject: extracted.letterInfo?.subject ?? this.generateSubjectFromConversation(memory),
+        salutation: extracted.letterInfo?.salutation ?? 'Dear Hiring Manager,',
+        body: extracted.letterInfo?.body ?? this.generateBodyFromConversation(memory),
+        closing: extracted.letterInfo?.closing ?? 'Yours faithfully,',
+        signature: extracted.letterInfo?.signature ?? 'Professional Signature'
       }
     };
 
@@ -216,7 +216,7 @@ I would welcome the opportunity to discuss how my background and enthusiasm can 
     
     let message = '';
     
-    if (hasEnoughData && (canGenerateCV || canGenerateLetter)) {
+    if (hasEnoughData && (canGenerateCV ?? canGenerateLetter)) {
       message = '🎉 Great! I have enough information to generate your documents. ';
       
       if (canGenerateCV && canGenerateLetter) {

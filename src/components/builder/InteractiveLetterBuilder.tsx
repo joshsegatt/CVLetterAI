@@ -8,46 +8,89 @@ import ElegantLetterTemplate from "./Letter-templates/ElegantLetterTemplate";
 import PDFDownloadButton from "../shared/PDFDownloadButton";
 import { AuthRequiredModal } from "../shared/AuthRequiredModal";
 import { usePublicAccess } from "../../lib/auth/publicAccess";
+import { 
+  FileText, 
+  User, 
+  Mail, 
+  Eye, 
+  Download, 
+  ChevronLeft, 
+  ChevronRight, 
+  CheckCircle,
+  Palette,
+  Edit3
+} from "lucide-react";
 
 interface StepProgressProps {
   currentStep: number;
   totalSteps: number;
-  steps: string[];
+  steps: { title: string; icon: React.ComponentType<any>; description: string }[];
 }
 
 function StepProgress({ currentStep, totalSteps, steps }: StepProgressProps) {
   return (
-    <div className="w-full mb-8">
-      <div className="flex items-center justify-between mb-4">
-        {steps.map((step, index) => (
-          <React.Fragment key={index}>
-            <div className="flex flex-col items-center">
-              <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold border-2 transition-all ${
-                  index < currentStep
-                    ? 'bg-emerald-500 border-emerald-500 text-white'
-                    : index === currentStep
-                    ? 'bg-purple-500 border-purple-500 text-white'
-                    : 'bg-gray-700 border-gray-600 text-gray-400'
-                }`}
-              >
-                {index < currentStep ? '✓' : index + 1}
+    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 mb-8">
+      <div className="flex items-center justify-between">
+        {steps.map((step, index) => {
+          const Icon = step.icon;
+          const isCompleted = index < currentStep;
+          const isCurrent = index === currentStep;
+          const isUpcoming = index > currentStep;
+          
+          return (
+            <React.Fragment key={index}>
+              <div className="flex flex-col items-center min-w-0 flex-1">
+                <div className={`
+                  relative w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-all duration-300
+                  ${isCompleted 
+                    ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/25' 
+                    : isCurrent 
+                    ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/25 scale-110' 
+                    : 'bg-gray-100 text-gray-400'
+                  }
+                `}>
+                  {isCompleted ? (
+                    <CheckCircle className="w-8 h-8" />
+                  ) : (
+                    <Icon className="w-8 h-8" />
+                  )}
+                  {isCurrent && (
+                    <div className="absolute -inset-1 bg-purple-500/20 rounded-2xl animate-pulse" />
+                  )}
+                </div>
+                <div className="text-center">
+                  <h3 className={`text-sm font-semibold mb-1 ${
+                    isCurrent ? 'text-purple-600' : isCompleted ? 'text-emerald-600' : 'text-gray-400'
+                  }`}>
+                    {step.title}
+                  </h3>
+                  <p className="text-xs text-gray-500 leading-tight max-w-20">
+                    {step.description}
+                  </p>
+                </div>
               </div>
-              <span className={`text-xs mt-2 font-medium ${
-                index <= currentStep ? 'text-white' : 'text-gray-500'
-              }`}>
-                {step}
-              </span>
-            </div>
-            {index < steps.length - 1 && (
-              <div
-                className={`flex-1 h-0.5 mx-4 transition-all ${
-                  index < currentStep ? 'bg-emerald-500' : 'bg-gray-700'
-                }`}
-              />
-            )}
-          </React.Fragment>
-        ))}
+              {index < steps.length - 1 && (
+                <div className="flex items-center justify-center w-12 h-1 mx-2">
+                  <div className={`w-full h-0.5 transition-all duration-300 ${
+                    index < currentStep ? 'bg-emerald-500' : 'bg-gray-200'
+                  }`} />
+                </div>
+              )}
+            </React.Fragment>
+          );
+        })}
+      </div>
+      
+      <div className="mt-6 text-center">
+        <div className="text-sm text-gray-600">
+          Step <span className="font-semibold text-purple-600">{currentStep + 1}</span> of {totalSteps}
+        </div>
+        <div className="w-full bg-gray-200 h-2 rounded-full mt-2 overflow-hidden">
+          <div 
+            className="h-full bg-gradient-to-r from-purple-500 to-emerald-500 transition-all duration-500 ease-out"
+            style={{ width: `${((currentStep + 1) / totalSteps) * 100}%` }}
+          />
+        </div>
       </div>
     </div>
   );
@@ -64,25 +107,46 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
   const [showAuthModal, setShowAuthModal] = useState(false);
   const { isAuthenticated, getFreeDownloadLimit } = usePublicAccess();
 
-  const steps = ['Template', 'Personalizar', 'Revisar', 'Baixar'];
+  const steps = [
+    { 
+      title: "Template", 
+      icon: Palette, 
+      description: "Choose design" 
+    },
+    { 
+      title: "Content", 
+      icon: Edit3, 
+      description: "Write letter" 
+    },
+    { 
+      title: "Review", 
+      icon: Eye, 
+      description: "Final check" 
+    },
+    { 
+      title: "Download", 
+      icon: Download, 
+      description: "Get your letter" 
+    }
+  ];
 
   const templates: { id: LetterTemplate; name: string; description: string; preview: string }[] = [
     {
       id: 'formal',
       name: 'Minimal Modern',
-      description: 'Design limpo e contemporâneo para correspondência moderna',
+      description: 'Clean contemporary design for modern correspondence',
       preview: '/thumbs/letter-formal.png'
     },
     {
       id: 'polite',
       name: 'Clean Business',
-      description: 'Carta comercial profissional com cabeçalho elegante',
+      description: 'Professional business letter with elegant header',
       preview: '/thumbs/letter-business.png'
     },
     {
       id: 'firm',
       name: 'Executive Elite',
-      description: 'Template premium para correspondência executiva',
+      description: 'Premium template for executive correspondence',
       preview: '/thumbs/letter-executive.png'
     }
   ];
@@ -124,185 +188,226 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
     switch (currentStep) {
       case 0: // Template Selection
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white mb-6">
-              Escolha seu template de carta
-            </h3>
-            <div className="grid gap-4">
-              {templates.map((template) => (
-                <button
-                  key={template.id}
-                  onClick={() => setSelectedTemplate(template.id)}
-                  className={`glass-panel border p-6 text-left transition-all hover:scale-105 ${
-                    selectedTemplate === template.id
-                      ? 'border-purple-500 bg-purple-500/10'
-                      : 'border-white/10 hover:border-white/20'
-                  }`}
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-20 bg-gray-200 rounded flex-shrink-0 bg-gradient-to-br from-purple-100 to-purple-300">
-                      <div className="w-full h-full bg-white/50 rounded flex items-center justify-center text-xs text-gray-600">
-                        Preview
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-white mb-2">{template.name}</h4>
-                      <p className="text-sm text-neutral-300">{template.description}</p>
-                      {selectedTemplate === template.id && (
-                        <div className="mt-2 inline-block bg-purple-500 text-white px-3 py-1 rounded text-xs">
-                          ✓ Selecionado
-                        </div>
-                      )}
-                    </div>
+          <div className="space-y-8">
+            <div className="card">
+              <div className="card-body">
+                <div className="flex items-center gap-3 pb-4 border-b border-gray-100 mb-6">
+                  <div className="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center">
+                    <Palette className="w-5 h-5 text-purple-600" />
                   </div>
-                </button>
-              ))}
+                  <div>
+                    <h2 className="text-2xl font-semibold text-gray-900">Choose Your Template</h2>
+                    <p className="text-small text-gray-600">Select a professional letter design</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  {templates.map((template) => (
+                    <button
+                      key={template.id}
+                      onClick={() => setSelectedTemplate(template.id)}
+                      className={`w-full text-left p-6 rounded-xl border-2 transition-all duration-200 hover:scale-[1.02] ${
+                        selectedTemplate === template.id
+                          ? 'border-purple-500 bg-purple-50 shadow-lg shadow-purple-500/10'
+                          : 'border-gray-200 hover:border-gray-300 bg-white'
+                      }`}
+                      aria-label={`Select ${template.name} template - ${template.description}`}
+                      role="radio"
+                      aria-checked={selectedTemplate === template.id}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-16 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-lg flex-shrink-0 flex items-center justify-center">
+                          <FileText className="w-8 h-8 text-purple-600" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="text-lg font-semibold text-gray-900 mb-2">{template.name}</h4>
+                          <p className="text-body text-gray-600">{template.description}</p>
+                          {selectedTemplate === template.id && (
+                            <div className="mt-3 inline-flex items-center gap-2 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-medium">
+                              <CheckCircle className="w-4 h-4" />
+                              Selected
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         );
 
-      case 1: // Customize Data
+      case 1: // Customize Content
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white mb-6">
-              Personalize sua carta
-            </h3>
-            <div className="glass-panel border-white/10 p-6 space-y-4">
-              {/* Sender Info */}
-              <div className="border-b border-white/10 pb-4 mb-4">
-                <h4 className="text-lg font-semibold text-white mb-3">Suas Informações</h4>
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Nome</label>
-                    <input
-                      type="text"
-                      value={letterData.senderInfo.name}
-                      onChange={(e) => updateLetterData('senderInfo.name', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                    />
+          <div className="space-y-8">
+            <div className="card">
+              <div className="card-body">
+                <div className="flex items-center gap-3 pb-4 border-b border-gray-100 mb-6">
+                  <div className="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <Edit3 className="w-5 h-5 text-blue-600" />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Email</label>
-                    <input
-                      type="email"
-                      value={letterData.senderInfo.email}
-                      onChange={(e) => updateLetterData('senderInfo.email', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                    />
+                    <h2 className="text-2xl font-semibold text-gray-900">Letter Content</h2>
+                    <p className="text-small text-gray-600">Customize your letter details</p>
                   </div>
                 </div>
-                
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-white mb-2">Telefone</label>
-                  <input
-                    type="tel"
-                    value={letterData.senderInfo.phone}
-                    onChange={(e) => updateLetterData('senderInfo.phone', e.target.value)}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
 
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-white mb-2">Endereço</label>
-                  <textarea
-                    value={letterData.senderInfo.address}
-                    onChange={(e) => updateLetterData('senderInfo.address', e.target.value)}
-                    rows={2}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* Recipient Info */}
-              <div className="border-b border-white/10 pb-4 mb-4">
-                <h4 className="text-lg font-semibold text-white mb-3">Destinatário</h4>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-8">
+                  {/* Sender Info */}
                   <div>
-                    <label className="block text-sm font-medium text-white mb-2">Nome</label>
-                    <input
-                      type="text"
-                      value={letterData.recipientInfo.name}
-                      onChange={(e) => updateLetterData('recipientInfo.name', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Título/Cargo</label>
-                    <input
-                      type="text"
-                      value={letterData.recipientInfo.title || ''}
-                      onChange={(e) => updateLetterData('recipientInfo.title', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                    />
-                  </div>
-                </div>
-                
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-white mb-2">Empresa</label>
-                  <input
-                    type="text"
-                    value={letterData.recipientInfo.company || ''}
-                    onChange={(e) => updateLetterData('recipientInfo.company', e.target.value)}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                  />
-                </div>
-
-                <div className="mt-4">
-                  <label className="block text-sm font-medium text-white mb-2">Endereço</label>
-                  <textarea
-                    value={letterData.recipientInfo.address}
-                    onChange={(e) => updateLetterData('recipientInfo.address', e.target.value)}
-                    rows={2}
-                    className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none resize-none"
-                  />
-                </div>
-              </div>
-
-              {/* Letter Content */}
-              <div>
-                <h4 className="text-lg font-semibold text-white mb-3">Conteúdo da Carta</h4>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Assunto</label>
-                    <input
-                      type="text"
-                      value={letterData.letterInfo.subject}
-                      onChange={(e) => updateLetterData('letterInfo.subject', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                    />
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <User className="w-5 h-5 text-gray-600" />
+                      Your Information
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label htmlFor="sender-name" className="text-sm font-medium text-gray-700">Full Name</label>
+                        <input
+                          id="sender-name"
+                          type="text"
+                          value={letterData.senderInfo.name}
+                          onChange={(e) => updateLetterData('senderInfo.name', e.target.value)}
+                          className="input input-lg"
+                          placeholder="Enter your full name"
+                          aria-required="true"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Email Address</label>
+                        <input
+                          type="email"
+                          value={letterData.senderInfo.email}
+                          onChange={(e) => updateLetterData('senderInfo.email', e.target.value)}
+                          className="input input-lg"
+                          placeholder="your.email@company.com"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Phone Number</label>
+                        <input
+                          type="tel"
+                          value={letterData.senderInfo.phone}
+                          onChange={(e) => updateLetterData('senderInfo.phone', e.target.value)}
+                          className="input input-lg"
+                          placeholder="+1 (555) 123-4567"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Address</label>
+                        <textarea
+                          value={letterData.senderInfo.address}
+                          onChange={(e) => updateLetterData('senderInfo.address', e.target.value)}
+                          rows={2}
+                          className="input input-lg min-h-16"
+                          placeholder="Your complete address"
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Saudação</label>
-                    <input
-                      type="text"
-                      value={letterData.letterInfo.salutation}
-                      onChange={(e) => updateLetterData('letterInfo.salutation', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                      placeholder="Ex: Prezado(a) Sr(a). Silva,"
-                    />
+                  {/* Recipient Info */}
+                  <div className="border-t border-gray-100 pt-8">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <Mail className="w-5 h-5 text-gray-600" />
+                      Recipient Information
+                    </h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Recipient Name</label>
+                        <input
+                          type="text"
+                          value={letterData.recipientInfo.name}
+                          onChange={(e) => updateLetterData('recipientInfo.name', e.target.value)}
+                          className="input input-lg"
+                          placeholder="Recipient's full name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Title/Position</label>
+                        <input
+                          type="text"
+                          value={letterData.recipientInfo.title || ''}
+                          onChange={(e) => updateLetterData('recipientInfo.title', e.target.value)}
+                          className="input input-lg"
+                          placeholder="e.g. HR Manager, CEO"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Company</label>
+                        <input
+                          type="text"
+                          value={letterData.recipientInfo.company || ''}
+                          onChange={(e) => updateLetterData('recipientInfo.company', e.target.value)}
+                          className="input input-lg"
+                          placeholder="Company name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Company Address</label>
+                        <textarea
+                          value={letterData.recipientInfo.address}
+                          onChange={(e) => updateLetterData('recipientInfo.address', e.target.value)}
+                          rows={2}
+                          className="input input-lg min-h-16"
+                          placeholder="Company's complete address"
+                        />
+                      </div>
+                    </div>
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Corpo da Carta</label>
-                    <textarea
-                      value={letterData.letterInfo.body}
-                      onChange={(e) => updateLetterData('letterInfo.body', e.target.value)}
-                      rows={8}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none resize-none"
-                      placeholder="Escreva o conteúdo principal da sua carta aqui..."
-                    />
-                  </div>
+                  {/* Letter Content */}
+                  <div className="border-t border-gray-100 pt-8">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                      <FileText className="w-5 h-5 text-gray-600" />
+                      Letter Content
+                    </h3>
+                    <div className="space-y-6">
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Subject Line</label>
+                        <input
+                          type="text"
+                          value={letterData.letterInfo.subject}
+                          onChange={(e) => updateLetterData('letterInfo.subject', e.target.value)}
+                          className="input input-lg"
+                          placeholder="Brief description of the letter's purpose"
+                        />
+                      </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-white mb-2">Fechamento</label>
-                    <input
-                      type="text"
-                      value={letterData.letterInfo.closing}
-                      onChange={(e) => updateLetterData('letterInfo.closing', e.target.value)}
-                      className="w-full px-3 py-2 bg-white/5 border border-white/20 rounded-lg text-white focus:border-purple-500 focus:outline-none"
-                      placeholder="Ex: Atenciosamente,"
-                    />
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Salutation</label>
+                        <input
+                          type="text"
+                          value={letterData.letterInfo.salutation}
+                          onChange={(e) => updateLetterData('letterInfo.salutation', e.target.value)}
+                          className="input input-lg"
+                          placeholder="e.g. Dear Mr. Smith, Dear Hiring Manager,"
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Letter Body</label>
+                        <textarea
+                          value={letterData.letterInfo.body}
+                          onChange={(e) => updateLetterData('letterInfo.body', e.target.value)}
+                          rows={8}
+                          className="input input-lg min-h-48"
+                          placeholder="Write the main content of your letter here. Be clear, concise, and professional..."
+                        />
+                        <p className="text-xs text-gray-500">Write 2-4 paragraphs covering your main points</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium text-gray-700">Closing</label>
+                        <input
+                          type="text"
+                          value={letterData.letterInfo.closing}
+                          onChange={(e) => updateLetterData('letterInfo.closing', e.target.value)}
+                          className="input input-lg"
+                          placeholder="e.g. Sincerely, Best regards, Kind regards"
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -312,30 +417,72 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
 
       case 2: // Review
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white mb-6">
-              Revise sua carta
-            </h3>
-            <div className="glass-panel border-white/10 p-6">
-              <p className="text-neutral-300 mb-4">
-                Confira se todas as informações estão corretas. Você pode voltar para fazer ajustes se necessário.
-              </p>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <span className="text-gray-400">Remetente:</span>
-                  <span className="text-white ml-2">{letterData.senderInfo.name}</span>
+          <div className="space-y-8">
+            <div className="card">
+              <div className="card-body">
+                <div className="flex items-center gap-3 pb-4 border-b border-gray-100 mb-6">
+                  <div className="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center">
+                    <Eye className="w-5 h-5 text-orange-600" />
+                  </div>
+                  <div>
+                    <h2 className="text-xl font-semibold text-gray-900">Review Your Letter</h2>
+                    <p className="text-small text-gray-600">Final check before download</p>
+                  </div>
                 </div>
-                <div>
-                  <span className="text-gray-400">Destinatário:</span>
-                  <span className="text-white ml-2">{letterData.recipientInfo.name} - {letterData.recipientInfo.company}</span>
-                </div>
-                <div>
-                  <span className="text-gray-400">Assunto:</span>
-                  <span className="text-white ml-2">{letterData.letterInfo.subject}</span>
-                </div>
-                <div>
-                  <span className="text-gray-400">Template:</span>
-                  <span className="text-white ml-2">{templates.find(t => t.id === selectedTemplate)?.name}</span>
+
+                <div className="space-y-6">
+                  <div className="bg-gradient-subtle rounded-xl p-6">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Letter Summary</h3>
+                    <div className="space-y-3 text-body">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">From:</span>
+                        <span className="text-gray-900 font-medium">{letterData.senderInfo.name}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">To:</span>
+                        <span className="text-gray-900 font-medium">
+                          {letterData.recipientInfo.name} 
+                          {letterData.recipientInfo.company && ` - ${letterData.recipientInfo.company}`}
+                        </span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Subject:</span>
+                        <span className="text-gray-900 font-medium">{letterData.letterInfo.subject}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Template:</span>
+                        <span className="text-gray-900 font-medium">
+                          {templates.find(t => t.id === selectedTemplate)?.name}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="space-y-4">
+                    <button
+                      onClick={() => setCurrentStep(0)}
+                      className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+                      aria-label="Change template - Go back to template selection"
+                    >
+                      <div className="text-left">
+                        <div className="font-medium text-gray-900">Change Template</div>
+                        <div className="text-small text-gray-600">Select a different design</div>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-gray-400" />
+                    </button>
+                    
+                    <button
+                      onClick={() => setCurrentStep(1)}
+                      className="w-full flex items-center justify-between p-4 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors"
+                      aria-label="Edit content - Go back to content editing"
+                    >
+                      <div className="text-left">
+                        <div className="font-medium text-gray-900">Edit Content</div>
+                        <div className="text-small text-gray-600">Modify letter details</div>
+                      </div>
+                      <ChevronRight className="w-5 h-5 text-gray-400" />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -344,54 +491,60 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
 
       case 3: // Download
         return (
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold text-white mb-6">
-              Baixe sua carta
-            </h3>
-            <div className="glass-panel border-white/10 p-6 text-center">
-              <div className="text-6xl mb-4">📄</div>
-              <h4 className="text-lg font-semibold text-white mb-2">Carta Pronta!</h4>
-              <p className="text-neutral-300 mb-6">
-                Sua carta profissional está pronta para download. Clique no botão abaixo para baixar em PDF.
-              </p>
-              
-              {isAuthenticated ? (
-                <PDFDownloadButton
-                  targetId="letter-preview"
-                  filename={`${letterData.senderInfo.name.replace(/\s+/g, '_')}_Letter.pdf`}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-4 text-lg font-semibold"
-                >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
-                    </svg>
-                    <span>Baixar Carta em PDF</span>
-                    {(() => {
-                      const limits = getFreeDownloadLimit();
-                      return limits.hasLimit ? (
-                        <span className="text-sm bg-white/20 px-2 py-1 rounded">
-                          {limits.remaining}/{limits.total} restantes
-                        </span>
-                      ) : null;
-                    })()}
-                  </div>
-                </PDFDownloadButton>
-              ) : (
-                <button
-                  onClick={() => setShowAuthModal(true)}
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-8 py-4 text-lg font-semibold text-white rounded-lg transition-all duration-200"
-                >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
-                    </svg>
-                    <span>Baixar Carta Grátis</span>
-                    <span className="text-sm bg-white/20 px-2 py-1 rounded">
-                      Registre-se
-                    </span>
-                  </div>
-                </button>
-              )}
+          <div className="text-center">
+            <div className="card">
+              <div className="card-body py-16">
+                <div className="w-24 h-24 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-12 h-12 text-emerald-600" />
+                </div>
+                <h2 className="text-2xl font-bold text-gray-900 mb-4">
+                  Your Letter is Ready! 🎉
+                </h2>
+                <p className="text-body text-gray-600 mb-8 max-w-md mx-auto">
+                  Your professional letter is ready for download. Click below to get your PDF document.
+                </p>
+                
+                <div className="space-y-4">
+                  {isAuthenticated ? (
+                    <PDFDownloadButton
+                      targetId="letter-preview"
+                      filename={`${letterData.senderInfo.name.replace(/\s+/g, '_')}_Letter.pdf`}
+                      className="btn btn-primary btn-xl w-full max-w-md mx-auto"
+                    >
+                      <Download className="w-6 h-6 mr-3" />
+                      Download Letter as PDF
+                      {(() => {
+                        const limits = getFreeDownloadLimit();
+                        return limits.hasLimit ? (
+                          <span className="ml-2 bg-white/20 px-2 py-1 rounded text-sm">
+                            {limits.remaining}/{limits.total} remaining
+                          </span>
+                        ) : null;
+                      })()}
+                    </PDFDownloadButton>
+                  ) : (
+                    <button
+                      onClick={() => setShowAuthModal(true)}
+                      className="btn btn-primary btn-xl w-full max-w-md mx-auto"
+                    >
+                      <Download className="w-6 h-6 mr-3" />
+                      Download Free Letter
+                      <span className="ml-2 bg-white/20 px-2 py-1 rounded text-sm">
+                        Sign up required
+                      </span>
+                    </button>
+                  )}
+                </div>
+
+                <div className="mt-8 p-4 bg-gray-50 rounded-xl max-w-md mx-auto">
+                  <div className="text-small text-gray-600 mb-2">Next Steps:</div>
+                  <ul className="text-xs text-gray-500 space-y-1 text-left">
+                    <li>• Print on quality letterhead paper</li>
+                    <li>• Proofread for any final corrections</li>
+                    <li>• Send via email or traditional mail</li>
+                  </ul>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -402,59 +555,75 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
   };
 
   return (
-    <div className="space-y-8">
-      {/* Step Progress */}
-      <StepProgress currentStep={currentStep} totalSteps={steps.length} steps={steps} />
+    <div className="min-h-screen bg-white">
+      <div className="container-lg py-8 space-y-8">
+        <StepProgress 
+          currentStep={currentStep} 
+          totalSteps={steps.length} 
+          steps={steps}
+        />
 
-      {/* Main Content */}
-      <div className="grid lg:grid-cols-5 gap-8">
-        {/* Left Sidebar - Step Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {renderStepContent()}
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Left Side - Step Content */}
+          <div className="space-y-8">
+            {renderStepContent()}
 
-          {/* Navigation Buttons */}
-          <div className="flex gap-4">
-            {currentStep > 0 && (
+            {/* Navigation */}
+            <div className="flex justify-between items-center pt-8 border-t border-gray-100">
               <button
-                onClick={() => setCurrentStep(prev => prev - 1)}
-                className="flex-1 px-4 py-3 border border-white/30 bg-white/5 backdrop-blur text-white rounded-lg font-semibold hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+                onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
+                disabled={currentStep === 0}
+                className="btn btn-ghost btn-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                aria-label="Go to previous step in letter building process"
               >
-                ← Voltar
+                <ChevronLeft className="w-5 h-5 mr-2" />
+                Previous
               </button>
-            )}
-            
-            {currentStep < steps.length - 1 && (
-              <button
-                onClick={() => setCurrentStep(prev => prev + 1)}
-                className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-4 py-3 rounded-lg font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300"
-              >
-                {currentStep === 0 ? 'Começar Personalização' : 'Próximo'} →
-              </button>
-            )}
+              
+              {currentStep < steps.length - 1 && (
+                <button
+                  onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
+                  className="btn btn-primary btn-lg"
+                  aria-label="Go to next step in letter building process"
+                >
+                  Next
+                  <ChevronRight className="w-5 h-5 ml-2" />
+                </button>
+              )}
+            </div>
           </div>
-        </div>
 
-        {/* Right Side - Live Preview */}
-        <div className="lg:col-span-3 space-y-4">
-          <h2 className="text-xl font-semibold text-white">Preview em Tempo Real</h2>
-          
-          <div className="glass-panel border-white/10 p-6">
-            <div className="flex justify-center">
-              <div 
-                id="letter-preview" 
-                className="bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200"
-                style={{ 
-                  width: '420px',
-                  height: '594px', // A4 proportion
-                  maxWidth: '100%',
-                  transform: 'scale(0.85)',
-                  transformOrigin: 'top center',
-                  marginBottom: '-60px'
-                }}
-              >
-                <div className="h-full overflow-hidden">
-                  {renderTemplate()}
+          {/* Right Side - Live Preview */}
+          <div className="lg:sticky lg:top-8">
+            <div className="card">
+              <div className="card-body">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-semibold text-gray-900">Live Preview</h3>
+                  <div className="badge badge-primary">Real-time</div>
                 </div>
+                
+                <div className="bg-gray-50 rounded-xl p-6 flex justify-center">
+                  <div 
+                    id="letter-preview" 
+                    className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200"
+                    style={{ 
+                      width: '420px',
+                      height: '594px', // A4 proportion
+                      maxWidth: '100%',
+                      transform: 'scale(0.7)',
+                      transformOrigin: 'top center',
+                      marginBottom: '-120px'
+                    }}
+                  >
+                    <div className="h-full overflow-hidden">
+                      {renderTemplate()}
+                    </div>
+                  </div>
+                </div>
+                
+                <p className="text-xs text-gray-500 mt-4 text-center">
+                  Professional layout • PDF quality guaranteed
+                </p>
               </div>
             </div>
           </div>

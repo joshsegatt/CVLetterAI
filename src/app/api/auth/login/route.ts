@@ -1,183 +1,97 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { loginSchema } from '@/lib/validations/auth';
-import { PasswordUtils, TokenUtils } from '@/lib/security/auth-utils';
 import { z } from 'zod';
+import { rateLimit } from '@/lib/security/rate-limit';
+import { getClientIP } from '@/lib/environment';
 
-export async function POST(request: NextRequest) {
+// Validation schema
+const loginSchema = z.object({
+  emailOrUsername: z.string().min(1, 'Email or username is required'),
+  password: z.string().min(1, 'Password is required'),
+  callbackUrl: z.string().optional(),
+});
+
+export async function POST(req: NextRequest) {
   try {
-    // Parse and validate request body
-    const body = await request.json();
+    // Get client IP for rate limiting
+    const clientIp = getClientIP(req);
     
-    // Validate input data
-    const validatedData = loginSchema.parse(body);
-    
-    // Find user by email or username
-    const user = await prisma.user.findFirst({
-      where: {
-        OR: [
-          { email: validatedData.emailOrUsername.toLowerCase() },
-          { username: validatedData.emailOrUsername },
-        ],
-        isActive: true, // Only allow active users to login
-      },
-      select: {
-        id: true,
-        email: true,
-        username: true,
-        firstName: true,
-        lastName: true,
-        name: true,
-        password: true,
-        plan: true,
-        planExpiresAt: true,
-        isEmailVerified: true,
-        lastLoginAt: true,
-        createdAt: true,
-      },
-    });
-    
-    if (!user || !user.password) {
-      return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Invalid email/username or password. Please check your credentials and try again.' 
-        },
-        { status: 401 }
-      );
-    }
-    
-    // Verify password
-    const isPasswordValid = await PasswordUtils.verifyPassword(
-      validatedData.password, 
-      user.password
+    // Apply rate limiting (5 attempts per 15 minutes)
+    const rateLimitResult = await rateLimit(
+      `login:${clientIp}`,
+      5, // 5 attempts
+      15 * 60 // 15 minutes
     );
-    
-    if (!isPasswordValid) {
+
+    if (!rateLimitResult.success) {
       return NextResponse.json(
-        { 
-          success: false, 
-          error: 'Invalid email/username or password. Please check your credentials and try again.' 
+        {
+          error: 'Too many login attempts. Please try again later.',
+          retryAfter: rateLimitResult.retryAfter,
         },
-        { status: 401 }
+        { status: 429 }
       );
     }
-    
-    // Update last login timestamp
-    await prisma.user.update({
-      where: { id: user.id },
-      data: { lastLoginAt: new Date() },
-    });
-    
-    // Generate tokens
-    const accessToken = TokenUtils.generateAccessToken({
-      userId: user.id,
-      email: user.email,
-    });
-    
-    const refreshToken = TokenUtils.generateRefreshToken({
-      userId: user.id,
-    });
-    
-    // Prepare user data (exclude password)
-    const userData = {
-      id: user.id,
-      email: user.email,
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      name: user.name,
-      plan: user.plan,
-      planExpiresAt: user.planExpiresAt,
-      isEmailVerified: user.isEmailVerified,
-      lastLoginAt: user.lastLoginAt,
-      createdAt: user.createdAt,
-    };
-    
-    // Set secure HTTP-only cookies for tokens
-    const response = NextResponse.json({
+
+    // Parse request body
+    const body = await req.json();
+    const validatedData = loginSchema.parse(body);
+
+    // Since NextAuth.js handles the actual authentication in the authorize callback,
+    // this endpoint is primarily for rate limiting and validation
+    // The actual sign-in should be handled by NextAuth's signIn function on the client
+
+    return NextResponse.json({
       success: true,
-      message: 'Login successful! Welcome back.',
-      user: userData,
-      accessToken, // Also include in response for client-side usage
+      message: 'Validation passed. Use NextAuth signIn method to complete authentication.',
+      remainingAttempts: rateLimitResult.remaining,
     });
-    
-    // Set cookies with appropriate security settings
-    const cookieOptions = {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax' as const,
-      path: '/',
-    };
-    
-    // Access token cookie (24 hours)
-    response.cookies.set('cvletterai-access-token', accessToken, {
-      ...cookieOptions,
-      maxAge: 24 * 60 * 60, // 24 hours
-    });
-    
-    // Refresh token cookie (7 days) - only if "Remember me" is checked
-    if (validatedData.rememberMe) {
-      response.cookies.set('cvletterai-refresh-token', refreshToken, {
-        ...cookieOptions,
-        maxAge: 7 * 24 * 60 * 60, // 7 days
-      });
-    }
-    
-    // Log successful login
-    console.log(`[AUTH] User signed in: ${user.email} (${user.username})`);
-    
-    return response;
-    
+
   } catch (error) {
-    console.error('[AUTH] Login error:', error);
-    
-    // Handle validation errors
+    console.error('Login API error:', error);
+
     if (error instanceof z.ZodError) {
-      const firstError = error.errors[0];
       return NextResponse.json(
         { 
-          success: false, 
-          error: firstError.message,
-          field: firstError.path.join('.'),
+          error: 'Validation failed',
+          details: error.errors.map(err => ({
+            field: err.path.join('.'),
+            message: err.message,
+          })),
         },
         { status: 400 }
       );
     }
-    
+
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Something went wrong during login. Please try again.' 
-      },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }
 }
 
-// Handle user logout
-export async function DELETE(request: NextRequest) {
+// GET method to check login rate limits
+export async function GET(req: NextRequest) {
   try {
-    // Clear authentication cookies
-    const response = NextResponse.json({
-      success: true,
-      message: 'Logged out successfully.',
+    const clientIp = getClientIP(req);
+    
+    // Check current rate limit status
+    const rateLimitResult = await rateLimit(
+      `login:${clientIp}`,
+      5, // 5 attempts
+      15 * 60, // 15 minutes
+      true // Check only, don't increment
+    );
+
+    return NextResponse.json({
+      remaining: rateLimitResult.remaining,
+      resetTime: rateLimitResult.resetTime,
+      isBlocked: !rateLimitResult.success,
     });
-    
-    // Clear cookies
-    response.cookies.delete('cvletterai-access-token');
-    response.cookies.delete('cvletterai-refresh-token');
-    
-    return response;
-    
+
   } catch (error) {
-    console.error('[AUTH] Logout error:', error);
-    
+    console.error('Login rate limit check error:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: 'Something went wrong during logout.' 
-      },
+      { error: 'Internal server error' },
       { status: 500 }
     );
   }

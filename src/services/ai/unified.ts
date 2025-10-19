@@ -69,7 +69,7 @@ export class UnifiedAI {
         case 'ollama':
           yield* this.ollamaClient.chatStream(
             messages,
-            mergedOptions.model || 'llama3.2:3b',
+            mergedOptions.model ?? 'llama3.2:3b',
             mergedOptions
           );
           break;
@@ -107,8 +107,8 @@ export class UnifiedAI {
       },
       body: JSON.stringify({
         messages,
-        model: options.model || 'default',
-        temperature: options.temperature || 0.7,
+        model: options.model ?? 'default',
+        temperature: options.temperature ?? 0.7,
         stream: true
       })
     });
@@ -129,7 +129,7 @@ export class UnifiedAI {
 
       buffer += decoder.decode(value, { stream: true });
       const lines = buffer.split('\n');
-      buffer = lines.pop() || '';
+      buffer = lines.pop() ?? '';
 
       for (const line of lines) {
         if (line.startsWith('data: ')) {

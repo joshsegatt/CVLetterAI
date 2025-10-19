@@ -45,12 +45,12 @@ export function CheckoutButton({
       if (!response.ok) {
         const error = await response.json();
         
-        // Mensagens específicas baseadas no status
+        // Specific messages based on status
         if (response.status === 503) {
-          throw new Error(`Pagamentos temporariamente indisponíveis. ${error.error}`);
+          throw new Error(`Payments temporarily unavailable. ${error.error}`);
         }
         
-        throw new Error(error.error || 'Falha ao criar sessão de checkout');
+        throw new Error(error.error || 'Failed to create checkout session');
       }
 
       const { url } = await response.json();
