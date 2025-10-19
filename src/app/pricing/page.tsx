@@ -53,7 +53,7 @@ const plans = [
   {
     id: 'price_subscription',
     name: 'Enterprise',
-    price: '£12.99',
+    price: '£9.99',
     period: 'per month',
     description: 'For teams and organizations with advanced needs',
     features: [
