@@ -177,7 +177,7 @@ export const AccessChecker = {
     if (plan.planType === 'pro') {
       return {
         title: 'Enterprise Feature',
-        message: `This feature is available in our Enterprise plan for £12.99/month.`,
+        message: `This feature is available in our Enterprise plan for £9.99/month.`,
         upgradeUrl: '/pricing?highlight=enterprise'
       };
     }

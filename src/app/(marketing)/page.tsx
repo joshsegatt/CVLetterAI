@@ -112,7 +112,7 @@ const plans: Plan[] = [
   },
   {
     name: "Enterprise",
-    price: "£12.99",
+    price: "£9.99",
     description: "For teams and organizations with advanced needs",
     highlights: [
       "👑 Everything in Pro",

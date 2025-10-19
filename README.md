@@ -40,7 +40,7 @@
 ### 💰 **Flexible Pricing**
 - **Free**: Limited chat, basic templates
 - **Pro**: £5.99 one-time - Unlimited access
-- **Enterprise**: £12.99/month - Advanced features + API access
+- **Enterprise**: £9.99/month - Advanced features + API access
 
 ### 🔒 **Enterprise Security**
 - **Banking-level security** headers and middleware
