@@ -474,20 +474,15 @@ export default function InteractiveCVBuilder({ initialData }: InteractiveCVBuild
           <h2 className="text-xl font-semibold text-white">Live Preview</h2>
           
           <div className="glass-panel border-white/10 p-6">
-            <div className="flex justify-center">
+            <div className="flex justify-center overflow-auto max-h-[600px]">
               <div 
                 id="cv-preview" 
-                className="bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200"
+                className="bg-white rounded-lg shadow-2xl overflow-hidden border border-gray-200 w-full max-w-[350px]"
                 style={{ 
-                  width: '420px',
-                  height: '594px', // A4 proportion (420 * 1.414)
-                  maxWidth: '100%',
-                  transform: 'scale(0.85)',
-                  transformOrigin: 'top center',
-                  marginBottom: '-60px' // Compensate scale spacing
+                  aspectRatio: '210 / 297' // A4 proportion
                 }}
               >
-                <div className="h-full overflow-hidden">
+                <div className="w-full h-full overflow-hidden">
                   {renderTemplate()}
                 </div>
               </div>

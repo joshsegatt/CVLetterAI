@@ -143,9 +143,9 @@ export default function ChatPage() {
       title="AI Career Assistant"
       description="Get personalized advice for your CV, cover letters, and job search strategy"
     >
-      <div className="flex h-screen bg-gray-50">
+      <div className="flex h-screen bg-gray-50" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {/* Sidebar - Modern GPT/Copilot Style */}
-        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
+        <div className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`} style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
           <div className="flex h-full flex-col">
             
             {/* Sidebar Header - Compact */}
@@ -250,7 +250,7 @@ export default function ChatPage() {
         </div>
 
         {/* Main Chat Area - GPT/Copilot Style */}
-        <div className="flex-1 flex flex-col bg-white">
+        <div className="flex-1 flex flex-col bg-white" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
           {/* Top Bar - Minimal */}
           <div className="h-12 border-b border-gray-100 flex items-center justify-between px-4">
             <div className="flex items-center gap-2">
@@ -380,7 +380,7 @@ export default function ChatPage() {
           </div>
 
           {/* Input Area - GPT/Copilot Style */}
-          <div className="border-t border-gray-100 bg-white p-4">
+          <div className="border-t border-gray-100 bg-white p-4" style={{ paddingBottom: `calc(1rem + env(safe-area-inset-bottom))` }}>
             <div className="max-w-3xl mx-auto">
               
               {/* Uploaded File Display */}

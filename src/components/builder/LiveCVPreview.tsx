@@ -45,16 +45,16 @@ export default function LiveCVPreview({ data, template, colorScheme, scale = 0.5
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+    <div className="bg-white rounded-lg shadow-2xl overflow-hidden w-full">
       <div 
+        className="w-full"
         style={{ 
-          transform: `scale(${scale})`, 
-          transformOrigin: 'top left',
-          width: `${100 / scale}%`,
-          height: `${100 / scale}%`
+          transform: scale !== 1 ? `scale(${scale})` : undefined, 
+          transformOrigin: scale !== 1 ? 'top center' : undefined,
+          aspectRatio: '210 / 297' // A4 proportion
         }}
       >
-        <div style={{ width: '794px', minHeight: '1123px', margin: '0 auto' }}>
+        <div className="w-full h-full overflow-hidden">
           {renderTemplate()}
         </div>
       </div>

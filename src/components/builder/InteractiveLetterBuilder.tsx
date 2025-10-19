@@ -602,21 +602,19 @@ export default function InteractiveLetterBuilder({ initialData }: InteractiveLet
                   <div className="badge badge-primary">Real-time</div>
                 </div>
                 
-                <div className="bg-gray-50 rounded-xl p-6 flex justify-center">
-                  <div 
-                    id="letter-preview" 
-                    className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200"
-                    style={{ 
-                      width: '420px',
-                      height: '594px', // A4 proportion
-                      maxWidth: '100%',
-                      transform: 'scale(0.7)',
-                      transformOrigin: 'top center',
-                      marginBottom: '-120px'
-                    }}
-                  >
-                    <div className="h-full overflow-hidden">
-                      {renderTemplate()}
+                <div className="bg-gray-50 rounded-xl p-4 overflow-auto max-h-[600px] lg:max-h-[700px]">
+                  <div className="flex justify-center">
+                    <div 
+                      id="letter-preview" 
+                      className="bg-white rounded-lg shadow-lg overflow-hidden border border-gray-200 w-full max-w-[420px] mx-auto"
+                      style={{ 
+                        aspectRatio: '210 / 297', // A4 proportion (210mm x 297mm)
+                        minHeight: '400px'
+                      }}
+                    >
+                      <div className="w-full h-full overflow-hidden">
+                        {renderTemplate()}
+                      </div>
                     </div>
                   </div>
                 </div>

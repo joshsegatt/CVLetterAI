@@ -372,13 +372,17 @@ export default function EnhancedCVBuilder() {
                     <h3 className="text-xl font-semibold text-gray-900">Live Preview</h3>
                     <div className="badge badge-primary">Real-time</div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
-                    <LiveCVPreview
-                      data={cvData}
-                      template={selectedTemplate}
-                      colorScheme={selectedColorScheme}
-                      scale={0.4}
-                    />
+                  <div className="bg-gray-50 rounded-xl p-4 overflow-auto max-h-[500px] lg:max-h-[600px]">
+                    <div className="flex justify-center">
+                      <div className="w-full max-w-[300px]">
+                        <LiveCVPreview
+                          data={cvData}
+                          template={selectedTemplate}
+                          colorScheme={selectedColorScheme}
+                          scale={0.6}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <p className="text-xs text-gray-500 mt-3 text-center">
                     Changes appear instantly • PDF quality guaranteed
@@ -431,13 +435,17 @@ export default function EnhancedCVBuilder() {
                     <h3 className="text-xl font-semibold text-gray-900">Live Preview</h3>
                     <div className="badge badge-success">Updated</div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
-                    <LiveCVPreview
-                      data={cvData}
-                      template={selectedTemplate}
-                      colorScheme={selectedColorScheme}
-                      scale={0.4}
-                    />
+                  <div className="bg-gray-50 rounded-xl p-4 overflow-auto max-h-[500px] lg:max-h-[600px]">
+                    <div className="flex justify-center">
+                      <div className="w-full max-w-[300px]">
+                        <LiveCVPreview
+                          data={cvData}
+                          template={selectedTemplate}
+                          colorScheme={selectedColorScheme}
+                          scale={0.6}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -488,13 +496,17 @@ export default function EnhancedCVBuilder() {
                     <h3 className="text-xl font-semibold text-gray-900">Live Preview</h3>
                     <div className="badge badge-warning">Customizing</div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
-                    <LiveCVPreview
-                      data={cvData}
-                      template={selectedTemplate}
-                      colorScheme={selectedColorScheme}
-                      scale={0.4}
-                    />
+                  <div className="bg-gray-50 rounded-xl p-4 overflow-auto max-h-[500px] lg:max-h-[600px]">
+                    <div className="flex justify-center">
+                      <div className="w-full max-w-[300px]">
+                        <LiveCVPreview
+                          data={cvData}
+                          template={selectedTemplate}
+                          colorScheme={selectedColorScheme}
+                          scale={0.6}
+                        />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -586,13 +598,17 @@ export default function EnhancedCVBuilder() {
                     <h3 className="text-xl font-semibold text-gray-900">Final Preview</h3>
                     <div className="badge badge-success">Ready to Download</div>
                   </div>
-                  <div className="bg-gray-50 rounded-xl p-4 max-h-96 overflow-y-auto">
-                    <LiveCVPreview
-                      data={cvData}
-                      template={selectedTemplate}
-                      colorScheme={selectedColorScheme}
-                      scale={0.4}
-                    />
+                  <div className="bg-gray-50 rounded-xl p-4 overflow-auto max-h-[500px] lg:max-h-[600px]">
+                    <div className="flex justify-center">
+                      <div className="w-full max-w-[300px]">
+                        <LiveCVPreview
+                          data={cvData}
+                          template={selectedTemplate}
+                          colorScheme={selectedColorScheme}
+                          scale={0.6}
+                        />
+                      </div>
+                    </div>
                   </div>
                   <div className="mt-4 space-y-3">
                     <PDFDownloadButton

@@ -8,8 +8,8 @@ export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 backdrop-blur-sm bg-white/90 border-b border-gray-200">
-      <div className="container mx-auto px-6 lg:px-8">
+    <header className="sticky top-0 z-[60] backdrop-blur-sm bg-white/90 border-b border-gray-200" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+      <div className="container mx-auto px-6 lg:px-8 relative">
         <div className="flex h-16 items-center justify-between">
           {/* Logo Equilibrado */}
           <Link 
@@ -92,7 +92,7 @@ export function Header() {
 
         {/* Simple Mobile Menu */}
         {isMenuOpen && (
-          <div className="lg:hidden border-t border-gray-200 py-4 bg-white rounded-b-lg">
+          <div className="lg:hidden absolute left-0 right-0 top-full border-t border-gray-200 py-4 bg-white shadow-lg z-[61]">
             <nav className="space-y-2">
               <Link 
                 href="/cv-builder" 
