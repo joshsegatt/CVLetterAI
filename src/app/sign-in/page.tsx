@@ -13,8 +13,8 @@ import { loginSchema, type LoginInput } from '@/lib/validations/auth';
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [serverError, setServerError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
   const [providers, setProviders] = useState<any>(null);
   const [loginMethod, setLoginMethod] = useState<'email' | 'oauth'>('email');
   
@@ -58,17 +58,38 @@ export default function SignInPage() {
     setServerError('');
     
     try {
-      const result = await login(data.emailOrUsername, data.password, data.rememberMe);
+      console.log('🔐 Attempting login with NextAuth...');
       
-      if (result.success) {
-        // Redirect to dashboard or intended page
-        const redirectParam = new URLSearchParams(window.location.search).get('redirect');
-        window.location.href = redirectParam || '/overview';
+      // Use NextAuth signIn with credentials provider
+      const result = await signIn('credentials', {
+        emailOrUsername: data.emailOrUsername,
+        password: data.password,
+        redirect: false, // Handle redirect manually
+        callbackUrl: '/overview',
+      });
+      
+      console.log('📊 Login result:', result);
+      
+      if (result?.error) {
+        console.error('❌ Login error:', result.error);
+        setServerError('Invalid email/username or password. Please check your credentials and try again.');
+      } else if (result?.ok) {
+        console.log('✅ Login successful! Redirecting...');
+        setSuccessMessage('Login successful! Redirecting to your dashboard...');
+        
+        // Add a small delay to show success message
+        setTimeout(() => {
+          const redirectParam = new URLSearchParams(window.location.search).get('redirect');
+          const redirectUrl = redirectParam || '/overview';
+          console.log('🚀 Redirecting to:', redirectUrl);
+          window.location.href = redirectUrl;
+        }, 1000);
       } else {
-        setServerError(result.error || 'Login failed. Please try again.');
+        console.error('❌ Unexpected login result:', result);
+        setServerError('Login failed. Please try again.');
       }
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('💥 Login error:', error);
       setServerError('Network error. Please check your connection and try again.');
     } finally {
       setIsLoading(false);

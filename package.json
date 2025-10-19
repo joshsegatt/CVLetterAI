@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "build:production": "prisma generate && ESLINT_CONFIG_FILE=.eslintrc.production.json next build",
+    "build:clean": "prisma generate && next build --no-lint",
     "start": "next start",
     "postinstall": "prisma generate",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
+    "lint:production": "next lint --config .eslintrc.production.json",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",

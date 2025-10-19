@@ -92,6 +92,11 @@ export interface CVConfig {
   fontFamily: string;
   fontSize: 'small' | 'medium' | 'large';
   spacing: 'compact' | 'normal' | 'relaxed';
+  showPhoto?: boolean;
+  highlightSkills?: boolean;
+  twoColumn?: boolean;
+  sectionIcons?: boolean;
+  sectionOrder?: string[];
 }
 
 // Letter types

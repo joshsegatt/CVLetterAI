@@ -3,8 +3,11 @@ import { getToken } from 'next-auth/jwt';
 
 // Global stores para rate limiting e logs de segurança
 declare global {
+  // eslint-disable-next-line no-var
   var rateLimitStore: Map<string, { count: number; resetTime: number }> | undefined;
+  // eslint-disable-next-line no-var
   var securityLogs: any[] | undefined;
+  // eslint-disable-next-line no-var
   var ipBlockList: Set<string> | undefined;
 }
 
@@ -48,8 +51,8 @@ export async function middleware(request: NextRequest) {
     }
 
     // 4. Verificar acesso baseado em planos (Pro/Enterprise)
-    // Allow unauthenticated access to chat page for demo
-    if (!path.startsWith('/chat')) {
+    // Allow unauthenticated access to chat page, cv-builder, and letter-builder for demo
+    if (!path.startsWith('/chat') && !path.startsWith('/cv-builder') && !path.startsWith('/letter-builder')) {
       try {
         const { checkPlanAccess } = await import('./services/auth/planAccess');
         const planAccessResult = checkPlanAccess(request);
@@ -108,14 +111,19 @@ export async function middleware(request: NextRequest) {
 // Protected routes that require authentication
 const PROTECTED_ROUTES = [
   '/overview',
-  '/dashboard',
-  '/cv-builder',
-  '/letter-builder',
+  '/dashboard', 
   '/settings',
   '/api/cv-drafts',
   '/api/letters',
-  '/api/ai',
   '/api/payments'
+];
+
+// Routes that are public but may require auth for certain actions (like download)
+const PUBLIC_WITH_AUTH_ACTIONS = [
+  '/cv-builder',
+  '/letter-builder',
+  '/chat',
+  '/api/ai'
 ];
 
 // Public routes that should redirect authenticated users
@@ -131,6 +139,12 @@ async function checkAuthentication(request: NextRequest): Promise<NextResponse |
   // Check if route requires authentication
   const isProtectedRoute = PROTECTED_ROUTES.some(route => path.startsWith(route));
   const isPublicAuthRoute = PUBLIC_AUTH_ROUTES.some(route => path.startsWith(route));
+  const isPublicWithAuthActions = PUBLIC_WITH_AUTH_ACTIONS.some(route => path.startsWith(route));
+  
+  // Allow public routes with auth actions to pass through without authentication
+  if (isPublicWithAuthActions) {
+    return null; // Allow access without authentication
+  }
   
   if (!isProtectedRoute && !isPublicAuthRoute) {
     return null; // No authentication check needed

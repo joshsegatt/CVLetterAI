@@ -26,6 +26,34 @@ export default function PDFDownloadButton({
       setIsGenerating(true);
       setProgress(10);
 
+      // Track download before generating PDF
+      const downloadType = targetId.includes('cv') ? 'cv' : 'letter';
+      
+      try {
+        const trackResponse = await fetch('/api/track-download', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ type: downloadType }),
+        });
+
+        const trackResult = await trackResponse.json();
+        
+        if (!trackResult.success) {
+          if (trackResult.requiresUpgrade) {
+            alert(`You've reached your free download limit (${trackResult.limit}). Upgrade to Pro for unlimited downloads!`);
+            return;
+          }
+          throw new Error(trackResult.error || 'Failed to track download');
+        }
+      } catch (trackError) {
+        console.error('Download tracking failed:', trackError);
+        // Continue with download even if tracking fails
+      }
+
+      setProgress(20);
+
       const element = document.getElementById(targetId);
       if (!element) {
         throw new Error('Element not found');

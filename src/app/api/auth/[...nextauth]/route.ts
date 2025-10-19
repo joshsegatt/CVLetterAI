@@ -192,10 +192,28 @@ const authOptions: NextAuthOptions = {
     },
     
     async redirect({ url, baseUrl }) {
+      console.log('NextAuth redirect:', { url, baseUrl });
+      
+      // Handle sign-in redirect
+      if (url === baseUrl || url === `${baseUrl}/`) {
+        return `${baseUrl}/overview`;
+      }
+      
       // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      if (url.startsWith("/")) {
+        const fullUrl = `${baseUrl}${url}`;
+        console.log('Relative URL redirect to:', fullUrl);
+        return fullUrl;
+      }
+      
       // Allows callback URLs on the same origin
-      if (new URL(url).origin === baseUrl) return url;
+      if (new URL(url).origin === baseUrl) {
+        console.log('Same origin redirect to:', url);
+        return url;
+      }
+      
+      // Default redirect to overview
+      console.log('Default redirect to overview');
       return `${baseUrl}/overview`;
     }
   },

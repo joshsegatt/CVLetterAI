@@ -11,46 +11,134 @@ export default function MinimalModernCVTemplate({
   config = {}, 
   preview = false 
 }: MinimalModernCVTemplateProps) {
+  // Configurações com valores padrão
+  const {
+    primaryColor = '#1e40af',
+    accentColor = '#60a5fa',
+    fontFamily = 'Inter, system-ui, sans-serif',
+    fontSize = 'medium',
+    spacing = 'normal',
+    showPhoto = false,
+    highlightSkills = true,
+    twoColumn = false,
+    sectionIcons = true
+  } = config;
+
+  // Classes de tamanho baseadas na configuração
+  const sizeClasses = {
+    small: {
+      header: preview ? 'text-base' : 'text-3xl lg:text-4xl',
+      section: preview ? 'text-sm' : 'text-xl',
+      subsection: preview ? 'text-xs' : 'text-base',
+      body: preview ? 'text-xs' : 'text-sm',
+      padding: preview ? 'px-3 py-3' : 'px-8 py-8'
+    },
+    medium: {
+      header: preview ? 'text-lg' : 'text-4xl lg:text-5xl',
+      section: preview ? 'text-base' : 'text-2xl',
+      subsection: preview ? 'text-sm' : 'text-lg',
+      body: preview ? 'text-xs' : 'text-base',
+      padding: preview ? 'px-4 py-4' : 'px-12 py-12'
+    },
+    large: {
+      header: preview ? 'text-xl' : 'text-5xl lg:text-6xl',
+      section: preview ? 'text-lg' : 'text-3xl',
+      subsection: preview ? 'text-base' : 'text-xl',
+      body: preview ? 'text-sm' : 'text-lg',
+      padding: preview ? 'px-5 py-5' : 'px-16 py-16'
+    }
+  };
+
+  const spacingClasses = {
+    compact: {
+      section: 'mb-6',
+      item: 'mb-3',
+      gap: 'space-y-2'
+    },
+    normal: {
+      section: 'mb-10',
+      item: 'mb-6',
+      gap: 'space-y-4'
+    },
+    relaxed: {
+      section: 'mb-16',
+      item: 'mb-9',
+      gap: 'space-y-6'
+    }
+  };
+
+  const sizes = sizeClasses[fontSize];
+  const spacings = spacingClasses[spacing];
+
   const containerClass = preview 
-    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden text-xs"
+    ? "w-full max-w-4xl mx-auto bg-white text-gray-900 shadow-lg overflow-hidden"
     : "w-full bg-white text-gray-900";
 
   return (
-    <div className={containerClass} style={{ fontFamily: 'Inter, system-ui, sans-serif' }}>
-      {/* Clean Header */}
-      <header className={`${preview ? 'px-4 py-4' : 'px-12 py-12'} bg-gradient-to-r from-slate-50 to-gray-50 border-b border-gray-100`}>
+    <div 
+      className={containerClass} 
+      style={{ 
+        fontFamily,
+        '--primary-color': primaryColor,
+        '--accent-color': accentColor
+      } as React.CSSProperties}
+    >
+      {/* Header */}
+      <header 
+        className={`${sizes.padding} border-b border-gray-100`}
+        style={{ 
+          background: `linear-gradient(135deg, ${primaryColor}08 0%, ${accentColor}08 100%)` 
+        }}
+      >
         <div className="max-w-4xl mx-auto">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
+          <div className={`flex ${twoColumn ? 'flex-col lg:flex-row lg:items-start lg:justify-between' : 'flex-col'} gap-4`}>
             {/* Name and Title */}
-            <div>
-              <h1 className={`${preview ? 'text-lg' : 'text-4xl lg:text-5xl'} font-light text-gray-900 mb-1 tracking-tight`}>
-                {data.personal.firstName}{' '}
-                <span className="font-semibold">{data.personal.lastName}</span>
-              </h1>
-              <div className={`${preview ? 'w-8 h-0.5' : 'w-16 h-0.5'} bg-gray-900 mb-2`}></div>
-              <p className={`${preview ? 'text-xs' : 'text-lg'} text-gray-600 font-light max-w-2xl leading-relaxed`}>
-                {preview ? data.personal.summary.slice(0, 60) + '...' : data.personal.summary}
+            <div className={twoColumn ? 'lg:flex-1' : ''}>
+              <div className="flex items-center gap-4 mb-3">
+                {showPhoto && (
+                  <div 
+                    className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-gray-200 flex-shrink-0 border-3 overflow-hidden" 
+                    style={{ borderColor: primaryColor }}
+                  >
+                    <div className="w-full h-full rounded-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center text-gray-400 text-2xl">
+                      👤
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <h1 className={`${sizes.header} font-light text-gray-900 mb-2 tracking-tight`}>
+                    {data.personal.firstName}{' '}
+                    <span className="font-bold">{data.personal.lastName}</span>
+                  </h1>
+                  <div 
+                    className={`${preview ? 'w-12 h-1' : 'w-20 h-1'} mb-2 rounded-full`}
+                    style={{ backgroundColor: primaryColor }}
+                  />
+                </div>
+              </div>
+              <p className={`${sizes.body} text-gray-600 font-light max-w-2xl leading-relaxed`}>
+                {preview ? data.personal.summary.slice(0, 120) + '...' : data.personal.summary}
               </p>
             </div>
             
             {/* Contact Info */}
-            <div className={`flex flex-col ${preview ? 'gap-1 text-xs' : 'gap-3 text-sm'} text-gray-600 lg:text-right`}>
-              <div className="flex items-center lg:justify-end gap-3">
-                <span className="text-gray-400">@</span>
+            <div className={`flex ${twoColumn ? 'flex-col lg:text-right' : 'flex-row flex-wrap'} gap-3 ${sizes.body} text-gray-600`}>
+              <div className="flex items-center gap-2">
+                {sectionIcons && <span className="text-lg" style={{ color: primaryColor }}>📧</span>}
                 <span>{data.personal.email}</span>
               </div>
-              <div className="flex items-center lg:justify-end gap-3">
-                <span className="text-gray-400">📞</span>
+              <div className="flex items-center gap-2">
+                {sectionIcons && <span className="text-lg" style={{ color: primaryColor }}>📞</span>}
                 <span>{data.personal.phone}</span>
               </div>
-              <div className="flex items-center lg:justify-end gap-3">
-                <span className="text-gray-400">📍</span>
+              <div className="flex items-center gap-2">
+                {sectionIcons && <span className="text-lg" style={{ color: primaryColor }}>📍</span>}
                 <span>{data.personal.location}</span>
               </div>
               {data.personal.linkedin && (
-                <div className="flex items-center lg:justify-end gap-3">
-                  <span className="text-gray-400">💼</span>
-                  <span>LinkedIn Profile</span>
+                <div className="flex items-center gap-2">
+                  {sectionIcons && <span className="text-lg" style={{ color: primaryColor }}>💼</span>}
+                  <span>{data.personal.linkedin}</span>
                 </div>
               )}
             </div>
@@ -58,37 +146,47 @@ export default function MinimalModernCVTemplate({
         </div>
       </header>
 
-      <div className="px-12 py-12 max-w-4xl mx-auto">
+      <div className={`${sizes.padding} max-w-4xl mx-auto ${spacings.gap}`}>
         {/* Experience */}
         {data.experience.length > 0 && (
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-8 pb-3 border-b border-gray-100">
-              Experience
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>💼</span>}
+              Experiência Profissional
             </h2>
-            <div className="space-y-10">
-              {data.experience.map((exp, index) => (
-                <div key={exp.id || index} className="relative">
-                  <div className="flex flex-col lg:flex-row lg:items-start gap-6">
+            <div className={spacings.gap}>
+              {data.experience.slice(0, preview ? 2 : undefined).map((exp, index) => (
+                <div key={exp.id || index} className={`relative ${spacings.item}`}>
+                  <div className="flex flex-col lg:flex-row lg:items-start gap-4">
                     {/* Left: Company & Date */}
                     <div className="lg:w-1/3 flex-shrink-0">
-                      <div className="sticky top-8">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                          {exp.company}
-                        </h3>
-                        <p className="text-sm text-gray-500 mb-2">{exp.location}</p>
-                        <div className="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded-full">
-                          {exp.startDate} — {exp.current ? 'Present' : exp.endDate}
-                        </div>
+                      <h3 className={`${sizes.subsection} font-bold text-gray-900 mb-1`}>
+                        {exp.company}
+                      </h3>
+                      <p className={`${sizes.body} text-gray-500 mb-2`}>{exp.location}</p>
+                      <div 
+                        className={`inline-flex items-center px-3 py-1 text-white ${sizes.body} font-medium rounded-full`}
+                        style={{ backgroundColor: accentColor }}
+                      >
+                        {exp.startDate} — {exp.current ? 'Atual' : exp.endDate}
                       </div>
                     </div>
                     
                     {/* Right: Position & Description */}
                     <div className="lg:w-2/3">
-                      <h4 className="text-xl font-medium text-gray-900 mb-4">{exp.position}</h4>
-                      <ul className="space-y-3">
-                        {exp.description.map((item, i) => (
-                          <li key={i} className="flex items-start gap-3 text-gray-700 leading-relaxed">
-                            <div className="w-1.5 h-1.5 bg-gray-400 rounded-full mt-2.5 flex-shrink-0"></div>
+                      <h4 className={`${sizes.subsection} font-semibold text-gray-900 mb-3`} style={{ color: primaryColor }}>
+                        {exp.position}
+                      </h4>
+                      <ul className={spacings.gap}>
+                        {exp.description.slice(0, preview ? 2 : undefined).map((item, i) => (
+                          <li key={i} className={`flex items-start gap-3 ${sizes.body} text-gray-700 leading-relaxed`}>
+                            <div 
+                              className="w-2 h-2 rounded-full mt-2 flex-shrink-0"
+                              style={{ backgroundColor: accentColor }}
+                            />
                             <span>{item}</span>
                           </li>
                         ))}
@@ -101,80 +199,44 @@ export default function MinimalModernCVTemplate({
           </section>
         )}
 
-        {/* Skills Grid */}
-        {data.skills.length > 0 && (
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-8 pb-3 border-b border-gray-100">
-              Skills & Expertise
+        {/* Education */}
+        {data.education.length > 0 && (
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>🎓</span>}
+              Educação
             </h2>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-              {['Technical', 'Soft', 'Tool', 'Language'].map(category => {
-                const categorySkills = data.skills.filter(skill => skill.category === category);
-                if (categorySkills.length === 0) return null;
-                
-                return (
-                  <div key={category}>
-                    <h3 className="text-lg font-medium text-gray-900 mb-6">{category} Skills</h3>
-                    <div className="space-y-4">
-                      {categorySkills.map((skill, index) => (
-                        <div key={skill.id || index}>
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="text-gray-800 font-medium">{skill.name}</span>
-                            <span className="text-sm text-gray-500">{skill.level}</span>
-                          </div>
-                          <div className="w-full bg-gray-100 h-2 rounded-full overflow-hidden">
-                            <div 
-                              className="h-full bg-gradient-to-r from-gray-700 to-gray-900 rounded-full transition-all duration-700"
-                              style={{ 
-                                width: `${(['Beginner', 'Intermediate', 'Advanced', 'Expert', 'Native', 'Fluent'].indexOf(skill.level) + 1) * 20}%` 
-                              }}
-                            />
-                          </div>
-                        </div>
-                      ))}
+            <div className={spacings.gap}>
+              {data.education.slice(0, preview ? 2 : undefined).map((edu, index) => (
+                <div key={edu.id || index} className={spacings.item}>
+                  <div className="flex flex-col lg:flex-row lg:items-start gap-4">
+                    <div className="lg:w-1/3 flex-shrink-0">
+                      <h3 className={`${sizes.subsection} font-bold text-gray-900 mb-1`}>
+                        {edu.institution}
+                      </h3>
+                      <div 
+                        className={`inline-flex items-center px-3 py-1 text-white ${sizes.body} font-medium rounded-full`}
+                        style={{ backgroundColor: accentColor }}
+                      >
+                        {edu.startDate} — {edu.current ? 'Atual' : edu.endDate}
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
-        {/* Projects */}
-        {data.projects.length > 0 && (
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-8 pb-3 border-b border-gray-100">
-              Notable Projects
-            </h2>
-            <div className="grid gap-8 lg:grid-cols-2">
-              {data.projects.map((project, index) => (
-                <div key={project.id || index} className="bg-gray-50 rounded-lg p-6 hover:bg-gray-100 transition-colors">
-                  <div className="flex justify-between items-start mb-4">
-                    <h3 className="text-lg font-semibold text-gray-900">{project.name}</h3>
-                    <span className="text-sm text-gray-500">
-                      {project.startDate}—{project.endDate}
-                    </span>
-                  </div>
-                  <p className="text-gray-700 mb-4 leading-relaxed">{project.description}</p>
-                  
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {project.technologies.map((tech, i) => (
-                      <span key={i} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white text-gray-700 border border-gray-200">
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  {/* Links */}
-                  <div className="flex gap-4 text-sm">
-                    {project.url && (
-                      <span className="text-gray-600">🔗 Live Demo</span>
-                    )}
-                    {project.github && (
-                      <span className="text-gray-600">💻 Source Code</span>
-                    )}
+                    <div className="lg:w-2/3">
+                      <h4 className={`${sizes.subsection} font-semibold mb-1`} style={{ color: primaryColor }}>
+                        {edu.degree}
+                      </h4>
+                      <p className={`${sizes.body} text-gray-600`}>
+                        {edu.field}
+                      </p>
+                      {edu.gpa && (
+                        <p className={`${sizes.body} text-gray-500 mt-1`}>
+                          GPA: {edu.gpa}
+                        </p>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -182,40 +244,159 @@ export default function MinimalModernCVTemplate({
           </section>
         )}
 
-        {/* Education */}
-        {data.education.length > 0 && (
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-8 pb-3 border-b border-gray-100">
-              Education
+        {/* Skills */}
+        {data.skills.length > 0 && (
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>🛠️</span>}
+              Habilidades
             </h2>
-            <div className="space-y-6">
-              {data.education.map((edu, index) => (
-                <div key={edu.id || index} className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{edu.degree}</h3>
-                    <p className="text-gray-700">{edu.institution}</p>
-                    {edu.field && <p className="text-gray-600 text-sm">Major: {edu.field}</p>}
-                  </div>
-                  <div className="text-right">
-                    <div className="text-gray-600">
-                      {edu.startDate} — {edu.current ? 'Present' : edu.endDate}
+            
+            {highlightSkills ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {data.skills.slice(0, preview ? 6 : undefined).map((skill, index) => (
+                  <div key={skill.id || index} className="relative">
+                    <div 
+                      className="p-4 rounded-lg border-l-4"
+                      style={{ 
+                        backgroundColor: `${accentColor}10`,
+                        borderColor: primaryColor
+                      }}
+                    >
+                      <h4 className={`${sizes.body} font-semibold text-gray-900 mb-1`}>
+                        {skill.name}
+                      </h4>
+                      <div className="flex items-center gap-2">
+                        <span 
+                          className={`${sizes.body} text-white px-2 py-1 rounded text-xs font-medium`}
+                          style={{ backgroundColor: accentColor }}
+                        >
+                          {skill.level}
+                        </span>
+                        <span className={`${sizes.body} text-gray-500 capitalize`}>
+                          {skill.category}
+                        </span>
+                      </div>
                     </div>
-                    {edu.gpa && (
-                      <div className="text-sm text-gray-500 mt-1">{edu.gpa}</div>
-                    )}
                   </div>
+                ))}
+              </div>
+            ) : (
+              <div className="flex flex-wrap gap-2">
+                {data.skills.slice(0, preview ? 8 : undefined).map((skill, index) => (
+                  <span 
+                    key={skill.id || index}
+                    className={`px-4 py-2 rounded-full ${sizes.body} font-medium text-white`}
+                    style={{ backgroundColor: primaryColor }}
+                  >
+                    {skill.name}
+                  </span>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Projects */}
+        {data.projects && data.projects.length > 0 && (
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>🚀</span>}
+              Projetos
+            </h2>
+            <div className={spacings.gap}>
+              {data.projects.slice(0, preview ? 2 : undefined).map((project, index) => (
+                <div key={project.id || index} className={spacings.item}>
+                  <h3 className={`${sizes.subsection} font-bold mb-2`} style={{ color: primaryColor }}>
+                    {project.name}
+                  </h3>
+                  <p className={`${sizes.body} text-gray-700 mb-3 leading-relaxed`}>
+                    {project.description}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {project.technologies.slice(0, preview ? 4 : undefined).map((tech, i) => (
+                      <span 
+                        key={i}
+                        className={`px-3 py-1 rounded-full ${sizes.body} text-gray-700 border`}
+                        style={{ borderColor: accentColor, backgroundColor: `${accentColor}10` }}
+                      >
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Languages */}
+        {data.languages && data.languages.length > 0 && (
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>🌐</span>}
+              Idiomas
+            </h2>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+              {data.languages.map((language, index) => (
+                <div key={language.id || index} className="flex items-center gap-3">
+                  <span className={`${sizes.body} font-semibold text-gray-900`}>
+                    {language.name}
+                  </span>
+                  <span 
+                    className={`${sizes.body} text-white px-2 py-1 rounded-full text-xs`}
+                    style={{ backgroundColor: accentColor }}
+                  >
+                    {language.level}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Certificates */}
+        {data.certificates && data.certificates.length > 0 && (
+          <section className={spacings.section}>
+            <h2 
+              className={`${sizes.section} font-bold text-gray-900 mb-6 pb-2 border-b-2 flex items-center gap-3`}
+              style={{ borderColor: primaryColor }}
+            >
+              {sectionIcons && <span style={{ color: primaryColor }}>🏆</span>}
+              Certificações
+            </h2>
+            <div className={spacings.gap}>
+              {data.certificates.slice(0, preview ? 3 : undefined).map((cert, index) => (
+                <div key={cert.id || index} className="flex items-center justify-between">
+                  <div>
+                    <h3 className={`${sizes.body} font-semibold text-gray-900`}>
+                      {cert.name}
+                    </h3>
+                    <p className={`${sizes.body} text-gray-600`}>
+                      {cert.issuer}
+                    </p>
+                  </div>
+                  <span 
+                    className={`${sizes.body} text-white px-3 py-1 rounded-full`}
+                    style={{ backgroundColor: primaryColor }}
+                  >
+                    {cert.date}
+                  </span>
                 </div>
               ))}
             </div>
           </section>
         )}
       </div>
-
-      {preview && (
-        <div className="absolute top-4 right-4 bg-gray-900 text-white px-4 py-2 rounded text-sm font-medium">
-          Modern Minimal
-        </div>
-      )}
     </div>
   );
 }

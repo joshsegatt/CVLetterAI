@@ -146,11 +146,10 @@ export default function CVAnalysisPage() {
               <div className="p-3 bg-gradient-to-br from-purple-600 to-blue-600 rounded-2xl">
                 <Target className="h-8 w-8 text-white" />
               </div>
-              <h1 className="text-4xl font-bold text-white">CV Analysis & Optimization</h1>
+              <span className="inline-block bg-purple-500/20 text-purple-400 px-4 py-2 rounded-full text-sm font-medium">
+                🎯 Análise IA Profissional
+              </span>
             </div>
-            <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-              Get instant AI-powered feedback on your CV. Upload your PDF and receive detailed analysis with optimization suggestions for the UK job market.
-            </p>
           </div>
 
           {!analysisResult ? (
