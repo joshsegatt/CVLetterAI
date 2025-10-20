@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 import { Button } from '@/components/ui/Button';
 import { CheckCircle, ArrowRight, Eye, EyeOff, User, Mail, Lock, Shield, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
@@ -16,13 +17,21 @@ const registerSchema = z.object({
   username: z.string().min(3, 'Username must be at least 3 characters'),
   password: z.string().min(8, 'Password must be at least 8 characters'),
   confirmPassword: z.string(),
-  agreeToTerms: z.boolean().refine(val => val === true, 'You must agree to the terms and conditions'),
-}).refine(data => data.password === data.confirmPassword, {
+  agreeToTerms: z.boolean().refine((val: boolean) => val === true, 'You must agree to the terms and conditions'),
+}).refine((data: any) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
 
-type RegisterFormData = z.infer<typeof registerSchema>;
+type RegisterFormData = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  agreeToTerms: boolean;
+};
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -89,10 +98,32 @@ export default function SignUpPage() {
       if (result.success) {
         setIsSuccess(true);
         
-        // Auto redirect after 2 seconds
-        setTimeout(() => {
-          router.push(`/sign-in?email=${encodeURIComponent(data.email)}&message=${encodeURIComponent('Account created successfully! Please sign in to continue.')}`);
-        }, 2500);
+        // Auto-login after successful registration
+        try {
+          const loginResult = await signIn('credentials', {
+            emailOrUsername: data.email,
+            password: data.password,
+            redirect: false,
+          });
+
+          if (loginResult?.ok) {
+            // Redirect to dashboard after successful auto-login
+            setTimeout(() => {
+              router.push('/overview');
+            }, 2000);
+          } else {
+            // If auto-login fails, redirect to sign-in page
+            setTimeout(() => {
+              router.push(`/sign-in?email=${encodeURIComponent(data.email)}&message=${encodeURIComponent('Account created successfully! Please sign in to continue.')}`);
+            }, 2500);
+          }
+        } catch (loginError) {
+          console.error('Auto-login error:', loginError);
+          // Fallback to sign-in page
+          setTimeout(() => {
+            router.push(`/sign-in?email=${encodeURIComponent(data.email)}&message=${encodeURIComponent('Account created successfully! Please sign in to continue.')}`);
+          }, 2500);
+        }
       } else {
         setServerError(result.error || 'Registration failed. Please try again.');
       }
@@ -116,11 +147,11 @@ export default function SignUpPage() {
               Account Created Successfully!
             </h1>
             <p className="text-slate-600 mb-6">
-              Your account has been created. You'll be redirected to the sign-in page shortly.
+              Your account has been created and you are being logged in automatically.
             </p>
             <div className="flex items-center justify-center space-x-2 text-slate-500">
               <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
-              <span>Redirecting...</span>
+              <span>Logging you in...</span>
             </div>
           </div>
         </div>

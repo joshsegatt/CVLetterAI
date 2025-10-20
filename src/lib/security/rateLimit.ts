@@ -59,7 +59,9 @@ export function checkRateLimit(
 
 export const RATE_LIMITS = {
   api: { requests: 100, window: 900000 }, // 100 req/15min
-  auth: { requests: 5, window: 300000 }, // 5 req/5min
+  auth: { requests: 10, window: 300000 }, // 10 req/5min  
+  register: { requests: 10, window: 900000 }, // 10 req/15min
+  login: { requests: 15, window: 300000 }, // 15 req/5min
   global: { requests: 1000, window: 3600000 }, // 1000 req/hour
   ai: { requests: 20, window: 300000 } // 20 req/5min
 } as const;

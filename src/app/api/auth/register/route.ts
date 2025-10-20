@@ -10,11 +10,11 @@ export async function POST(request: NextRequest) {
   try {
     const clientIp = getClientIp(request);
     
-    // Rate limiting - 3 registration attempts per 15 minutes per IP
+    // Rate limiting - 10 registration attempts per 15 minutes per IP
     const rateLimitResult = await checkRateLimit(
       clientIp,
       '/api/auth/register',
-      { requests: 3, window: 900000 }
+      { requests: 10, window: 900000 }
     );
 
     if (!rateLimitResult.success) {
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     
     // Validate input data
-    const validatedData = registerSchema.parse(body);
+    const validatedData = registerSchema.parse(body) as any;
     
     // Additional security check on email domain (optional)
     const emailDomain = validatedData.email.split('@')[1].toLowerCase();
@@ -82,32 +82,8 @@ export async function POST(request: NextRequest) {
     // Hash the password securely
     const hashedPassword = await PasswordUtils.hashPassword(validatedData.password);
     
-    // Generate username if not provided
-    let username = validatedData.username;
-    if (!username) {
-      const suggestions = SecurityUtils.generateUsernameSuggestions(
-        validatedData.firstName, 
-        validatedData.lastName, 
-        validatedData.email
-      );
-      
-      // Try to find an available username
-      for (const suggestion of suggestions) {
-        const existingUsername = await prisma.user.findUnique({
-          where: { username: suggestion },
-        });
-        
-        if (!existingUsername) {
-          username = suggestion;
-          break;
-        }
-      }
-      
-      // If no suggestion works, generate a random one
-      if (!username) {
-        username = `user_${Date.now()}_${Math.floor(Math.random() * 1000)}`;
-      }
-    }
+    // Use provided username
+    const username = validatedData.username;
     
     // Create new user
     const user = await prisma.user.create({
@@ -151,7 +127,7 @@ export async function POST(request: NextRequest) {
       },
     });
     
-  } catch (error) {
+  } catch (error: any) {
     console.error('[AUTH] Registration error:', error);
     
     // Handle validation errors

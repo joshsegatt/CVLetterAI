@@ -10,12 +10,24 @@ import Link from 'next/link';
 import { Eye, EyeOff, Mail, Lock, ArrowRight, AlertCircle, CheckCircle } from 'lucide-react';
 
 const signInSchema = z.object({
-  emailOrUsername: z.string().min(1, 'Email or username is required'),
-  password: z.string().min(1, 'Password is required'),
-  rememberMe: z.boolean().optional(),
+  emailOrUsername: z
+    .string()
+    .min(1, 'Email or username is required')
+    .max(100, 'Email or username must be less than 100 characters'),
+  
+  password: z
+    .string()
+    .min(1, 'Password is required')
+    .max(100, 'Password must be less than 100 characters'),
+  
+  rememberMe: z.boolean(),
 });
 
-type SignInFormData = z.infer<typeof signInSchema>;
+type SignInFormData = {
+  emailOrUsername: string;
+  password: string;
+  rememberMe?: boolean;
+};
 
 export default function SignInPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,8 +49,20 @@ export default function SignInPage() {
     resolver: zodResolver(signInSchema),
   });
 
-  // Handle OAuth error messages
+  // Handle OAuth error messages and success messages
   useEffect(() => {
+    const message = searchParams.get('message');
+    const email = searchParams.get('email');
+    
+    if (message) {
+      setSuccess(message);
+      // Clear URL params after showing message
+      const newUrl = new URL(window.location.href);
+      newUrl.searchParams.delete('message');
+      newUrl.searchParams.delete('email');
+      window.history.replaceState({}, '', newUrl.toString());
+    }
+    
     if (errorParam) {
       switch (errorParam) {
         case 'OAuthSignin':

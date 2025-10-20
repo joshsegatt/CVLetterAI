@@ -14,7 +14,7 @@ declare global {
 // Rate limits por tipo de requisição (Banking-level)
 const RATE_LIMITS = {
   api: { requests: 100, window: 900000 }, // 100 req/15min para APIs
-  auth: { requests: 5, window: 300000 }, // 5 tentativas/5min para auth
+  auth: { requests: 15, window: 300000 }, // 15 tentativas/5min para auth
   global: { requests: 1000, window: 3600000 }, // 1000 req/hora global
   ai: { requests: 100, window: 300000 } // 100 req/5min para AI chat (free tier)
 };
