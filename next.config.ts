@@ -96,21 +96,12 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  typedRoutes: true,
   output: 'standalone',
   experimental: {
     serverActions: {}
   },
-  eslint: {
-    dirs: ['app', 'src'],
-    ignoreDuringBuilds: true
-  },
   typescript: {
     ignoreBuildErrors: false
-  },
-  webpack: (config) => {
-    config.resolve.extensions.push('.ts', '.tsx');
-    return config;
   },
   async headers() {
     return [
