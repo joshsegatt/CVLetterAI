@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const validationResult = forgotPasswordSchema.safeParse(body);
+    const validationResult = (forgotPasswordSchema as any).safeParse(body);
 
     if (!validationResult.success) {
       return NextResponse.json(

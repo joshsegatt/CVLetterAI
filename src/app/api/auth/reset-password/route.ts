@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json();
-    const validationResult = resetPasswordSchema.safeParse(body);
+    const validationResult = (resetPasswordSchema as any).safeParse(body);
 
     if (!validationResult.success) {
       return NextResponse.json(

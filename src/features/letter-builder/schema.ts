@@ -13,7 +13,15 @@ export const letterBuilderSchema = z.object({
   includeLegalReference: z.boolean()
 });
 
-export type LetterBuilderForm = z.infer<typeof letterBuilderSchema>;
+export type LetterBuilderForm = {
+  id?: string;
+  userId?: string;
+  recipientName: string;
+  propertyAddress: string;
+  context: string;
+  tone: 'formal' | 'polite' | 'firm';
+  includeLegalReference: boolean;
+};
 
 export const defaultLetterBuilderValues: LetterBuilderForm = {
   id: undefined,

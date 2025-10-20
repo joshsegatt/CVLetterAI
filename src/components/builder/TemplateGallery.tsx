@@ -238,7 +238,7 @@ export default function TemplateGallery({ data, onTemplateSelect, showPhoto = tr
         }}>
           <TemplateComponent
             data={data}
-            colorScheme={selectedColorScheme as any}
+            {...({colorScheme: selectedColorScheme} as any)}
             showPhoto={showPhoto}
           />
         </div>

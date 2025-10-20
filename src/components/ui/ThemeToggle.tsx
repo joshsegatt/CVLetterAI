@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Switch from "./Switch";
 
-export function ThemeToggle(): JSX.Element {
+export function ThemeToggle(): React.ReactElement {
   useEffect(() => {
     // Force light mode always
     try {

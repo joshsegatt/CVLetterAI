@@ -42,17 +42,36 @@ declare module 'zod' {
       email(message?: string): ZodString;
       regex(pattern: RegExp, message?: string): ZodString;
       toLowerCase(): ZodString;
+      optional(): ZodOptional<ZodString>;
+      url(message?: string): ZodString;
+      datetime(message?: string): ZodString;
+      startsWith(prefix: string, message?: string): ZodString;
+      refine(fn: (val: string) => boolean, options?: { message: string; path?: string[] }): ZodString;
     }
     interface ZodBoolean {
       refine(fn: (val: boolean) => boolean, message: string): ZodBoolean;
+      optional(): ZodOptional<ZodBoolean>;
+      default(value: boolean): ZodDefault<ZodBoolean>;
     }
+    interface ZodOptional<T> {
+      default(value: any): ZodDefault<T>;
+    }
+    interface ZodDefault<T> {}
+    interface ZodEnum<T extends [string, ...string[]]> {}
     interface ZodObject<T> {
       refine(fn: (data: any) => boolean, options: { message: string; path: string[] }): ZodObject<T>;
       parse(data: any): any;
+      safeParse(data: any): { success: boolean; data?: any; error?: { errors: Array<{ path: string[]; message: string }> } };
+      extend(schema: any): ZodObject<T>;
+    }
+    interface ZodArray<T> {
+      min(value: number, message?: string): ZodArray<T>;
     }
     function string(): ZodString;
     function boolean(): ZodBoolean;
     function object<T>(shape: T): ZodObject<T>;
+    function array<T>(schema: T): ZodArray<T>;
+    function record<T>(valueType: T): any;
     function infer<T>(schema: T): any;
   }
   export const z: typeof z;

@@ -267,7 +267,7 @@ export class SecureDataHandler {
     }
 
     const iv = crypto.randomBytes(16);
-    const cipher = crypto.createCipher(SecureDataHandler.config.encryption.algorithm, SecureDataHandler.config.encryption.key);
+    const cipher = (crypto as any).createCipher(SecureDataHandler.config.encryption.algorithm, SecureDataHandler.config.encryption.key);
     
     let encrypted = cipher.update(text, 'utf8', 'hex');
     encrypted += cipher.final('hex');
@@ -284,7 +284,7 @@ export class SecureDataHandler {
     const iv = Buffer.from(parts[0], 'hex');
     const encrypted = parts[1];
     
-    const decipher = crypto.createDecipher(SecureDataHandler.config.encryption.algorithm, SecureDataHandler.config.encryption.key);
+    const decipher = (crypto as any).createDecipher(SecureDataHandler.config.encryption.algorithm, SecureDataHandler.config.encryption.key);
     
     let decrypted = decipher.update(encrypted, 'hex', 'utf8');
     decrypted += decipher.final('utf8');
@@ -322,12 +322,12 @@ const productionEnvSchema = requiredEnvSchema.extend({
   // Production-only requirements
   DATABASE_URL: z.string().refine(
     (url) => !url.includes('sqlite'), 
-    'Production should use PostgreSQL/MySQL, not SQLite'
+    { message: 'Production should use PostgreSQL/MySQL, not SQLite' }
   ),
   STRIPE_SECRET_KEY: z.string().startsWith('sk_live_', 'Production must use live Stripe key').optional(),
   NEXTAUTH_URL: z.string().refine(
     (url) => url.startsWith('https://') && !url.includes('localhost'),
-    'Production NEXTAUTH_URL must use HTTPS and not localhost'
+    { message: 'Production NEXTAUTH_URL must use HTTPS and not localhost' }
   ),
 });
 
@@ -347,7 +347,7 @@ export class EnhancedEnvironmentSecurity {
     try {
       // Choose schema based on environment
       const schema = env.NODE_ENV === 'production' ? productionEnvSchema : requiredEnvSchema;
-      const result = schema.safeParse(env);
+      const result = (schema as any).safeParse(env);
       
       if (!result.success) {
         errors.push(...result.error.errors.map(err => 

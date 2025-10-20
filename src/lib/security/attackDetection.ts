@@ -215,7 +215,7 @@ export async function detectAttacks(
     // 5. Verificar body da requisição para POST/PUT
     if (['POST', 'PUT', 'PATCH'].includes(method)) {
       try {
-        const body = await request.clone().text();
+        const body = await (request.clone() as any).text();
         if (body) {
           // SQL Injection no body
           for (const pattern of ATTACK_SIGNATURES.sqlInjection) {

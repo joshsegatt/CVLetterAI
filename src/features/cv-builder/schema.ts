@@ -22,7 +22,22 @@ export const cvBuilderSchema = z.object({
   skills: z.array(z.string().min(2)).min(3, 'List at least three core skills')
 });
 
-export type CvBuilderForm = z.infer<typeof cvBuilderSchema>;
+export type CvBuilderForm = {
+  id?: string;
+  userId?: string;
+  fullName: string;
+  headline: string;
+  location: string;
+  email: string;
+  phone: string;
+  summary: string;
+  experience: Array<{
+    title: string;
+    company: string;
+    summary: string;
+  }>;
+  skills: string[];
+};
 
 export const defaultCvBuilderValues: CvBuilderForm = {
   id: undefined,

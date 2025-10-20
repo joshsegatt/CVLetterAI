@@ -78,7 +78,7 @@ export async function validateRequest(request: NextRequest): Promise<ValidationR
     // 8. Validar body para JSON endpoints
     if (method !== 'GET' && path.startsWith('/api/') && !path.includes('webhook')) {
       try {
-        const body = await request.clone().text();
+        const body = await (request.clone() as any).text();
         if (body && request.headers.get('content-type')?.includes('application/json')) {
           JSON.parse(body);
           
