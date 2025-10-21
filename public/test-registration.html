@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CVLetterAI - Teste de Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .loading {
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Teste de Registro - CVLetterAI</h1>
+        
+        <form id="registrationForm">
+            <div class="form-group">
+                <label for="firstName">Nome:</label>
+                <input type="text" id="firstName" name="firstName" value="João" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="lastName">Sobrenome:</label>
+                <input type="text" id="lastName" name="lastName" value="Silva" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="username">Nome de Usuário:</label>
+                <input type="text" id="username" name="username" value="joaosilva" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" value="joao@teste.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" name="password" value="senha123456" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirmPassword">Confirmar Senha:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" value="senha123456" required>
+            </div>
+            
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="agreeToTerms" name="agreeToTerms" checked required>
+                    Aceito os termos e condições
+                </label>
+            </div>
+            
+            <button type="submit" id="submitBtn">🚀 Testar Registro</button>
+        </form>
+        
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const resultDiv = document.getElementById('result');
+            
+            // Preparar UI para loading
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ Testando...';
+            resultDiv.innerHTML = '<div class="loading">Executando teste de registro...</div>';
+            
+            // Gerar email único para cada teste
+            const timestamp = Date.now();
+            const emailInput = document.getElementById('email');
+            const usernameInput = document.getElementById('username');
+            emailInput.value = `test${timestamp}@teste.com`;
+            usernameInput.value = `user${timestamp}`;
+            
+            // Coletar dados do formulário
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            // Converter checkbox para boolean
+            data.agreeToTerms = document.getElementById('agreeToTerms').checked;
+            
+            try {
+                console.log('Enviando dados para /api/test-registration:', data);
+                
+                const response = await fetch('/api/test-registration', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                console.log('Resposta do servidor:', result);
+                
+                if (result.test === 'SUCCESS') {
+                    resultDiv.innerHTML = `
+                        <div class="result success">
+                            ✅ SUCESSO: ${result.message}
+                            
+                            📊 Etapas Executadas:
+                            ${result.steps.map(step => `• ${step}`).join('\n')}
+                            
+                            👤 Usuário Criado:
+                            • ID: ${result.user.id}
+                            • Email: ${result.user.email}
+                            • Nome: ${result.user.name}
+                            • Plano: ${result.user.plan}
+                            • Criado em: ${new Date(result.user.createdAt).toLocaleString('pt-BR')}
+                            
+                            🆔 Test ID: ${result.testId}
+                            ⏰ Timestamp: ${new Date(result.timestamp).toLocaleString('pt-BR')}
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div class="result error">
+                            ❌ FALHA: ${result.error}
+                            
+                            📍 Etapa que falhou: ${result.step}
+                            
+                            📋 Detalhes:
+                            ${JSON.stringify(result.details || {}, null, 2)}
+                            
+                            🆔 Test ID: ${result.testId || 'N/A'}
+                            ⏰ Timestamp: ${new Date(result.timestamp || Date.now()).toLocaleString('pt-BR')}
+                        </div>
+                    `;
+                }
+                
+            } catch (error) {
+                console.error('Erro no teste:', error);
+                resultDiv.innerHTML = `
+                    <div class="result error">
+                        ❌ ERRO DE CONEXÃO: ${error.message}
+                        
+                        Verifique se:
+                        • O servidor está rodando
+                        • A URL está correta
+                        • Não há problemas de CORS
+                        
+                        ⏰ Timestamp: ${new Date().toLocaleString('pt-BR')}
+                    </div>
+                `;
+            } finally {
+                // Restaurar botão
+                submitBtn.disabled = false;
+                submitBtn.textContent = '🚀 Testar Registro';
+            }
+        });
+        
+        // Função para gerar dados aleatórios
+        function generateRandomData() {
+            const timestamp = Date.now();
+            document.getElementById('firstName').value = 'Test';
+            document.getElementById('lastName').value = 'User';
+            document.getElementById('username').value = `user${timestamp}`;
+            document.getElementById('email').value = `test${timestamp}@teste.com`;
+            document.getElementById('password').value = 'senha123456';
+            document.getElementById('confirmPassword').value = 'senha123456';
+        }
+        
+        // Gerar dados únicos na primeira carga
+        generateRandomData();
+    </script>
+</body>
+</html>
