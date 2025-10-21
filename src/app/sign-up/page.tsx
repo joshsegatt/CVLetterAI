@@ -198,7 +198,7 @@ export default function SignUpPage() {
                   id="firstName"
                   type="text"
                   placeholder="John"
-                  className="w-full h-12 border border-slate-300 rounded-lg px-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full h-12 border border-slate-300 rounded-lg px-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('firstName')}
                 />
                 {errors.firstName && (
@@ -214,7 +214,7 @@ export default function SignUpPage() {
                   id="lastName"
                   type="text"
                   placeholder="Doe"
-                  className="w-full h-12 border border-slate-300 rounded-lg px-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full h-12 border border-slate-300 rounded-lg px-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('lastName')}
                 />
                 {errors.lastName && (
@@ -233,7 +233,7 @@ export default function SignUpPage() {
                   id="email"
                   type="email"
                   placeholder="john@example.com"
-                  className="w-full pl-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full pl-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('email')}
                 />
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -253,7 +253,7 @@ export default function SignUpPage() {
                   id="username"
                   type="text"
                   placeholder="johndoe"
-                  className="w-full pl-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full pl-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('username')}
                 />
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -273,7 +273,7 @@ export default function SignUpPage() {
                   id="password"
                   type={showPassword ? 'text' : 'password'}
                   placeholder="Create a strong password"
-                  className="w-full pl-10 pr-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full pl-10 pr-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('password')}
                 />
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
@@ -324,7 +324,7 @@ export default function SignUpPage() {
                   id="confirmPassword"
                   type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirm your password"
-                  className="w-full pl-10 pr-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all"
+                  className="w-full pl-10 pr-10 h-12 border border-slate-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500 focus:ring-opacity-20 outline-none transition-all text-slate-900 placeholder:text-slate-500"
                   {...register('confirmPassword')}
                 />
                 <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-slate-400" />
