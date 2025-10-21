@@ -11,12 +11,12 @@ declare global {
   var ipBlockList: Set<string> | undefined;
 }
 
-// Rate limits por tipo de requisição (Banking-level)
+// Rate limits por tipo de requisição (Adjusted for better UX)
 const RATE_LIMITS = {
-  api: { requests: 100, window: 900000 }, // 100 req/15min para APIs
-  auth: { requests: 15, window: 300000 }, // 15 tentativas/5min para auth
-  global: { requests: 1000, window: 3600000 }, // 1000 req/hora global
-  ai: { requests: 100, window: 300000 } // 100 req/5min para AI chat (free tier)
+  api: { requests: 200, window: 900000 }, // 200 req/15min para APIs
+  auth: { requests: 25, window: 300000 }, // 25 tentativas/5min para auth
+  global: { requests: 2000, window: 3600000 }, // 2000 req/hora global
+  ai: { requests: 200, window: 300000 } // 200 req/5min para AI chat (free tier)
 };
 
 export async function middleware(request: NextRequest) {

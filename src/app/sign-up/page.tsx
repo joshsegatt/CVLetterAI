@@ -8,30 +8,9 @@ import { Button } from '@/components/ui/Button';
 import { CheckCircle, ArrowRight, Eye, EyeOff, User, Mail, Lock, Shield, AlertCircle } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
+import { registerSchema, type RegisterInput } from '@/lib/validations/auth';
 
-const registerSchema = z.object({
-  firstName: z.string().min(1, 'First name is required'),
-  lastName: z.string().min(1, 'Last name is required'),
-  email: z.string().email('Please enter a valid email address'),
-  username: z.string().min(3, 'Username must be at least 3 characters'),
-  password: z.string().min(8, 'Password must be at least 8 characters'),
-  confirmPassword: z.string(),
-  agreeToTerms: z.boolean().refine((val: boolean) => val === true, 'You must agree to the terms and conditions'),
-}).refine((data: any) => data.password === data.confirmPassword, {
-  message: "Passwords don't match",
-  path: ["confirmPassword"],
-});
-
-type RegisterFormData = {
-  firstName: string;
-  lastName: string;
-  email: string;
-  username: string;
-  password: string;
-  confirmPassword: string;
-  agreeToTerms: boolean;
-};
+type RegisterFormData = RegisterInput;
 
 export default function SignUpPage() {
   const [showPassword, setShowPassword] = useState(false);

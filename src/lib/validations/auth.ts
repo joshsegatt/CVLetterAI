@@ -33,6 +33,8 @@ export const registerSchema = z.object({
     .max(100, 'Password must be less than 100 characters'),
   
   confirmPassword: z.string(),
+  
+  agreeToTerms: z.boolean().refine((val: boolean) => val === true, 'You must agree to the terms and conditions'),
 }).refine((data: any) => data.password === data.confirmPassword, {
   message: 'Passwords do not match',
   path: ['confirmPassword'],
