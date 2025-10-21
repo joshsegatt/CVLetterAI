@@ -104,6 +104,8 @@ export default function SignInPage() {
     setSuccess(null);
 
     try {
+      console.log('Attempting sign in with:', { emailOrUsername: data.emailOrUsername });
+      
       // Use NextAuth signIn with credentials provider
       const result = await signIn('credentials', {
         emailOrUsername: data.emailOrUsername,
@@ -111,8 +113,15 @@ export default function SignInPage() {
         redirect: false, // Handle redirect manually
       });
 
+      console.log('SignIn result:', { error: result?.error, ok: result?.ok, status: result?.status });
+
       if (result?.error) {
-        setError('Invalid email/username or password. Please check your credentials.');
+        // More specific error messages based on the error
+        if (result.error === 'CredentialsSignin') {
+          setError('Invalid email/username or password. Please check your credentials and try again.');
+        } else {
+          setError(`Authentication failed: ${result.error}. Please try again.`);
+        }
         return;
       }
 
@@ -121,15 +130,27 @@ export default function SignInPage() {
         
         // Wait a moment for the session to be established
         setTimeout(async () => {
-          const session = await getSession();
-          if (session) {
-            router.push(callbackUrl);
+          try {
+            const session = await getSession();
+            console.log('Session after login:', session);
+            if (session) {
+              console.log('Redirecting to:', callbackUrl);
+              router.push(callbackUrl);
+            } else {
+              console.log('No session found, redirecting to overview');
+              router.push('/overview');
+            }
+          } catch (sessionError) {
+            console.error('Session check error:', sessionError);
+            router.push('/overview');
           }
         }, 1000);
+      } else {
+        setError('Login failed. Please check your credentials and try again.');
       }
     } catch (err) {
       console.error('Sign in error:', err);
-      setError('An unexpected error occurred. Please try again.');
+      setError('An unexpected error occurred. Please check your internet connection and try again.');
     } finally {
       setIsLoading(false);
     }

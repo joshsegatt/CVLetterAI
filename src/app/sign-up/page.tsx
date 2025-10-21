@@ -59,6 +59,12 @@ export default function SignUpPage() {
     setServerError('');
     
     try {
+      console.log('Starting registration with data:', {
+        ...data,
+        password: '[HIDDEN]',
+        confirmPassword: '[HIDDEN]'
+      });
+      
       const response = await fetch('/api/auth/register', {
         method: 'POST',
         headers: {
@@ -68,6 +74,13 @@ export default function SignUpPage() {
       });
 
       const result = await response.json();
+      
+      console.log('Registration response:', {
+        status: response.status,
+        success: result.success,
+        error: result.error,
+        user: result.user
+      });
 
       if (!response.ok) {
         setServerError(result.error || 'Registration failed. Please try again.');
@@ -76,6 +89,7 @@ export default function SignUpPage() {
 
       if (result.success) {
         setIsSuccess(true);
+        console.log('Registration successful, attempting auto-login...');
         
         // Auto-login after successful registration
         try {
@@ -84,13 +98,21 @@ export default function SignUpPage() {
             password: data.password,
             redirect: false,
           });
+          
+          console.log('Auto-login result:', {
+            ok: loginResult?.ok,
+            error: loginResult?.error,
+            status: loginResult?.status
+          });
 
           if (loginResult?.ok) {
+            console.log('Auto-login successful, redirecting to dashboard...');
             // Redirect to dashboard after successful auto-login
             setTimeout(() => {
               router.push('/overview');
             }, 2000);
           } else {
+            console.log('Auto-login failed, redirecting to sign-in page...');
             // If auto-login fails, redirect to sign-in page
             setTimeout(() => {
               router.push(`/sign-in?email=${encodeURIComponent(data.email)}&message=${encodeURIComponent('Account created successfully! Please sign in to continue.')}`);

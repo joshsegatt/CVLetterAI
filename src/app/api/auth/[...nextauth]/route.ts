@@ -17,11 +17,17 @@ const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
+        const loginId = Date.now();
+        console.log(`[LOGIN-${loginId}] Starting credentials authentication`);
+        
         if (!credentials?.emailOrUsername || !credentials?.password) {
+          console.log(`[LOGIN-${loginId}] Missing credentials`);
           return null;
         }
 
         try {
+          console.log(`[LOGIN-${loginId}] Looking up user: ${credentials.emailOrUsername}`);
+          
           // Find user by email or username
           const user = await prisma.user.findFirst({
             where: {
@@ -42,13 +48,17 @@ const authOptions: NextAuthOptions = {
               image: true,
               plan: true,
               isEmailVerified: true,
+              isActive: true,
             },
           });
 
           if (!user || !user.password) {
+            console.log(`[LOGIN-${loginId}] User not found or no password`);
             return null;
           }
 
+          console.log(`[LOGIN-${loginId}] User found: ${user.email}, verifying password...`);
+          
           // Verify password
           const isPasswordValid = await PasswordUtils.verifyPassword(
             credentials.password,
@@ -56,15 +66,20 @@ const authOptions: NextAuthOptions = {
           );
 
           if (!isPasswordValid) {
+            console.log(`[LOGIN-${loginId}] Invalid password for user: ${user.email}`);
             return null;
           }
 
+          console.log(`[LOGIN-${loginId}] Password verified, updating last login...`);
+          
           // Update last login
           await prisma.user.update({
             where: { id: user.id },
             data: { lastLoginAt: new Date() },
           });
 
+          console.log(`[LOGIN-${loginId}] ✅ Authentication successful for: ${user.email}`);
+          
           // Return user data (exclude password)
           return {
             id: user.id,
@@ -76,7 +91,7 @@ const authOptions: NextAuthOptions = {
             isEmailVerified: user.isEmailVerified,
           };
         } catch (error) {
-          console.error('Credentials authentication error:', error);
+          console.error(`[LOGIN-${loginId}] ❌ Credentials authentication error:`, error);
           return null;
         }
       }
@@ -118,8 +133,8 @@ const authOptions: NextAuthOptions = {
   
   session: {
     strategy: process.env.DATABASE_URL ? 'database' : 'jwt',
-    maxAge: 24 * 60 * 60, // 24 hours for better security
-    updateAge: 2 * 60 * 60, // Update session every 2 hours
+    maxAge: 30 * 24 * 60 * 60, // 30 days for better user experience
+    updateAge: 24 * 60 * 60, // Update session every 24 hours
   },
   
   cookies: {

@@ -58,10 +58,10 @@ export function checkRateLimit(
 }
 
 export const RATE_LIMITS = {
-  api: { requests: 100, window: 900000 }, // 100 req/15min
-  auth: { requests: 10, window: 300000 }, // 10 req/5min  
-  register: { requests: 10, window: 900000 }, // 10 req/15min
-  login: { requests: 15, window: 300000 }, // 15 req/5min
-  global: { requests: 1000, window: 3600000 }, // 1000 req/hour
-  ai: { requests: 20, window: 300000 } // 20 req/5min
+  api: { requests: 200, window: 900000 }, // 200 req/15min - more permissive
+  auth: { requests: 20, window: 300000 }, // 20 req/5min - more permissive for auth
+  register: { requests: 20, window: 900000 }, // 20 req/15min - more permissive for registration
+  login: { requests: 30, window: 300000 }, // 30 req/5min - more permissive for login attempts
+  global: { requests: 2000, window: 3600000 }, // 2000 req/hour - doubled limit
+  ai: { requests: 50, window: 300000 } // 50 req/5min - more permissive for AI requests
 } as const;
