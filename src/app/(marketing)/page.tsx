@@ -351,7 +351,11 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                     </p>
 
                     <Button asChild className="btn btn-ghost text-blue-600 hover:text-blue-700 p-0 h-auto font-normal">
-                      <Link href="/cv-builder">
+                      <Link href={
+                        feature.title === "Smart Cover Letters" ? "/letter-builder" :
+                        feature.title === "AI Career Assistant" ? "/chat" :
+                        "/cv-builder"
+                      }>
                         Try it now →
                       </Link>
                     </Button>
