@@ -168,7 +168,6 @@ export default function LinkedInBoostPage() {
             <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-6">
               <Linkedin className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">LinkedIn Profile Boost</h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-4">
               Transform your LinkedIn profile with AI-powered optimization. Get professional headlines, compelling summaries, and achievement highlights.
             </p>
