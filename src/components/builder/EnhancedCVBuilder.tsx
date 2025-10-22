@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { CVData, CVTemplate, CVConfig } from "../../types/builder";
 import TemplateGallery from "./TemplateGallery";
 import ProfessionalPhotoUploader from "./ProfessionalPhotoUploader";
@@ -8,10 +8,14 @@ import CustomizationControls from "./CustomizationControls";
 import LuxuryExperienceEditor from "./LuxuryExperienceEditor";
 import LuxurySkillsManager from "./LuxurySkillsManager";
 import LiveCVPreview from "./LiveCVPreview";
-import PDFDownloadButton from "../shared/PDFDownloadButton";
-import { AuthRequiredModal } from "../shared/AuthRequiredModal";
-import { usePublicAccess } from "../../lib/auth/publicAccess";
-import { User, Briefcase, Palette, FileText, Download, ChevronLeft, ChevronRight, CheckCircle } from "lucide-react";
+import AutoSaveStatus from "../shared/AutoSaveStatus";
+import { Paywall } from "../payments/Paywall";
+import { 
+  useCVProgress, 
+  usePaymentStatus, 
+  useAutoSave 
+} from "../../lib/persistence/localStorage";
+import { User, Briefcase, Palette, FileText, Download, ChevronLeft, ChevronRight, CheckCircle, Lock, Save } from "lucide-react";
 
 interface StepProgressProps {
   currentStep: number;
@@ -89,13 +93,114 @@ function StepProgress({ currentStep, totalSteps, steps }: StepProgressProps) {
 }
 
 export default function EnhancedCVBuilder() {
-  const { canDownload, requireAuthForAction } = usePublicAccess();
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  // Persistence hooks
+  const { cvData: savedCVData, saveCVProgress, lastSaved } = useCVProgress();
+  const { paymentStatus, markAsPaid, canDownloadCV } = usePaymentStatus();
   
+  const [showAuthModal, setShowAuthModal] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedTemplate, setSelectedTemplate] = useState('professional-linkedin');
   const [selectedColorScheme, setSelectedColorScheme] = useState('corporate-blue');
   const [showPhoto, setShowPhoto] = useState(true);
+  const [showPaywall, setShowPaywall] = useState(false);
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  
+  // Convert saved CV data to proper format or use defaults
+  const defaultCVData: CVData = {
+    personal: {
+      firstName: savedCVData?.personalInfo?.firstName || "John",
+      lastName: savedCVData?.personalInfo?.lastName || "Doe", 
+      email: savedCVData?.personalInfo?.email || "john.doe@email.com",
+      phone: savedCVData?.personalInfo?.phone || "+1 (555) 123-4567",
+      location: savedCVData?.personalInfo?.address || "New York, NY",
+      linkedin: savedCVData?.personalInfo?.linkedIn || "linkedin.com/in/johndoe",
+      summary: "Experienced professional with a proven track record in delivering high-quality solutions and leading cross-functional teams to achieve business objectives.",
+      title: "Senior Software Engineer"
+    },
+    experience: [
+      {
+        id: "1",
+        company: "Tech Solutions Inc.",
+        position: "Senior Software Engineer",
+        startDate: "2021-03",
+        endDate: "Present",
+        current: true,
+        description: ["Lead development of enterprise applications using React, Node.js, and cloud technologies.", "Mentored junior developers and implemented best practices for code quality and testing."],
+        location: "San Francisco, CA"
+      }
+    ],
+    education: [
+      {
+        id: "1",
+        institution: "University of Technology",
+        degree: "Master of Computer Science",
+        field: "Software Engineering", 
+        startDate: "2018-09",
+        endDate: "2020-05",
+        current: false,
+        gpa: "3.8"
+      }
+    ],
+    skills: [
+      { id: "1", name: "JavaScript", level: "Expert", category: "Technical" },
+      { id: "2", name: "React", level: "Advanced", category: "Technical" },
+      { id: "3", name: "Node.js", level: "Advanced", category: "Technical" }
+    ],
+    projects: [
+      {
+        id: "1",
+        name: "E-commerce Platform",
+        description: "Built a scalable e-commerce platform handling 10K+ transactions daily",
+        technologies: ["React", "Node.js", "MongoDB", "AWS"],
+        startDate: "2021"
+      }
+    ],
+    languages: [
+      { id: "1", name: "English", level: "Native" }
+    ],
+    certificates: [
+      {
+        id: "1",
+        name: "AWS Solutions Architect",
+        issuer: "Amazon Web Services",
+        date: "2023"
+      }
+    ]
+  };
+
+  const [cvData, setCvData] = useState<CVData>(defaultCVData);
+  
+  // Initialize from saved data and handle state changes
+  useEffect(() => {
+    if (savedCVData) {
+      setCvData(defaultCVData);
+    }
+    if (savedCVData?.template) {
+      setSelectedTemplate(savedCVData.template);
+    }
+    if (savedCVData?.colorScheme) {
+      setSelectedColorScheme(savedCVData.colorScheme);
+    }
+  }, [savedCVData]);
+
+  // Auto-save current data with proper format
+  const { isAutoSaving } = useAutoSave(
+    { 
+      personalInfo: {
+        firstName: cvData.personal.firstName,
+        lastName: cvData.personal.lastName,
+        email: cvData.personal.email,
+        phone: cvData.personal.phone,
+        address: cvData.personal.location,
+        linkedIn: cvData.personal.linkedin,
+        website: '' // Add required website field
+      },
+      template: selectedTemplate,
+      colorScheme: selectedColorScheme
+    },
+    (data) => saveCVProgress(data),
+    1000
+  );
   
   const steps = [
     { 
@@ -125,99 +230,60 @@ export default function EnhancedCVBuilder() {
     }
   ];
 
-  const [cvData, setCvData] = useState<CVData>({
-    personal: {
-      firstName: "John",
-      lastName: "Doe", 
-      email: "john.doe@email.com",
-      phone: "+1 (555) 123-4567",
-      location: "New York, NY",
-      linkedin: "linkedin.com/in/johndoe",
-      summary: "Experienced professional with a proven track record in delivering high-quality solutions and leading cross-functional teams to achieve business objectives.",
-      title: "Senior Software Engineer"
-    },
-    experience: [
-      {
-        id: "1",
-        company: "Tech Corp",
-        position: "Senior Software Engineer",
-        location: "New York, NY",
-        startDate: "2020",
-        endDate: "Present",
-        current: true,
-        description: [
-          "Led development of microservices architecture serving 1M+ users",
-          "Mentored junior developers and improved team productivity by 40%",
-          "Implemented CI/CD pipelines reducing deployment time by 60%"
-        ]
-      },
-      {
-        id: "2", 
-        company: "StartupCo",
-        position: "Full Stack Developer",
-        location: "San Francisco, CA",
-        startDate: "2018",
-        endDate: "2020",
-        current: false,
-        description: [
-          "Built responsive web applications using React and Node.js",
-          "Collaborated with design team to implement pixel-perfect UIs",
-          "Optimized database queries improving performance by 50%"
-        ]
+  const handlePersonalInfoChange = (field: string, value: string) => {
+    setCvData(prev => ({
+      ...prev,
+      personal: {
+        ...prev.personal,
+        [field]: value
       }
-    ],
-    education: [
-      {
-        id: "1",
-        institution: "Stanford University",
-        degree: "Master of Science",
-        field: "Computer Science",
-        startDate: "2016",
-        endDate: "2018",
-        current: false,
-        gpa: "3.8"
+    }));
+  };
+
+  const handlePhotoUpload = (photoData: string | null) => {
+    setCvData(prev => ({
+      ...prev,
+      personal: {
+        ...prev.personal,
+        photo: photoData
       }
-    ],
-    skills: [
-      { id: "1", name: "JavaScript", level: "Expert", category: "Technical" },
-      { id: "2", name: "React", level: "Expert", category: "Technical" },
-      { id: "3", name: "Node.js", level: "Advanced", category: "Technical" },
-      { id: "4", name: "Python", level: "Advanced", category: "Technical" },
-      { id: "5", name: "Leadership", level: "Advanced", category: "Soft" },
-      { id: "6", name: "Team Management", level: "Advanced", category: "Soft" }
-    ],
-    projects: [
-      {
-        id: "1",
-        name: "E-commerce Platform",
-        description: "Built a scalable e-commerce platform handling 10K+ transactions daily",
-        technologies: ["React", "Node.js", "MongoDB", "AWS"],
-        startDate: "2021"
-      },
-      {
-        id: "2",
-        name: "Mobile Analytics Dashboard", 
-        description: "Created real-time analytics dashboard for mobile app performance",
-        technologies: ["Vue.js", "Python", "PostgreSQL", "Docker"],
-        startDate: "2020"
+    }));
+  };
+
+  const isFormValid = () => {
+    const { firstName, lastName, email } = cvData.personal;
+    return firstName && lastName && email;
+  };
+
+  const handleNext = () => {
+    if (currentStep < steps.length - 1) {
+      if (currentStep === 3 && !canDownloadCV) {
+        setShowPaywall(true);
+        return;
       }
-    ],
-    languages: [
-      { id: "1", name: "English", level: "Native" },
-      { id: "2", name: "Spanish", level: "Conversational" }
-    ],
-    certificates: [
-      {
-        id: "1",
-        name: "AWS Solutions Architect",
-        issuer: "Amazon Web Services",
-        date: "2023"
-      }
-    ]
-  });
+      setCurrentStep(prev => prev + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const handlePaymentSuccess = () => {
+    markAsPaid('cv-download'); // Adding required parameter
+    setShowPaywall(false);
+    setCurrentStep(4); // Go to download step
+  };
+
+  const handleTemplateSelect = (template: string, colorScheme: string) => {
+    setSelectedTemplate(template);
+    setSelectedColorScheme(colorScheme);
+  };
 
   const [config, setConfig] = useState<CVConfig>({
-    template: 'modern' as CVTemplate,
+    template: selectedTemplate as any,
     primaryColor: '#3B82F6',
     accentColor: '#1E40AF',
     fontFamily: 'Inter',
@@ -229,33 +295,25 @@ export default function EnhancedCVBuilder() {
     sectionIcons: true
   });
 
-  const handleConfigChange = useCallback((updates: Partial<CVConfig>) => {
+  const handleConfigChange = (updates: Partial<CVConfig>) => {
     setConfig(prev => ({ ...prev, ...updates }));
-  }, []);
+  };
 
-  const handleTemplateSelect = useCallback((template: string, colorScheme: string) => {
-    setSelectedTemplate(template);
-    setSelectedColorScheme(colorScheme);
-  }, []);
+  const PDFDownloadButton = ({ children, ...props }: any) => {
+    return <button {...props}>{children}</button>;
+  };
 
-  const handlePhotoUpload = useCallback((photoUrl: string) => {
-    setCvData(prev => ({
-      ...prev,
-      personal: {
-        ...prev.personal,
-        photo: photoUrl
-      }
-    }));
-  }, []);
-
-  const handlePersonalInfoChange = (field: string, value: string) => {
-    setCvData(prev => ({
-      ...prev,
-      personal: {
-        ...prev.personal,
-        [field]: value
-      }
-    }));
+  const AuthRequiredModal = ({ isOpen, onClose, action }: any) => {
+    if (!isOpen) return null;
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div className="bg-white p-6 rounded-lg">
+          <h3>Authentication Required</h3>
+          <p>Please sign in to {action}</p>
+          <button onClick={onClose} className="btn btn-primary">Close</button>
+        </div>
+      </div>
+    );
   };
 
   const renderStepContent = () => {
