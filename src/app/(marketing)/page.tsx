@@ -15,7 +15,11 @@ import {
   Shield,
   Trophy,
   Eye,
-  MessageSquare
+  MessageSquare,
+  Linkedin,
+  Upload,
+  Sparkles,
+  Copy
 } from "lucide-react";
 import Link from "next/link";
 import { CheckoutButton } from "../../components/payments/CheckoutButton";
@@ -358,72 +362,72 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
           </div>
         </section>
 
-        {/* PRICING - Premium Minimalist */}
-        <section id="pricing" className="section">
+        {/* LINKEDIN BOOST - Featured Tool */}
+        <section id="linkedin-boost" className="section">
           <div className="container-md">
             <div className="text-center space-subsection">
               <h2 className="text-heading text-gray-900 mb-4">
-                Simple pricing
+                LinkedIn Profile Boost
               </h2>
               <p className="text-body text-gray-600">
-                Transparent pricing for professionals
+                Optimize your LinkedIn profile with AI - completely free
               </p>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-6">
-              {plans.map((plan) => (
-                <div
-                  key={plan.name}
-                  className={`card ${
-                    plan.featured 
-                      ? "border-blue-300 bg-blue-50/50" 
-                      : ""
-                  }`}
-                >
-                  <div className="card-body">
-                    <div className="mb-6">
-                      <h3 className="text-title text-gray-900 mb-2">{plan.name}</h3>
-                      <div className="text-3xl font-semibold text-gray-900 mb-3">{plan.price}</div>
-                      <p className="text-small text-gray-600">{plan.description}</p>
+            <div className="card bg-gradient-to-br from-blue-50 to-indigo-50 border-blue-200">
+              <div className="card-body text-center p-8">
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Linkedin className="w-8 h-8 text-white" />
+                </div>
+                
+                <h3 className="text-2xl font-semibold text-gray-900 mb-4">
+                  Transform Your LinkedIn Profile
+                </h3>
+                
+                <p className="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">
+                  Get AI-powered optimization for your LinkedIn headline, about section, and experience highlights. 
+                  No login required, completely free.
+                </p>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                      <Upload className="w-6 h-6 text-blue-600" />
                     </div>
-
-                    <ul className="space-y-3 mb-8">
-                      {plan.highlights.map((item) => (
-                        <li key={item} className="flex items-start gap-3 text-sm text-gray-700">
-                          <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
-                          <span>{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {plan.cta.type === "checkout" ? (
-                      <CheckoutButton
-                        planId={plan.cta.planId}
-                        label={plan.cta.label}
-                        intent={plan.featured ? "primary" : "secondary"}
-                        className={
-                          plan.name === "Enterprise" 
-                            ? "w-full bg-gradient-brand text-white btn btn-lg"
-                            : plan.featured 
-                            ? "w-full btn btn-primary btn-lg"
-                            : "w-full btn btn-secondary btn-lg"
-                        }
-                      />
-                    ) : (
-                      <Button 
-                        asChild 
-                        className={`w-full btn btn-lg ${
-                          plan.featured 
-                            ? "btn-primary" 
-                            : "btn-secondary"
-                        }`}
-                      >
-                        <Link href={plan.cta.href}>{plan.cta.label}</Link>
-                      </Button>
-                    )}
+                    <h4 className="font-semibold text-gray-900 mb-2">Upload CV</h4>
+                    <p className="text-sm text-gray-600">Paste your existing CV and we'll extract the best content</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                      <Sparkles className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h4 className="font-semibold text-gray-900 mb-2">AI Optimization</h4>
+                    <p className="text-sm text-gray-600">Get unique, compelling content tailored to your industry</p>
+                  </div>
+                  
+                  <div className="text-center">
+                    <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mx-auto mb-3">
+                      <Copy className="w-6 h-6 text-blue-600" />
+                    </div>
+                    <h4 className="font-semibold text-gray-900 mb-2">Copy & Use</h4>
+                    <p className="text-sm text-gray-600">Copy the optimized content directly to your LinkedIn profile</p>
                   </div>
                 </div>
-              ))}
+                
+                <Link
+                  href="/linkedin-boost"
+                  className="btn btn-primary btn-xl inline-flex items-center gap-2 hover:shadow-lg hover:scale-105 transition-all duration-300"
+                >
+                  <Linkedin className="w-5 h-5" />
+                  Start LinkedIn Boost - Free
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+                
+                <p className="text-sm text-blue-600 mt-4 font-medium">
+                  ✨ 100% Free • No Login Required • Instant Results
+                </p>
+              </div>
             </div>
           </div>
         </section>

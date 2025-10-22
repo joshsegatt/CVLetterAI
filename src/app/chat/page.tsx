@@ -281,11 +281,11 @@ export default function ChatPage() {
               
               {userPlan === 'free' && (
                 <Link 
-                  href="/pricing" 
+                  href="/linkedin-boost" 
                   className="flex items-center gap-2 p-2.5 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-lg transition-all text-white text-sm group"
                 >
                   <Crown className="h-4 w-4" />
-                  <span className="font-medium">Upgrade to Pro</span>
+                  <span className="font-medium">Try LinkedIn Boost</span>
                   <ChevronRight className="h-3 w-3 ml-auto group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               )}
@@ -320,10 +320,10 @@ export default function ChatPage() {
                   {freeUsage.messagesRemaining} messages left
                 </div>
                 <Link 
-                  href="/pricing" 
+                  href="/linkedin-boost" 
                   className="text-xs bg-blue-600 hover:bg-blue-700 text-white px-2.5 py-1 rounded-md font-medium transition-all"
                 >
-                  Upgrade
+                  Try LinkedIn Boost
                 </Link>
               </div>
             )}

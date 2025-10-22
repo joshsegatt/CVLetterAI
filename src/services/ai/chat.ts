@@ -68,7 +68,7 @@ export async function* streamChatCompletion(
       yield `\n\n📊 **Tokens:** ${usage.todayUsed}/${usage.dailyLimit} used today`;
       
       if (usage.percentUsed >= 80) {
-        yield `\n⚠️ You've used ${usage.percentUsed}% of your daily tokens. [Upgrade to Pro →](/pricing)`;
+        yield `\n⚠️ You've used ${usage.percentUsed}% of your daily tokens. [Try LinkedIn Boost →](/linkedin-boost)`;
       }
     }
 
@@ -94,7 +94,7 @@ function generateTokenLimitMessage(tokenCheck: { dailyLimit: number; remainingTo
            `• 🧠 AI de qualidade premium\n` +
            `• 🌍 Suporte multilíngue\n` +
            `• 📊 Respostas mais precisas\n\n` +
-           `[Upgrade agora →](/pricing?highlight=pro)\n\n` +
+           `[Try LinkedIn Boost →](/linkedin-boost?highlight=pro)\n\n` +
            `Os tokens são resetados amanhã às 00:00 GMT. Volte depois! ⏰`;
   } else {
     return `🔒 **Daily Token Limit Reached**\n\n` +
@@ -104,7 +104,7 @@ function generateTokenLimitMessage(tokenCheck: { dailyLimit: number; remainingTo
            `• 🧠 Premium AI quality\n` +
            `• 🌍 Multi-language support\n` +
            `• 📊 More accurate responses\n\n` +
-           `[Upgrade now →](/pricing?highlight=pro)\n\n` +
+           `[Try LinkedIn Boost →](/linkedin-boost?highlight=pro)\n\n` +
            `Tokens reset tomorrow at 00:00 GMT. Come back later! ⏰`;
   }
 }

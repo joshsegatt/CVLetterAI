@@ -78,8 +78,8 @@ export function checkPlanAccess(request: NextRequest): NextResponse | null {
       const hasAccess = checkRouteAccess(userEmail, route);
       
       if (!hasAccess) {
-        // Redirect to pricing page with upgrade message
-        const upgradeUrl = new URL('/pricing', request.url);
+        // Redirect to linkedin boost page with upgrade message
+        const upgradeUrl = new URL('/linkedin-boost', request.url);
         upgradeUrl.searchParams.set('upgrade', route.requiresEnterprise ? 'enterprise' : 'pro');
         upgradeUrl.searchParams.set('feature', route.feature || 'access');
         return NextResponse.redirect(upgradeUrl);
@@ -146,7 +146,7 @@ export async function checkApiAccess(request: NextRequest, feature: string): Pro
         error: 'Plan upgrade required',
         currentPlan: userPlan.planType,
         requiredFeature: feature,
-        upgradeUrl: '/pricing'
+        upgradeUrl: '/linkedin-boost'
       }, 
       { status: 403 }
     );
@@ -170,7 +170,7 @@ export const AccessChecker = {
       return {
         title: 'Upgrade to Pro Required',
         message: `This feature requires a Pro plan. Upgrade now for just £5.99 one-time payment.`,
-        upgradeUrl: '/pricing?highlight=pro'
+        upgradeUrl: '/linkedin-boost?highlight=pro'
       };
     }
     
@@ -178,7 +178,7 @@ export const AccessChecker = {
       return {
         title: 'Enterprise Feature',
         message: `This feature is available in our Enterprise plan for £9.99/month.`,
-        upgradeUrl: '/pricing?highlight=enterprise'
+        upgradeUrl: '/linkedin-boost?highlight=enterprise'
       };
     }
     

@@ -53,10 +53,10 @@ export function Header() {
             </Link>
             
             <Link 
-              href="/pricing" 
+              href="/linkedin-boost" 
               className="px-3 py-2 text-gray-700 hover:text-gray-900 transition-all duration-200 text-body rounded-lg hover:bg-gray-100"
             >
-              Pricing
+              LinkedIn Boost
             </Link>
           </nav>
 
@@ -127,11 +127,11 @@ export function Header() {
               </Link>
               
               <Link 
-                href="/pricing" 
+                href="/linkedin-boost" 
                 className="block px-4 py-3 text-gray-700 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Pricing
+                LinkedIn Boost
               </Link>
               
               <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 mt-4">
