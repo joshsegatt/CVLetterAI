@@ -80,53 +80,34 @@ const plans: Plan[] = [
   {
     name: "Free",
     price: "£0",
-    description: "Get started with basic CV creation",
+    description: "Start creating your CV instantly without signup",
     highlights: [
-      "1 CV creation per month",
+      "Unlimited CV creation",
       "Basic templates",
-      "PDF export",
-      "Email support"
+      "Auto-save to browser",
+      "No login required"
     ],
-    cta: { type: "link", label: "Get Started Free", href: "/sign-up" },
+    cta: { type: "link", label: "Start Building Now", href: "/cv-builder" },
   },
   {
     name: "Pro",
     price: "£5.99",
-    description: "Perfect for job seekers who need professional results",
+    description: "One-time payment unlocks all premium features forever",
     highlights: [
       "🚀 Unlimited CV & Cover Letters",
-      "🤖 Super AI Chat Assistant", 
-      "✨ AI Content Optimization",
+      "🤖 AI Chat Assistant for optimization", 
+      "✨ AI Content Suggestions",
       "🎨 Premium Templates (20+)",
       "📊 ATS Optimization",
-      "📋 PDF Analysis & Feedback",
+      "📋 PDF Downloads & Exports",
       "🌍 Multi-language Support",
-      "⚡ Priority Support"
+      "⚡ No monthly fees ever"
     ],
     featured: true,
     cta: {
       type: "checkout",
-      label: "Unlock Pro Features",
+      label: "Unlock All Features - £5.99",
       planId: "price_one_time",
-    },
-  },
-  {
-    name: "Enterprise",
-    price: "£9.99",
-    description: "For teams and organizations with advanced needs",
-    highlights: [
-      "👑 Everything in Pro",
-      "👥 Team Management Dashboard",
-      "🏢 Custom Company Templates",
-      "🔌 API Access & Integration",
-      "📈 Advanced Analytics & Reports",
-      "🎯 White-label Option",
-      "📞 Dedicated Account Manager"
-    ],
-    cta: {
-      type: "checkout",
-      label: "Get Enterprise Access",
-      planId: "price_subscription",
     },
   },
 ];
@@ -224,8 +205,8 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                   asChild 
                   className="btn btn-primary btn-lg"
                 >
-                  <Link href="/sign-up" className="flex items-center gap-2">
-                    <span>Get started free</span>
+                  <Link href="/cv-builder" className="flex items-center gap-2">
+                    <span>Start Building Your CV</span>
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>
@@ -234,8 +215,8 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                   asChild 
                   className="btn btn-ghost btn-lg"
                 >
-                  <Link href="#how-it-works">
-                    See how it works
+                  <Link href="/letter-builder">
+                    Create Cover Letter
                   </Link>
                 </Button>
               </div>
@@ -244,7 +225,7 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
               <div className="flex items-center justify-center gap-6 text-small text-subtle">
                 <span>50,000+ CVs created</span>
                 <span>•</span>
-                <span>30-second setup</span>
+                <span>No login required</span>
                 <span>•</span>
                 <span>ATS-optimized</span>
               </div>
@@ -330,7 +311,7 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                   asChild 
                   className="btn btn-primary text-sm"
                 >
-                  <Link href="/sign-up">Create Your CV Now</Link>
+                  <Link href="/cv-builder">Start Building Now</Link>
                 </Button>
               </div>
             </div>
@@ -366,8 +347,8 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                     </p>
 
                     <Button asChild className="btn btn-ghost text-blue-600 hover:text-blue-700 p-0 h-auto font-normal">
-                      <Link href="/sign-up">
-                        Try it free →
+                      <Link href="/cv-builder">
+                        Try it now →
                       </Link>
                     </Button>
                   </div>
@@ -511,8 +492,8 @@ function MarketingPageContent({ searchParams }: { searchParams: any }) {
                   asChild 
                   className="btn btn-primary btn-xl"
                 >
-                  <Link href="/sign-up" className="flex items-center gap-2">
-                    <span>Get started free</span>
+                  <Link href="/cv-builder" className="flex items-center gap-2">
+                    <span>Start building now</span>
                     <ArrowRight className="h-4 w-4" />
                   </Link>
                 </Button>

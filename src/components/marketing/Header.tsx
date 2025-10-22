@@ -63,16 +63,16 @@ export function Header() {
           {/* Botões Equilibrados - Desktop */}
           <div className="hidden lg:flex items-center gap-3">
             <Link 
-              href="/sign-in"
+              href="/chat"
               className="px-4 py-2 text-gray-700 hover:text-gray-900 hover:bg-gray-100 border border-gray-300 hover:border-gray-400 rounded-lg transition-all duration-200 font-medium bg-white"
             >
-              Sign In
+              AI Chat
             </Link>
             <Link 
-              href="/sign-up"
+              href="/cv-builder"
               className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-200 font-medium"
             >
-              Get Started
+              Start Building
             </Link>
           </div>
 
@@ -136,18 +136,18 @@ export function Header() {
               
               <div className="flex flex-col gap-3 pt-4 border-t border-gray-200 mt-4">
                 <Link 
-                  href="/sign-in"
+                  href="/chat"
                   className="px-4 py-3 text-center bg-white border border-gray-300 text-gray-700 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Sign In
+                  AI Chat
                 </Link>
                 <Link 
-                  href="/sign-up"
+                  href="/cv-builder"
                   className="px-4 py-3 text-center bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors font-medium"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  Get Started
+                  Start Building
                 </Link>
               </div>
             </nav>

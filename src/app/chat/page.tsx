@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { PublicLayout } from "../../components/layout/PublicLayout";
+import { Paywall } from "../../components/payments/Paywall";
+import { usePaymentStatus } from "../../lib/persistence/localStorage";
 import { 
   Send, 
   Sparkles, 
@@ -17,7 +19,8 @@ import {
   FileText,
   Clock,
   Paperclip,
-  MoreHorizontal
+  MoreHorizontal,
+  Lock
 } from "lucide-react";
 import { useChatAssistant } from "../../features/chat/hooks/useChatAssistant";
 import { FreeChatTokenManager, estimateTokens } from "../../lib/freeChatTokens";
@@ -46,11 +49,14 @@ const conversationHistory = [
 
 export default function ChatPage() {
   const { messages, input, setInput, isLoading, streamAssistantReply } = useChatAssistant();
+  const { paymentStatus, markAsPaid, canUseChat } = usePaymentStatus();
   const [userPlan, setUserPlan] = useState<'free' | 'pro' | 'enterprise'>('free');
   const [sessionId, setSessionId] = useState<string>('');
   const [freeUsage, setFreeUsage] = useState<any>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [uploadedFile, setUploadedFile] = useState<{ name: string; content: string } | null>(null);
+  const [showPaywall, setShowPaywall] = useState(!canUseChat);
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
@@ -137,6 +143,57 @@ export default function ChatPage() {
       minute: '2-digit' 
     });
   };
+
+  const handlePaymentClick = async () => {
+    setIsPaymentLoading(true);
+    try {
+      // Simulate payment process
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      markAsPaid(`payment_${Date.now()}`);
+      setShowPaywall(false);
+    } catch (error) {
+      console.error('Payment failed:', error);
+    } finally {
+      setIsPaymentLoading(false);
+    }
+  };
+
+  // Show paywall if user hasn't paid
+  if (showPaywall) {
+    return (
+      <PublicLayout
+        title="AI Career Assistant"
+        description="Unlock AI-powered career assistance with premium features"
+      >
+        <div className="min-h-screen bg-gray-50 py-8">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="text-center mb-8">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <Sparkles className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                AI Career Assistant
+              </h1>
+              <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                Get personalized advice for your CV, cover letters, interview preparation, and job search strategy.
+              </p>
+            </div>
+            
+            <Paywall 
+              onPaymentClick={handlePaymentClick}
+              isLoading={isPaymentLoading}
+            />
+            
+            <div className="mt-8 text-center">
+              <Link href="/cv-builder" className="text-blue-600 hover:text-blue-700 font-medium">
+                ← Back to CV Builder
+              </Link>
+            </div>
+          </div>
+        </div>
+      </PublicLayout>
+    );
+  }
 
   return (
     <PublicLayout

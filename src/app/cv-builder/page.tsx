@@ -3,7 +3,9 @@
 import React from "react";
 import { PublicLayout } from "../../components/layout/PublicLayout";
 import EnhancedCVBuilder from "../../components/builder/EnhancedCVBuilder";
-import { Sparkles, Award, Zap, FileText } from "lucide-react";
+import SimpleCheckoutButton from "../../components/payments/SimpleCheckoutButton";
+import { Badge } from "../../components/ui/Badge";
+import { Edit3, FileText, Eye, Download, Sparkles, Zap, Shield, Save, Award } from "lucide-react";
 
 export default function CVBuilderPage() {
   return (
@@ -17,7 +19,7 @@ export default function CVBuilderPage() {
           <div className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-50 to-blue-50 border border-emerald-200 px-6 py-3 rounded-full">
             <Sparkles className="w-5 h-5 text-emerald-600" />
             <span className="text-sm font-medium text-emerald-700">
-              Professional CV Builder - LinkedIn Level Quality
+              Auto-Save Enabled • No Login Required
             </span>
           </div>
           
@@ -27,8 +29,8 @@ export default function CVBuilderPage() {
               <span className="text-gradient block">5 simple steps</span>
             </h2>
             <p className="text-body-lg text-gray-600">
-              Build ATS-optimized CVs with our intelligent design system. Real-time preview, 
-              premium templates, and professional guidance every step of the way.
+              Create professional CVs instantly with auto-save to your browser. 
+              No account required - just start building and your progress is automatically saved.
             </p>
           </div>
         </div>
@@ -41,10 +43,10 @@ export default function CVBuilderPage() {
           <div className="container-md">
             <div className="text-center space-subsection">
               <h2 className="text-heading text-gray-900 mb-4">
-                Why choose our CV Builder?
+                Free CV Builder with Premium Upgrades
               </h2>
               <p className="text-body text-gray-600">
-                Professional tools designed for career success
+                Start for free, upgrade for £5.99 to unlock downloads and AI features
               </p>
             </div>
 
@@ -88,14 +90,62 @@ export default function CVBuilderPage() {
 
             <div className="text-center mt-12">
               <div className="inline-flex items-center gap-6 text-small text-gray-500">
-                <span>✓ ATS-optimized</span>
+                <span>✓ Auto-save enabled</span>
                 <span>•</span>
-                <span>✓ Professional templates</span>
+                <span>✓ No login required</span>
                 <span>•</span>
-                <span>✓ Real-time preview</span>
+                <span>✓ £5.99 unlocks all features</span>
                 <span>•</span>
-                <span>✓ Instant download</span>
+                <span>✓ One-time payment</span>
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Upgrade Section */}
+        <div className="section bg-gray-50">
+          <div className="container-md text-center">
+            <h2 className="text-heading text-gray-900 mb-4">
+              Ready to Download Your Professional CV?
+            </h2>
+            <p className="text-body text-gray-600 mb-8">
+              Unlock PDF downloads, AI chat assistant, and premium features with our one-time payment.
+            </p>
+            
+            <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-200 max-w-2xl mx-auto">
+              <div className="text-3xl font-bold text-blue-600 mb-2">£5.99</div>
+              <div className="text-sm text-gray-500 mb-6">One-time payment • No subscription • Lifetime access</div>
+              
+              <div className="grid md:grid-cols-3 gap-4 mb-6 text-sm">
+                <div className="text-center">
+                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <FileText className="w-4 h-4 text-blue-600" />
+                  </div>
+                  <span className="text-gray-700">PDF Downloads</span>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Sparkles className="w-4 h-4 text-purple-600" />
+                  </div>
+                  <span className="text-gray-700">AI Chat Assistant</span>
+                </div>
+                
+                <div className="text-center">
+                  <div className="w-8 h-8 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-2">
+                    <Award className="w-4 h-4 text-emerald-600" />
+                  </div>
+                  <span className="text-gray-700">Premium Templates</span>
+                </div>
+              </div>
+              
+              <SimpleCheckoutButton className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors">
+                Unlock All Features - £5.99
+              </SimpleCheckoutButton>
+              
+              <p className="text-xs text-gray-500 mt-4">
+                🔒 Secure payment via Stripe • ✅ Instant access • 🚫 No recurring charges
+              </p>
             </div>
           </div>
         </div>
