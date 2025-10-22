@@ -168,12 +168,6 @@ export default function ChatPage() {
         <div className="min-h-screen bg-gray-50 py-8">
           <div className="max-w-4xl mx-auto px-4">
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Sparkles className="w-8 h-8 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold text-gray-900 mb-4">
-                AI Career Assistant
-              </h1>
               <p className="text-lg text-gray-600 max-w-2xl mx-auto">
                 Get personalized advice for your CV, cover letters, interview preparation, and job search strategy.
               </p>
@@ -344,7 +338,6 @@ export default function ChatPage() {
                     <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl mx-auto mb-4 flex items-center justify-center">
                       <Sparkles className="w-6 h-6 text-white" />
                     </div>
-                    <h1 className="text-2xl font-semibold text-gray-900 mb-2">How can I help you today?</h1>
                     <p className="text-gray-600 mb-8">I can help with CVs, cover letters, interviews, and career advice.</p>
                     
                     {/* Quick action buttons */}
