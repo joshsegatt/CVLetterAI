@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { subscriptions, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { env } from "@/env";
+import { getPlanFromPriceId } from "@/lib/stripe";
 
 
 const stripe = new Stripe(env.STRIPE_SECRET_KEY, {
@@ -51,6 +52,9 @@ export async function POST(req: NextRequest) {
 
         if (!user) break;
 
+        const planName = getPlanFromPriceId(priceId ?? "");
+        const credits = planName === "executive" ? 9999 : planName === "pro" ? 50 : 5;
+
         await db
           .insert(subscriptions)
           .values({
@@ -73,6 +77,18 @@ export async function POST(req: NextRequest) {
               updatedAt: new Date(),
             },
           });
+
+        // Update user credits based on plan (grant credits if active OR trialing)
+        const isActive = sub.status === "active" || sub.status === "trialing";
+        if (isActive) {
+          await db.update(users)
+            .set({ 
+              creditsRemaining: credits,
+              creditsTotal: credits,
+              stripeCustomerId: stripeCustomerId
+            })
+            .where(eq(users.id, user.id));
+        }
         break;
       }
 

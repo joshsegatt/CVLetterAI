@@ -39,7 +39,7 @@ export const paymentFailed = (inngest as any).createFunction(
       const isLastAttempt = attemptCount >= 3;
 
       await resend.emails.send({
-        from: "Executive Studio <billing@executivestudio.ai>",
+        from: `CVLetterAI <${env.RESEND_FROM_EMAIL}>`,
         to: user.userEmail as string,
         subject: isLastAttempt
           ? "⚠️ Final notice: Payment failed — action required"
@@ -51,7 +51,7 @@ export const paymentFailed = (inngest as any).createFunction(
     <h1 style="color:#fff;font-size:26px;margin:0 0 16px;">Payment Failed</h1>
     <p style="color:#a0a0b0;line-height:1.7;margin:0 0 24px;">
       We were unable to process your payment${attemptCount > 1 ? ` (attempt ${attemptCount})` : ""}. 
-      ${isLastAttempt ? "This is our final attempt. Please update your payment method immediately to avoid losing access." : "Please update your payment method to continue using Executive Studio."}
+      ${isLastAttempt ? "This is our final attempt. Please update your payment method immediately to avoid losing access." : "Please update your payment method to continue using CVLetterAI."}
     </p>
     ${
       isLastAttempt
@@ -63,7 +63,7 @@ export const paymentFailed = (inngest as any).createFunction(
     <a href="${env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing" style="display:inline-block;background:linear-gradient(135deg,#dc2626,#b91c1c);color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;">
       Update Payment Method
     </a>
-    <p style="color:#505060;font-size:13px;margin-top:32px;">Invoice ID: ${invoiceId} · Executive Studio Billing</p>
+    <p style="color:#505060;font-size:13px;margin-top:32px;">Invoice ID: ${invoiceId} · CVLetterAI Billing</p>
   </div>
 </body></html>`,
       });

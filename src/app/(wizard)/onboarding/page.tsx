@@ -26,9 +26,12 @@ export default function OnboardingPage() {
           <Link href="/" className="h-10 w-10 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all">
              <ChevronLeft className="h-5 w-5 text-white" />
           </Link>
-          <Link href="/" className="group">
+          <Link href="/" className="flex items-center gap-2 group">
+            <div className="h-9 w-9 bg-white/10 backdrop-blur-md rounded-xl flex items-center justify-center border border-white/20 hover:bg-white/20 transition-all overflow-hidden p-1.5 shadow-sm">
+               <img src="/favicon-32x32.png" alt="CVLetterAI" className="w-full h-full object-contain brightness-0 invert" />
+            </div>
             <span className="text-xl font-black text-white tracking-tighter">
-              CVLetters<span className="text-emerald-300">AI</span>
+              CVLetter<span className="text-emerald-300">AI</span>
             </span>
           </Link>
         </div>

@@ -30,7 +30,7 @@ export const creditsDepleted = (inngest as any).createFunction(
 
     await step.run("send-credits-depleted-email", async () => {
       await resend.emails.send({
-        from: "Executive Studio <hello@executivestudio.ai>",
+        from: `CVLetterAI <${env.RESEND_FROM_EMAIL}>`,
         to: user.email as string,
         subject: "You've used all your generation credits",
         html: `
@@ -53,7 +53,7 @@ export const creditsDepleted = (inngest as any).createFunction(
     <a href="${env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;">
       Upgrade Now →
     </a>
-    <p style="color:#505060;font-size:13px;margin-top:32px;">Executive Studio · AI Career Intelligence Platform</p>
+    <p style="color:#505060;font-size:13px;margin-top:32px;">CVLetterAI · AI Career Intelligence Platform</p>
   </div>
 </body></html>`,
       });

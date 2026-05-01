@@ -96,16 +96,31 @@ export async function createCheckoutSession({
   successUrl: string;
   cancelUrl: string;
 }) {
+  const isProMonthly = priceId === STRIPE_PRICES.pro.monthly;
+
   return stripe.checkout.sessions.create({
     customer: customerId,
     mode: "subscription",
     payment_method_types: ["card"],
-    line_items: [{ price: priceId, quantity: 1 }],
+    line_items: [
+      { price: priceId, quantity: 1 },
+      ...(isProMonthly ? [{
+        price_data: {
+          currency: 'usd',
+          product_data: {
+            name: 'Professional Trial Access',
+          },
+          unit_amount: 195, // $1.95
+        },
+        quantity: 1,
+      }] : [])
+    ],
     success_url: successUrl,
     cancel_url: cancelUrl,
     metadata: { userId },
     subscription_data: {
       metadata: { userId },
+      ...(isProMonthly ? { trial_period_days: 14 } : {}),
     },
     allow_promotion_codes: true,
   });

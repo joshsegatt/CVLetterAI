@@ -27,9 +27,39 @@ export function AtsSidebar() {
   } = useWizardStore();
   
   const [activeTab, setActiveTab] = useState<"analysis" | "keywords">("analysis");
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [aiAudit, setAiAudit] = useState<{
+    score: number;
+    missingKeywords: string[];
+    improvementSuggestions: string[];
+  } | null>(null);
 
-  // Logic to calculate keyword match
-  const analysis = useMemo(() => {
+  const handleRunAudit = async () => {
+    if (!data.targetJobDescription) return;
+    
+    setIsAnalyzing(true);
+    try {
+      const response = await fetch("/api/ai/analyze-ats", {
+        method: "POST",
+        body: JSON.stringify({
+          documentData: data,
+          jobDescription: data.targetJobDescription
+        })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        setAiAudit(result);
+      }
+    } catch (error) {
+      console.error("Audit failed", error);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
+
+  // Logic to calculate keyword match (Legacy/Fallback)
+  const quickAnalysis = useMemo(() => {
     const jd = data.targetJobDescription.toLowerCase();
     if (!jd) return null;
 
@@ -52,6 +82,8 @@ export function AtsSidebar() {
 
     return { score, matched, missing, total: jdKeywords.length };
   }, [data]);
+
+  const analysis = aiAudit || quickAnalysis;
 
   if (!isAuditSidebarOpen) return null;
 
@@ -95,7 +127,23 @@ export function AtsSidebar() {
           ) : (
             <div className="space-y-6">
               {/* Score Section */}
-              <div className="p-4 rounded-xl bg-zinc-900 text-white space-y-3 shadow-lg">
+              <div className="p-4 rounded-xl bg-zinc-900 text-white space-y-3 shadow-lg relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-1">
+                   <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    disabled={isAnalyzing}
+                    onClick={handleRunAudit}
+                    className="h-7 text-[10px] text-zinc-400 hover:text-white hover:bg-white/10 gap-1.5"
+                   >
+                     {isAnalyzing ? (
+                       <div className="h-3 w-3 animate-spin border-2 border-white/20 border-t-white rounded-full" />
+                     ) : (
+                       <Zap className="h-3 w-3 text-amber-400" />
+                     )}
+                     Deep Audit
+                   </Button>
+                </div>
                 <div className="flex justify-between items-end">
                   <span className="text-xs font-medium text-zinc-400">Match Score</span>
                   <span className={cn(
@@ -143,11 +191,13 @@ export function AtsSidebar() {
                         <CheckCircle2 className="h-3 w-3 text-emerald-500" /> Matched Strengths
                       </h4>
                       <div className="flex flex-wrap gap-1.5">
-                        {analysis?.matched.map(kw => (
+                        {'matched' in (analysis || {}) ? (analysis as any).matched.map((kw: string) => (
                           <Badge key={kw} variant="secondary" className="text-[9px] bg-emerald-50 text-emerald-700 border-emerald-100">
                             {kw}
                           </Badge>
-                        ))}
+                        )) : (
+                          <p className="text-[10px] text-zinc-400">Run Deep Audit for full analysis.</p>
+                        )}
                       </div>
                     </div>
 
@@ -156,11 +206,17 @@ export function AtsSidebar() {
                         <AlertCircle className="h-3 w-3 text-amber-500" /> Missing Opportunities
                       </h4>
                       <div className="flex flex-wrap gap-1.5">
-                        {analysis?.missing.map(kw => (
+                        {analysis && 'missing' in analysis ? analysis.missing.map((kw: string) => (
                           <Badge key={kw} variant="secondary" className="text-[9px] bg-amber-50 text-amber-700 border-amber-100">
                             {kw}
                           </Badge>
-                        ))}
+                        )) : analysis && 'missingKeywords' in analysis ? (analysis as any).missingKeywords.map((kw: string) => (
+                          <Badge key={kw} variant="secondary" className="text-[9px] bg-amber-50 text-amber-700 border-amber-100">
+                            {kw}
+                          </Badge>
+                        )) : (
+                          <p className="text-[10px] text-zinc-400">Run Deep Audit for full analysis.</p>
+                        )}
                       </div>
                     </div>
                   </div>

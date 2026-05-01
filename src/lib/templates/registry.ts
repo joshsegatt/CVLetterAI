@@ -30,8 +30,8 @@ export const TEMPLATES: Template[] = [
     styles: {
       fontFamily: "font-serif",
       primaryColor: "#18181b",
-      accentColor: "#4f46e5",
-      layout: "classic",
+      accentColor: "#1e293b", // Slate 800 for sidebar
+      layout: "sidebar",
     },
   },
   {
@@ -42,7 +42,7 @@ export const TEMPLATES: Template[] = [
     styles: {
       fontFamily: "font-sans",
       primaryColor: "#27272a",
-      accentColor: "#0891b2",
+      accentColor: "#10b981", // Emerald accent
       layout: "modern",
     },
   },
@@ -54,7 +54,7 @@ export const TEMPLATES: Template[] = [
     styles: {
       fontFamily: "font-sans",
       primaryColor: "#0f172a",
-      accentColor: "#ec4899",
+      accentColor: "#6366f1", // Indigo accent
       layout: "grid",
     },
   },
@@ -66,7 +66,7 @@ export const TEMPLATES: Template[] = [
     styles: {
       fontFamily: "font-sans",
       primaryColor: "#000000",
-      accentColor: "#E63946",
+      accentColor: "#E63946", // Swiss Red
       layout: "modern",
     },
   },
@@ -78,7 +78,7 @@ export const TEMPLATES: Template[] = [
     styles: {
       fontFamily: "font-sans",
       primaryColor: "#1A1A1A",
-      accentColor: "#FFD700",
+      accentColor: "#B8860B", // Dark Goldenrod
       layout: "classic",
     },
   },

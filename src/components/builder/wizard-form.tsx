@@ -77,28 +77,54 @@ export function WizardFormContent({ step }: Props) {
             <h2 className="text-3xl font-black text-zinc-900 tracking-tight">Personal Information</h2>
             <p className="text-zinc-500 font-medium">How should recruiters reach you?</p>
           </div>
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700">Full Name</label>
-              <Input 
-                id="field-name"
-                value={data.personalInfo.name} 
-                onChange={(e) => updatePersonalInfo({ name: e.target.value })} 
-                placeholder="e.g. John Doe"
-                className="h-12 rounded-xl border-zinc-200 focus:border-indigo-600 focus:ring-indigo-600"
-              />
+          <div className="flex flex-col md:flex-row gap-10 items-start">
+            {/* Avatar Upload Preview */}
+            <div className="flex-shrink-0">
+              <label className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em] block mb-4">Portrait</label>
+              <div className="relative group/photo">
+                <div className="h-32 w-32 rounded-[2.5rem] bg-zinc-50 border-2 border-dashed border-zinc-200 flex items-center justify-center overflow-hidden transition-all duration-500 group-hover/photo:border-emerald-400 group-hover/photo:bg-emerald-50/30 shadow-[inset_0_2px_4px_rgba(0,0,0,0.02)]">
+                  {data.personalInfo.photo ? (
+                    <img src={data.personalInfo.photo} alt="Preview" className="h-full w-full object-cover grayscale hover:grayscale-0 transition-all duration-500" />
+                  ) : (
+                    <div className="text-center p-4">
+                      <Plus className="h-6 w-6 text-zinc-300 mx-auto mb-2 group-hover/photo:text-emerald-500 transition-colors" />
+                      <span className="text-[9px] font-black text-zinc-400 uppercase tracking-widest leading-tight block">Executive<br/>Photo</span>
+                    </div>
+                  )}
+                </div>
+                <Input 
+                  type="text"
+                  value={data.personalInfo.photo || ""}
+                  onChange={(e) => updatePersonalInfo({ photo: e.target.value })}
+                  placeholder="Image URL..."
+                  className="mt-4 h-10 text-[10px] rounded-xl border-zinc-100 bg-zinc-50/50 focus:bg-white focus:ring-1 focus:ring-emerald-500 w-32 font-bold transition-all"
+                />
+              </div>
             </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700">Email</label>
-              <Input value={data.personalInfo.email} onChange={(e) => updatePersonalInfo({ email: e.target.value })} placeholder="e.g. john@example.com" className="h-12 rounded-xl" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700">Phone</label>
-              <Input value={data.personalInfo.phone} onChange={(e) => updatePersonalInfo({ phone: e.target.value })} placeholder="e.g. +1 (555) 000-0000" className="h-12 rounded-xl" />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-bold text-zinc-700">Location</label>
-              <Input value={data.personalInfo.location} onChange={(e) => updatePersonalInfo({ location: e.target.value })} placeholder="e.g. New York, NY" className="h-12 rounded-xl" />
+
+            <div className="flex-1 grid grid-cols-2 gap-8 w-full">
+              <div className="space-y-3 col-span-2">
+                <label className="text-xs font-black text-zinc-400 uppercase tracking-[0.2em]">Full Name</label>
+                <Input 
+                  id="field-name"
+                  value={data.personalInfo.name} 
+                  onChange={(e) => updatePersonalInfo({ name: e.target.value })} 
+                  placeholder="e.g. Thomas Henderson"
+                  className="h-14 rounded-2xl border-zinc-100 bg-zinc-50/50 focus:bg-white focus:border-emerald-600 focus:ring-emerald-600 font-black text-lg tracking-tight transition-all"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-zinc-700">Email Address</label>
+                <Input value={data.personalInfo.email} onChange={(e) => updatePersonalInfo({ email: e.target.value })} placeholder="e.g. john@example.com" className="h-12 rounded-xl border-zinc-200" />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-zinc-700">Phone Number</label>
+                <Input value={data.personalInfo.phone} onChange={(e) => updatePersonalInfo({ phone: e.target.value })} placeholder="e.g. +1 (555) 000-0000" className="h-12 rounded-xl border-zinc-200" />
+              </div>
+              <div className="space-y-2 col-span-2">
+                <label className="text-sm font-bold text-zinc-700">Location</label>
+                <Input value={data.personalInfo.location} onChange={(e) => updatePersonalInfo({ location: e.target.value })} placeholder="e.g. New York, NY" className="h-12 rounded-xl border-zinc-200" />
+              </div>
             </div>
           </div>
         </div>

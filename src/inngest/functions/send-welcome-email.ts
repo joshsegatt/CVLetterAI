@@ -18,16 +18,16 @@ export const sendWelcomeEmail = (inngest as any).createFunction(
 
     await step.run("send-email", async () => {
       const { error } = await resend.emails.send({
-        from: "CVlettersAI <hello@cvletters.ai>",
+        from: `CVLetterAI <${env.RESEND_FROM_EMAIL}>`,
         to: email,
-        subject: "Welcome to CVlettersAI — Your AI Career Intelligence Platform",
+        subject: "Welcome to CVLetterAI — Your AI Career Intelligence Platform",
         html: `
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to CVlettersAI</title>
+  <title>Welcome to CVLetterAI</title>
 </head>
 <body style="margin: 0; padding: 0; background-color: #0a0a0a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
   <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0a0a0a; padding: 40px 20px;">
@@ -38,7 +38,7 @@ export const sendWelcomeEmail = (inngest as any).createFunction(
           <tr>
             <td style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%); padding: 48px 48px 40px;">
               <p style="margin: 0; font-size: 22px; font-weight: 700; color: #ffffff; letter-spacing: -0.5px;">
-                ✦ CVlettersAI
+                ✦ CVLetterAI
               </p>
               <h1 style="margin: 24px 0 0; font-size: 32px; font-weight: 700; color: #ffffff; line-height: 1.2;">
                 Welcome, ${firstName}.
@@ -98,8 +98,8 @@ export const sendWelcomeEmail = (inngest as any).createFunction(
           <tr>
             <td style="padding: 24px 48px; border-top: 1px solid #1f1f1f;">
               <p style="margin: 0; font-size: 13px; color: #505060; line-height: 1.6; text-align: center;">
-                You're receiving this because you signed up for CVlettersAI.<br />
-                <a href="${env.NEXT_PUBLIC_APP_URL}" style="color: #6366f1; text-decoration: none;">CVlettersAI</a> · AI Career Intelligence Platform
+                You're receiving this because you signed up for CVLetterAI.<br />
+                <a href="${env.NEXT_PUBLIC_APP_URL}" style="color: #6366f1; text-decoration: none;">CVLetterAI</a> · AI Career Intelligence Platform
               </p>
             </td>
           </tr>

@@ -16,18 +16,48 @@ const geistMono = Geist_Mono({
   display: "swap",
 });
 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://cvletterai.com'
+
 export const metadata: Metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
-    default: "CVlettersAI — AI Career Documents",
-    template: "%s | CVlettersAI",
+    default: "CVLetterAI | AI Executive Career Intelligence",
+    template: "%s | CVLetterAI",
   },
   description:
-    "AI-powered resumes, cover letters, and LinkedIn profiles crafted for senior executives and ambitious professionals.",
-  keywords: ["AI resume", "executive resume", "cover letter AI", "LinkedIn optimization"],
+    "The world's most advanced AI engine for high-fidelity resumes, cover letters, and LinkedIn profiles. ATS-optimized and calibrated for top-tier headhunters.",
+  keywords: ["CVLetterAI", "AI resume", "executive career", "career intelligence", "ATS optimization", "AI cover letter"],
+  authors: [{ name: "CVLetterAI Team" }],
+  creator: "CVLetterAI",
   openGraph: {
     type: "website",
     locale: "en_US",
-    siteName: "CVlettersAI",
+    url: baseUrl,
+    siteName: "CVLetterAI",
+    title: "CVLetterAI | AI Executive Career Intelligence",
+    description: "Replicate top-tier headhunter reasoning with our advanced AI career engine.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "CVLetterAI",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "CVLetterAI | AI Career Intelligence",
+    description: "The next generation of career document automation.",
+    images: ["/og-image.png"],
+    creator: "@cvletterai",
+  },
+  icons: {
+    icon: [
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
   },
 };
 
@@ -40,9 +70,9 @@ export default function RootLayout({
     <ClerkProvider>
       <html
         lang="en"
-        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} h-full antialiased overflow-x-hidden`}
       >
-        <body className="min-h-full bg-white text-zinc-900">
+        <body className="min-h-full bg-white text-zinc-900 overflow-x-hidden">
           <Providers>{children}</Providers>
         </body>
       </html>

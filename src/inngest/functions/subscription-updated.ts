@@ -71,7 +71,7 @@ export const subscriptionUpdated = (inngest as any).createFunction(
               : "Free";
 
         await resend.emails.send({
-          from: "Executive Studio <hello@executivestudio.ai>",
+          from: `CVLetterAI <${env.RESEND_FROM_EMAIL}>`,
           to: user.email as string,
           subject: `You're now on the ${planLabel} plan 🎉`,
           html: `
@@ -84,7 +84,7 @@ export const subscriptionUpdated = (inngest as any).createFunction(
     <a href="${env.NEXT_PUBLIC_APP_URL}/dashboard" style="display:inline-block;background:linear-gradient(135deg,#6366f1,#8b5cf6);color:#fff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;">
       Go to Dashboard →
     </a>
-    <p style="color:#505060;font-size:13px;margin-top:32px;">Executive Studio · AI Career Intelligence Platform</p>
+    <p style="color:#505060;font-size:13px;margin-top:32px;">CVLetterAI · AI Career Intelligence Platform</p>
   </div>
 </body></html>`,
         });
@@ -92,7 +92,7 @@ export const subscriptionUpdated = (inngest as any).createFunction(
     } else if (status === "canceled") {
       await step.run("send-cancellation-email", async () => {
         await resend.emails.send({
-          from: "Executive Studio <hello@executivestudio.ai>",
+          from: `CVLetterAI <${env.RESEND_FROM_EMAIL}>`,
           to: user.email as string,
           subject: "Your subscription has been canceled",
           html: `
@@ -100,7 +100,7 @@ export const subscriptionUpdated = (inngest as any).createFunction(
   <div style="max-width:560px;margin:0 auto;background:#111;border-radius:16px;border:1px solid #1f1f1f;padding:40px;">
     <h1 style="color:#fff;font-size:28px;margin:0 0 16px;">Subscription Canceled</h1>
     <p style="color:#a0a0b0;line-height:1.7;margin:0 0 24px;">
-      Your Executive Studio subscription has been canceled. You'll retain access until the end of your current billing period.
+      Your CVLetterAI subscription has been canceled. You'll retain access until the end of your current billing period.
     </p>
     <p style="color:#a0a0b0;line-height:1.7;margin:0 0 24px;">
       Changed your mind? You can reactivate anytime from your billing settings.
@@ -108,7 +108,7 @@ export const subscriptionUpdated = (inngest as any).createFunction(
     <a href="${env.NEXT_PUBLIC_APP_URL}/dashboard/settings/billing" style="display:inline-block;background:#1f1f2e;color:#a0a0ff;text-decoration:none;padding:14px 28px;border-radius:8px;font-weight:600;border:1px solid #3a3a5c;">
       Reactivate Subscription
     </a>
-    <p style="color:#505060;font-size:13px;margin-top:32px;">Executive Studio · AI Career Intelligence Platform</p>
+    <p style="color:#505060;font-size:13px;margin-top:32px;">CVLetterAI · AI Career Intelligence Platform</p>
   </div>
 </body></html>`,
         });

@@ -15,12 +15,33 @@ interface Props {
 
 export function PhraseSuggestions({ role, onSelect, onClose }: Props) {
   const [search, setSearch] = useState("");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [aiPhrases, setAiPhrases] = useState<string[]>([]);
   
+  const handleAiGenerate = async () => {
+    setIsGenerating(true);
+    try {
+      const response = await fetch("/api/ai/generate-phrases", {
+        method: "POST",
+        body: JSON.stringify({ role })
+      });
+      
+      if (response.ok) {
+        const result = await response.json();
+        setAiPhrases(result.phrases);
+      }
+    } catch (error) {
+      console.error("AI generation failed", error);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
   const phrases = useMemo(() => {
-    const basePhrases = getPhrasesByRole(role);
+    const basePhrases = [...getPhrasesByRole(role), ...aiPhrases];
     if (!search) return basePhrases;
     return basePhrases.filter(p => p.toLowerCase().includes(search.toLowerCase()));
-  }, [role, search]);
+  }, [role, search, aiPhrases]);
 
   return (
     <motion.div 
@@ -39,7 +60,7 @@ export function PhraseSuggestions({ role, onSelect, onClose }: Props) {
         </Button>
       </div>
 
-      <div className="p-3 border-b">
+      <div className="p-3 border-b space-y-2">
         <div className="relative">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-zinc-400" />
           <Input 
@@ -49,6 +70,18 @@ export function PhraseSuggestions({ role, onSelect, onClose }: Props) {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+        <Button 
+          onClick={handleAiGenerate}
+          disabled={isGenerating}
+          className="w-full h-8 text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white gap-2 shadow-sm"
+        >
+          {isGenerating ? (
+            <div className="h-3 w-3 animate-spin border-2 border-white/20 border-t-white rounded-full" />
+          ) : (
+            <Sparkles className="h-3 w-3" />
+          )}
+          {isGenerating ? "Generating..." : "Generate with AI Magic"}
+        </Button>
       </div>
 
       <div className="flex-1 overflow-y-auto p-2 space-y-2 custom-scrollbar">

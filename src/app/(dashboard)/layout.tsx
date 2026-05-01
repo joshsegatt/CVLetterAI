@@ -23,11 +23,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
       <aside className="hidden lg:flex w-64 flex-shrink-0 flex-col border-r border-zinc-200 bg-white shadow-[1px_0_0_0_rgba(0,0,0,0.02)]">
         <div className="flex h-16 items-center gap-3 border-b border-zinc-100 px-6">
           <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-600 shadow-lg shadow-indigo-200">
-              <Sparkles className="h-4 w-4 text-white" />
-            </div>
-            <span className="font-bold text-zinc-900 text-[15px] tracking-tight">
-              Executive<span className="text-indigo-600">Studio</span>
+            <span className="font-black text-zinc-900 text-[15px] tracking-tight">
+              CVLetter<span className="text-emerald-500">AI</span>
             </span>
           </Link>
         </div>
@@ -38,10 +35,10 @@ export default async function DashboardLayout({ children }: { children: React.Re
               key={item.href}
               href={item.href}
               className={cn(
-                "flex items-center gap-3.5 rounded-lg px-3 py-2.5 text-[13px] font-medium text-zinc-600 transition-all hover:bg-zinc-50 hover:text-indigo-600 group"
+                "flex items-center gap-3.5 rounded-lg px-3 py-2.5 text-[13px] font-medium text-zinc-600 transition-all hover:bg-zinc-50 hover:text-emerald-600 group"
               )}
             >
-              <item.icon className="h-4 w-4 text-zinc-400 group-hover:text-indigo-500 transition-colors" />
+              <item.icon className="h-4 w-4 text-zinc-400 group-hover:text-emerald-500 transition-colors" />
               <span className="whitespace-nowrap">{item.label}</span>
             </Link>
           ))}
@@ -70,11 +67,8 @@ export default async function DashboardLayout({ children }: { children: React.Re
         {/* Mobile topbar */}
         <header className="lg:hidden flex h-14 items-center justify-between border-b border-zinc-200 bg-white px-4">
           <Link href="/" className="flex items-center gap-2">
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-indigo-600">
-              <Sparkles className="h-3.5 w-3.5 text-white" />
-            </div>
-            <span className="font-semibold text-zinc-900 text-sm tracking-tight">
-              Executive<span className="text-indigo-600">Studio</span>
+            <span className="font-black text-zinc-900 text-sm tracking-tight">
+              CVLetter<span className="text-emerald-500">AI</span>
             </span>
           </Link>
           <UserButton />

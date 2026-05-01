@@ -153,14 +153,14 @@ export function ExportActions({ data, templateId, documentType, isPro = false, o
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button size="sm" className="gap-2 bg-zinc-900 hover:bg-zinc-800 text-white">
-          <Download className="h-4 w-4" />
+        <Button size="sm" className="gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-black uppercase tracking-widest text-[10px] rounded-xl px-6 h-10 shadow-lg shadow-emerald-600/20">
+          <Download className="h-3.5 w-3.5" />
           Export
           <ChevronDown className="h-3 w-3 opacity-50" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-56 p-2">
-        <div className="px-2 py-1.5 text-[10px] font-bold text-zinc-500 uppercase tracking-wider">
+      <DropdownMenuContent align="end" className="w-64 p-3 rounded-2xl border-zinc-100 shadow-2xl">
+        <div className="px-2 py-2 text-[9px] font-black text-zinc-400 uppercase tracking-[0.2em] mb-1">
           Standard formats
         </div>
         <PDFDownloadLink
@@ -169,38 +169,38 @@ export function ExportActions({ data, templateId, documentType, isPro = false, o
           className="w-full"
         >
           {({ loading }) => (
-            <DropdownMenuItem disabled={loading} className="gap-3 cursor-pointer py-2.5">
-              <div className="bg-red-50 p-2 rounded-lg text-red-600">
+            <DropdownMenuItem disabled={loading} className="gap-3 cursor-pointer py-3 rounded-xl focus:bg-zinc-50 transition-colors">
+              <div className="bg-red-50 p-2.5 rounded-xl text-red-600">
                 <FileText className="h-4 w-4" />
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-bold">Download PDF</span>
-                <span className="text-[10px] text-zinc-500">{loading ? "Preparing..." : "Best for sharing"}</span>
+                <span className="text-[11px] font-black text-zinc-900 uppercase tracking-tight">Download PDF</span>
+                <span className="text-[9px] font-bold text-zinc-400">{loading ? "Preparing..." : "Best for sharing"}</span>
               </div>
             </DropdownMenuItem>
           )}
         </PDFDownloadLink>
 
-        <DropdownMenuSeparator className="my-2" />
+        <DropdownMenuSeparator className="my-3 bg-zinc-50" />
         
-        <div className="px-2 py-1.5 text-[10px] font-bold text-indigo-600 uppercase tracking-wider flex items-center justify-between">
+        <div className="px-2 py-2 text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em] flex items-center justify-between mb-1">
           Premium formats
           {!isPro && <Lock className="h-3 w-3" />}
         </div>
         <DropdownMenuItem 
           onClick={handleDocxExport} 
           disabled={isExportingDocx}
-          className="gap-3 cursor-pointer py-2.5 group"
+          className="gap-3 cursor-pointer py-3 rounded-xl focus:bg-emerald-50/50 transition-colors group"
         >
-          <div className="bg-blue-50 p-2 rounded-lg text-blue-600 group-hover:bg-blue-100 transition-colors">
+          <div className="bg-emerald-50 p-2.5 rounded-xl text-emerald-600 group-hover:bg-emerald-100 transition-colors">
             <FileDown className="h-4 w-4" />
           </div>
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="text-xs font-bold">Word Document</span>
-              {!isPro && <Badge variant="outline" className="text-[8px] h-3 px-1 bg-indigo-50 text-indigo-700 border-indigo-100">PRO</Badge>}
+              <span className="text-[11px] font-black text-zinc-900 uppercase tracking-tight">Word Document</span>
+              {!isPro && <Badge variant="outline" className="text-[8px] h-3.5 px-1.5 bg-emerald-50 text-emerald-700 border-emerald-100 font-black rounded-md">PRO</Badge>}
             </div>
-            <span className="text-[10px] text-zinc-500">{isExportingDocx ? "Generating..." : "Best for editing"}</span>
+            <span className="text-[9px] font-bold text-zinc-400">{isExportingDocx ? "Generating..." : "Best for editing"}</span>
           </div>
         </DropdownMenuItem>
       </DropdownMenuContent>

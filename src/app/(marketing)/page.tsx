@@ -21,7 +21,11 @@ import {
   ChevronRight,
   Rocket,
   Check,
-  X
+  Crown,
+  Target,
+  CreditCard,
+  X,
+  Plus
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -29,11 +33,36 @@ import { Card } from "@/components/ui/card";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
+import { AIConcierge } from "@/components/marketing/ai-concierge";
+
 export default function HomePage() {
   const router = useRouter();
 
   return (
     <div className="bg-white selection:bg-emerald-100 selection:text-emerald-900 overflow-x-hidden antialiased">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebApplication",
+            "name": "CVLetterAI",
+            "description": "AI-powered engine for high-fidelity executive career documents.",
+            "applicationCategory": "CareerService",
+            "operatingSystem": "All",
+            "offers": {
+              "@type": "Offer",
+              "price": "0.00",
+              "priceCurrency": "USD"
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1250"
+            }
+          })
+        }}
+      />
       
       {/* 1. HERO SECTION (THE HOOK) */}
       <section className="relative pt-20 pb-20 overflow-hidden">
@@ -61,45 +90,81 @@ export default function HomePage() {
                 className="space-y-6"
               >
                 
-                <h1 className="text-4xl md:text-[48px] font-extrabold text-zinc-900 leading-[1.1] tracking-tight">
-                  Beat the ATS. <br />Land the Interview. <br />
-                  <span className="text-emerald-500">In 30 Seconds.</span>
+                <h1 className="text-5xl md:text-[64px] font-black text-zinc-900 leading-[0.95] tracking-tight italic">
+                  The Executive <br />
+                  <span className="text-emerald-500 not-italic">Studio.</span>
                 </h1>
                 
-                <p className="text-base text-zinc-600 leading-relaxed font-medium max-w-lg">
-                  Stop wasting hours on generic templates that recruiters ignore. Our AI-powered Resume Builder identifies job-specific keywords to ensure you score 95%+ on any ATS scanner.
+                <p className="text-lg text-zinc-600 leading-relaxed font-semibold max-w-lg">
+                  Elevate your career with high-fidelity, ATS-engineered documents. The only AI engine calibrated to replicate the strategic reasoning of top-tier headhunters.
                 </p>
               </motion.div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button 
-                  size="xl" 
-                  className="h-14 px-10 rounded-xl bg-zinc-900 hover:bg-black text-white text-base font-bold shadow-xl transition-all" 
-                  onClick={() => router.push("/onboarding")}
-                >
-                  Create My AI CV
-                  <ArrowRight className="h-5 w-5 ml-2" />
-                </Button>
+              <div className="flex flex-col sm:flex-row items-center gap-8">
+                <div className="relative group">
+                  {/* Neon Glow Rings */}
+                  <div className="absolute -inset-1 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-[1.6rem] blur opacity-25 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                  
+                  {/* Animated Border Beam */}
+                  <div className="absolute inset-0 rounded-[1.5rem] overflow-hidden">
+                    <motion.div
+                      animate={{
+                        rotate: [0, 360],
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "linear",
+                      }}
+                      className="absolute -inset-[100%] bg-[conic-gradient(from_0deg,transparent_0,transparent_25%,#10b981_50%,transparent_75%,transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    />
+                  </div>
+
+                  <Button 
+                    size="xl" 
+                    className="relative h-16 px-12 rounded-[1.5rem] bg-zinc-900 hover:bg-black text-white text-base font-black uppercase tracking-widest shadow-[0_20px_40px_-10px_rgba(0,0,0,0.3)] transition-all active:scale-95 z-10" 
+                    onClick={() => router.push("/onboarding")}
+                  >
+                    Start Building
+                    <ArrowRight className="h-5 w-5 ml-3 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+
+                  {/* AI Powered Badge Below */}
+                  <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-1.5 whitespace-nowrap">
+                    <div className="flex items-center gap-1 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-100 shadow-sm">
+                      <Sparkles className="h-3 w-3 text-emerald-500 fill-emerald-500" />
+                      <span className="text-[10px] font-black text-emerald-700 uppercase tracking-tighter">AI-Powered</span>
+                    </div>
+                  </div>
+                </div>
                 
                 <Button 
                   variant="outline"
                   size="xl" 
-                  className="h-14 px-10 rounded-xl border-zinc-200 text-zinc-600 hover:bg-zinc-50 text-base font-bold transition-all"
-                  onClick={() => router.push("/onboarding")}
+                  className="h-16 px-10 rounded-[1.5rem] border-zinc-200 text-zinc-600 hover:bg-zinc-50 text-base font-black uppercase tracking-widest transition-all"
+                  onClick={() => {
+                    const el = document.getElementById('templates-section');
+                    el?.scrollIntoView({ behavior: 'smooth' });
+                  }}
                 >
-                  View Examples
+                  Elite Templates
                 </Button>
               </div>
 
-              <div className="flex items-center gap-4 pt-4">
-                <div className="flex -space-x-2">
+              <div className="flex items-center gap-6 pt-6">
+                <div className="flex -space-x-4">
                   {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="h-8 w-8 rounded-full border-2 border-white bg-zinc-100 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/100?u=${i + 20}`} alt="User" />
+                    <div key={i} className="h-12 w-12 rounded-full border-4 border-white bg-zinc-100 overflow-hidden shadow-xl">
+                      <img src={`https://i.pravatar.cc/100?u=exec${i + 40}`} alt="Executive" className="h-full w-full object-cover grayscale" />
                     </div>
                   ))}
                 </div>
-                <p className="text-xs text-zinc-400 font-bold uppercase tracking-widest">Trusted by 12,000+ candidates</p>
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map(i => <Star key={i} className="h-3 w-3 fill-emerald-500 text-emerald-500" />)}
+                  </div>
+                  <p className="text-[10px] text-zinc-400 font-black uppercase tracking-[0.2em]">Validated by Fortune 500 Leaders</p>
+                </div>
               </div>
             </div>
 
@@ -315,6 +380,356 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* 2.5 TEMPLATE ROTATIVE CAROUSEL (THE HOOK) */}
+      <section id="templates-section" className="py-20 bg-[#ecfdf5] overflow-hidden border-y border-emerald-100/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 text-center">
+          <h2 className="text-4xl md:text-[44px] font-black text-zinc-900 mb-4 tracking-tight leading-[1.1]">
+            Your Career, <span className="text-emerald-500 italic">Architected</span>.
+          </h2>
+          <p className="text-lg text-zinc-600 font-medium leading-relaxed max-w-2xl mx-auto">
+            Choose a high-fidelity blueprint. Our AI adapts your history into these elite executive formats instantly.
+          </p>
+        </div>
+
+        <div className="relative group">
+          {/* Infinite Marquee Container */}
+          <div className="flex overflow-hidden">
+            <motion.div 
+              className="flex gap-10 pr-10"
+              animate={{ 
+                x: [0, -1700] // Adjust based on total width (340px * 5 templates)
+              }}
+              transition={{ 
+                duration: 40, 
+                repeat: Infinity, 
+                ease: "linear"
+              }}
+              whileHover={{ animationPlayState: "paused" }}
+            >
+              {[
+                { 
+                  id: "executive", 
+                  name: "The Executive", 
+                  category: "Finance", 
+                  avatarId: "65",
+                  fullName: "Marcus V. Sterling",
+                  role: "Chief Financial Officer",
+                  summary: "Strategic CFO with 15+ years experience managing $500M+ portfolios and driving 22% annual growth. Expert in capital restructuring.",
+                  experience: "Spearheaded Series C funding raising $80M while reducing operational overhead by 15% through smart AI automation.",
+                  accent: "#1e293b",
+                  kpis: ["M&A Expert", "IPO Ready", "IFRS Guru"]
+                },
+                { 
+                  id: "modern", 
+                  name: "Modern Tech", 
+                  category: "Engineering", 
+                  avatarId: "12",
+                  fullName: "Elena Rodriguez",
+                  role: "Senior Full-Stack Engineer",
+                  summary: "Expert in distributed systems and React/Next.js. Optimized core vitals, improving LCP by 40% for global SaaS platforms.",
+                  experience: "Architected microservices handling 1M+ concurrent users with 99.99% uptime for Fortune 500 tech leaders.",
+                  accent: "#10b981",
+                  kpis: ["K8s Master", "AWS Solutions", "Node.js"]
+                },
+                { 
+                  id: "creative", 
+                  name: "Creative Pulse", 
+                  category: "Marketing", 
+                  avatarId: "33",
+                  fullName: "Julian Chen",
+                  role: "Creative Art Director",
+                  summary: "Award-winning director focused on high-conversion brand identity and immersive digital experiences for retail giants.",
+                  experience: "Rebranded global SaaS leader, resulting in a 45% increase in organic user acquisition and brand recognition.",
+                  accent: "#6366f1",
+                  kpis: ["UI/UX Focus", "Brand Strategy", "Motion"]
+                },
+                { 
+                  id: "swiss", 
+                  name: "The Swiss", 
+                  category: "Legal", 
+                  avatarId: "44",
+                  fullName: "Dr. Isabella Rossi",
+                  role: "General Counsel",
+                  summary: "Specialist in international compliance and risk management. Advised on $2B+ in complex cross-border global transactions.",
+                  experience: "Negotiated cross-border contracts across 4 continents, reducing legal exposure by 30% through strict protocol audits.",
+                  accent: "#ef4444",
+                  kpis: ["Compliance", "M&A Law", "EU Privacy"]
+                },
+                { 
+                  id: "titan", 
+                  name: "The Titan", 
+                  category: "Sales", 
+                  avatarId: "55",
+                  fullName: "Thomas Henderson",
+                  role: "Head of Global Sales",
+                  summary: "High-impact sales leader consistently exceeding annual quotas by 150%. Specialist in enterprise B2B sales cycles.",
+                  experience: "Grew annual recurring revenue (ARR) from $5M to $45M within 36 months of tenure through strategic partnerships.",
+                  accent: "#f59e0b",
+                  kpis: ["Revenue Growth", "B2B Expert", "SDR Mgmt"]
+                },
+                { 
+                  id: "academic", 
+                  name: "The Academic", 
+                  category: "Science", 
+                  avatarId: "64",
+                  fullName: "Prof. Arthur Pendragon",
+                  role: "Lead Research Scientist",
+                  summary: "Published researcher in Neural Networks and Bio-Engineering. 45+ peer-reviewed citations in 2023 journals.",
+                  experience: "Secured $12M in federal grants for breakthrough research in sustainable AI infrastructure and carbon capture.",
+                  accent: "#2980B9",
+                  kpis: ["PhD MIT", "12+ Patents", "IEEE Fellow"]
+                },
+                { 
+                  id: "brutalist", 
+                  name: "Brutalist Edge", 
+                  category: "Design", 
+                  avatarId: "77",
+                  fullName: "Margo 'Shadow' Vox",
+                  role: "Avant-Garde Designer",
+                  summary: "Pushing the boundaries of brutalist UI and experimental digital art for top-tier global fashion brands.",
+                  experience: "Designed the 2024 digital showcase for Paris Fashion Week, hitting 5M+ unique views in the first 48 hours.",
+                  accent: "#000000",
+                  kpis: ["Visual Edge", "Web3 Artist", "Vibe Engine"]
+                },
+                { 
+                  id: "minimal", 
+                  name: "Pure Minimal", 
+                  category: "Healthcare", 
+                  avatarId: "88",
+                  fullName: "Dr. Sarah Jenkins",
+                  role: "Clinical Ops Manager",
+                  summary: "Efficiency-driven manager for large-scale clinical trials. Reduced trial timelines by 20% while maintaining rigor.",
+                  experience: "Managed $50M clinical budget while ensuring 100% compliance with FDA regulations across multiple sites.",
+                  accent: "#9B9B9B",
+                  kpis: ["FDA Expert", "Bio-Ethics", "Agile Med"]
+                },
+                { 
+                  id: "executive", 
+                  name: "Executive HR", 
+                  category: "People", 
+                  avatarId: "99",
+                  fullName: "Ricardo Santos",
+                  role: "Chief People Officer",
+                  summary: "Culture-first leader focused on talent retention and organizational health. Reduced employee churn by 35%.",
+                  experience: "Implemented global remote-first policy for 2,000+ employees across 12 countries with 98% satisfaction.",
+                  accent: "#1e293b",
+                  kpis: ["Hiring Guru", "Retention %", "DEI Lead"]
+                }
+              ].map((tpl, idx) => (
+                <motion.div
+                  key={`${tpl.id}-${idx}`}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="flex-none w-[380px]"
+                >
+                  <Link href={`/onboarding?template=${tpl.id}`} className="block group/card">
+                    <div className="aspect-[3/4.2] rounded-[2.5rem] p-1 mb-8 relative bg-white shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] transition-all duration-700 group-hover/card:shadow-[0_50px_100px_-20px_rgba(0,0,0,0.15)] overflow-hidden border border-zinc-200/50">
+                      
+                      {/* Hover Overlay CTA */}
+                      <div className="absolute inset-0 z-30 bg-emerald-900/10 backdrop-blur-[2px] opacity-0 group-hover/card:opacity-100 transition-all duration-500 flex flex-col items-center justify-center p-8">
+                        <div className="bg-white px-6 py-3 rounded-full shadow-2xl transform translate-y-4 group-hover/card:translate-y-0 transition-transform duration-500 flex items-center gap-3">
+                          <Plus className="h-4 w-4 text-emerald-600" />
+                          <span className="text-xs font-black uppercase tracking-widest text-zinc-900">Build with This</span>
+                        </div>
+                      </div>
+                      
+                      {/* High-Fidelity Mockup Rendering */}
+                      <div className="absolute inset-0 flex bg-white overflow-hidden">
+                        
+                        {/* 1. SIDEBAR LAYOUT (Executive / HR) */}
+                        {(tpl.id === "executive" || tpl.id === "minimal") ? (
+                          <div className="flex w-full">
+                            <div className="w-[120px] bg-zinc-900 p-6 flex flex-col gap-6 text-white shrink-0">
+                               <div className="h-16 w-16 rounded-2xl bg-white overflow-hidden border-2 border-white/20 shadow-xl">
+                                  <img src={`https://i.pravatar.cc/150?u=${tpl.avatarId}`} alt={tpl.fullName} className="h-full w-full object-cover grayscale" />
+                               </div>
+                               <div className="space-y-4">
+                                 <div className="text-[8px] font-black uppercase tracking-widest text-emerald-400">Expertise</div>
+                                 <div className="space-y-2">
+                                    {[1, 2, 3].map(i => (
+                                      <div key={i} className="h-1 w-full bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full bg-white/40" style={{ width: `${90 - (i * 10)}%` }} />
+                                      </div>
+                                    ))}
+                                 </div>
+                               </div>
+                               <div className="mt-auto space-y-4 opacity-40">
+                                  <div className="h-[1px] w-full bg-white/10" />
+                                  <div className="text-[6px] font-bold uppercase tracking-widest leading-tight">London, UK<br/>cvletter.ai/id</div>
+                               </div>
+                            </div>
+                            <div className="flex-1 p-8 overflow-hidden">
+                               <div className="mb-6">
+                                 <h4 className="text-[16px] font-black text-zinc-900 leading-none uppercase mb-1.5">{tpl.fullName}</h4>
+                                 <p className="text-[8px] font-bold text-zinc-400 uppercase tracking-[0.2em]">{tpl.role}</p>
+                               </div>
+                               
+                               <div className="space-y-6">
+                                  <div className="space-y-2">
+                                     <div className="flex items-center gap-2">
+                                       <span className="text-[8px] font-black uppercase text-zinc-300">Profile</span>
+                                       <div className="h-[1px] flex-1 bg-zinc-50" />
+                                     </div>
+                                     <p className="text-[9px] text-zinc-500 leading-relaxed font-medium italic pr-4">{tpl.summary}</p>
+                                  </div>
+                                  
+                                  <div className="space-y-3">
+                                     <div className="flex items-center gap-2">
+                                       <span className="text-[8px] font-black uppercase text-zinc-300">Experience</span>
+                                       <div className="h-[1px] flex-1 bg-zinc-50" />
+                                     </div>
+                                     <div className="space-y-1.5">
+                                        <div className="flex justify-between text-[7px] font-black uppercase italic text-zinc-400">
+                                           <span>Fortune 500 Corp</span>
+                                           <span>2018 — Present</span>
+                                        </div>
+                                        <p className="text-[9px] text-zinc-900 leading-relaxed font-bold">{tpl.experience}</p>
+                                     </div>
+                                  </div>
+
+                                  <div className="pt-2 grid grid-cols-1 gap-2">
+                                     {tpl.kpis.slice(0, 2).map((kpi, kIdx) => (
+                                       <div key={kIdx} className="flex items-center gap-2">
+                                          <div className="h-1 w-1 rounded-full bg-emerald-500" />
+                                          <span className="text-[8px] font-bold text-zinc-700">{kpi}</span>
+                                       </div>
+                                     ))}
+                                  </div>
+                               </div>
+                            </div>
+                          </div>
+                        ) : tpl.id === "modern" ? (
+                          /* 2. MODERN TECH LAYOUT (Elena Rodriguez style) */
+                          <div className="flex-1 p-0 flex flex-col bg-white">
+                            <div className="bg-zinc-50 p-8 border-b border-zinc-100 flex items-center justify-between">
+                               <div className="space-y-2">
+                                 <h4 className="text-[18px] font-black text-zinc-900 uppercase tracking-tighter leading-none">{tpl.fullName}</h4>
+                                 <div className="flex items-center gap-2">
+                                    <Badge className="bg-emerald-500/10 text-emerald-600 border-emerald-500/20 text-[8px] font-black rounded-md px-2 py-0">SENIOR</Badge>
+                                    <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-widest">{tpl.role}</span>
+                                 </div>
+                               </div>
+                               <div className="h-14 w-14 rounded-2xl overflow-hidden border-2 border-white shadow-lg ring-4 ring-emerald-500/5">
+                                  <img src={`https://i.pravatar.cc/150?u=${tpl.avatarId}`} alt={tpl.fullName} className="h-full w-full object-cover" />
+                               </div>
+                            </div>
+                            <div className="p-8 space-y-6">
+                               <div className="grid grid-cols-3 gap-6">
+                                  <div className="col-span-2 space-y-4">
+                                     <div className="space-y-2">
+                                        <h5 className="text-[8px] font-black uppercase text-emerald-500 tracking-widest">Summary</h5>
+                                        <p className="text-[9px] text-zinc-600 leading-relaxed font-medium">{tpl.summary}</p>
+                                     </div>
+                                     <div className="space-y-2">
+                                        <h5 className="text-[8px] font-black uppercase text-zinc-300 tracking-widest">Key Impact</h5>
+                                        <div className="p-3 bg-zinc-900 rounded-xl">
+                                           <p className="text-[9px] text-white leading-relaxed font-bold">{tpl.experience}</p>
+                                        </div>
+                                     </div>
+                                  </div>
+                                  <div className="space-y-4 border-l border-zinc-100 pl-6">
+                                     <h5 className="text-[8px] font-black uppercase text-zinc-300 tracking-widest">Skills</h5>
+                                     <div className="space-y-3">
+                                        {tpl.kpis.map((kpi, kIdx) => (
+                                          <div key={kIdx} className="space-y-1">
+                                             <div className="flex justify-between text-[7px] font-bold text-zinc-500">
+                                                <span>{kpi}</span>
+                                                <span>{95 - (kIdx * 5)}%</span>
+                                             </div>
+                                             <div className="h-1 w-full bg-zinc-100 rounded-full overflow-hidden">
+                                                <div className="h-full bg-emerald-500" style={{ width: `${95 - (kIdx * 5)}%` }} />
+                                             </div>
+                                          </div>
+                                        ))}
+                                     </div>
+                                  </div>
+                               </div>
+                            </div>
+                          </div>
+                        ) : (
+                          /* 3. TITAN / SWISS / ACADEMIC (Header Focus) */
+                          <div className="flex-1 p-0 flex flex-col bg-white">
+                            <div className={cn(
+                              "p-8 flex flex-col items-center text-center gap-3",
+                              tpl.id === "swiss" ? "border-b-4 border-red-500" : "bg-zinc-50 border-b border-zinc-100"
+                            )}>
+                               {tpl.id === "titan" && <div className="h-1.5 w-12 bg-amber-500 rounded-full mb-2" />}
+                               <h4 className={cn(
+                                 "font-black text-zinc-900 uppercase tracking-tighter leading-none",
+                                 tpl.id === "titan" ? "text-2xl" : "text-xl"
+                               )}>{tpl.fullName}</h4>
+                               <p className={cn(
+                                 "text-[10px] font-bold uppercase tracking-[0.3em]",
+                                 tpl.id === "titan" ? "text-amber-600" : "text-zinc-400"
+                               )}>{tpl.role}</p>
+                               <div className="flex gap-4 opacity-40">
+                                  <div className="h-3 w-3 bg-zinc-200 rounded-full" />
+                                  <div className="h-3 w-3 bg-zinc-200 rounded-full" />
+                                  <div className="h-3 w-3 bg-zinc-200 rounded-full" />
+                               </div>
+                            </div>
+                            
+                            <div className="p-8 flex-1 space-y-6">
+                               <div className="space-y-2">
+                                  <h5 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-900 flex items-center gap-3">
+                                     <div className="h-3 w-[2px] bg-zinc-900" /> Executive Summary
+                                  </h5>
+                                  <p className="text-[10px] text-zinc-500 leading-relaxed font-medium line-clamp-2">{tpl.summary}</p>
+                               </div>
+
+                               <div className="space-y-3">
+                                  <h5 className="text-[9px] font-black uppercase tracking-[0.2em] text-zinc-900 flex items-center gap-3">
+                                     <div className="h-3 w-[2px] bg-zinc-900" /> Career Milestones
+                                  </h5>
+                                  <div className="p-3 rounded-2xl border border-zinc-100 bg-zinc-50/50">
+                                     <p className="text-[10px] text-zinc-900 leading-relaxed font-bold italic line-clamp-3">"{tpl.experience}"</p>
+                                  </div>
+                               </div>
+
+                               <div className="grid grid-cols-3 gap-3">
+                                  {tpl.kpis.map((kpi, kIdx) => (
+                                    <div key={kIdx} className="bg-white border border-zinc-200 rounded-xl px-2 py-2 text-center flex flex-col gap-1 shadow-sm">
+                                       <span className="text-[9px] font-black text-zinc-900 uppercase leading-tight">{kpi}</span>
+                                       <span className="text-[6px] font-bold text-emerald-500 uppercase">Verified</span>
+                                    </div>
+                                  ))}
+                               </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Interactive Hover CTA */}
+                      <div className="absolute inset-0 bg-zinc-950/0 group-hover/card:bg-zinc-950/5 backdrop-blur-0 group-hover/card:backdrop-blur-[2px] transition-all duration-700 flex items-center justify-center">
+                         <div className="opacity-0 group-hover/card:opacity-100 transform translate-y-8 group-hover/card:translate-y-0 transition-all duration-700">
+                           <div className="bg-zinc-900 text-white px-8 py-4 rounded-2xl text-[12px] font-black shadow-[0_20px_40px_rgba(0,0,0,0.3)] flex items-center gap-3 border border-white/10">
+                              BUILD WITH THIS
+                              <ArrowRight className="h-4 w-4 text-emerald-400" />
+                           </div>
+                         </div>
+                      </div>
+                    </div>
+
+                    
+                    <div className="px-2 text-center">
+                      <h3 className="text-xl font-black text-zinc-900 group-hover/card:text-emerald-600 transition-colors tracking-tight mb-1">{tpl.name}</h3>
+                      <div className="flex items-center justify-center gap-2">
+                        <span className="text-[9px] font-black text-emerald-600 uppercase tracking-[0.2em]">{tpl.category}</span>
+                        <div className="h-1 w-1 rounded-full bg-zinc-200" />
+                        <span className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest">ATS Ready</span>
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Fade Effects for edges */}
+          <div className="absolute inset-y-0 left-0 w-40 bg-gradient-to-r from-[#ecfdf5] to-transparent z-10 pointer-events-none" />
+          <div className="absolute inset-y-0 right-0 w-40 bg-gradient-to-l from-[#ecfdf5] to-transparent z-10 pointer-events-none" />
+        </div>
+      </section>
+
       {/* 3. AI EDITOR SHOWCASE (CARD & MOCKUP) */}
       <section className="py-20 bg-white overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -331,7 +746,13 @@ export default function HomePage() {
                         <div className="flex items-start gap-4 border-b border-zinc-100 pb-5">
                            {/* Blurred Profile Photo */}
                            <div className="h-12 w-12 rounded-xl bg-zinc-100 border border-zinc-200 overflow-hidden shrink-0 opacity-40">
-                              <img src="https://i.pravatar.cc/100?u=mock" alt="Profile" className="h-full w-full object-cover blur-[1px]" />
+                              <Image 
+                                src="https://i.pravatar.cc/100?u=mock" 
+                                alt="Profile" 
+                                width={100} 
+                                height={100} 
+                                className="h-full w-full object-cover blur-[1px]" 
+                              />
                            </div>
                            <div className="space-y-2 flex-1">
                               <div className="h-4 w-32 bg-zinc-100 rounded" />
@@ -688,52 +1109,10 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. PREMIUM FOOTER */}
-      <footer className="py-12 bg-white border-t border-zinc-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-start gap-12 md:gap-8">
-            <div className="space-y-4 max-w-xs">
-              <div className="flex items-center gap-2">
-                <div className="h-7 w-7 bg-zinc-950 rounded-lg flex items-center justify-center text-white text-[11px] font-black shadow-lg">C</div>
-                <span className="font-bold text-lg tracking-tight text-zinc-950">cvletter<span className="text-emerald-500">ai</span></span>
-              </div>
-              <p className="text-[13px] text-zinc-400 leading-relaxed font-medium">
-                The strategic AI companion for executive-tier career progression. Engineered in the UK for the global market.
-              </p>
-              <p className="text-[11px] text-zinc-300 font-bold uppercase tracking-widest">
-                © 2026 cvletterai. All rights reserved.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-16 gap-y-10">
-              <div className="space-y-4">
-                <p className="text-[11px] font-black text-zinc-950 uppercase tracking-[0.25em]">Product</p>
-                <ul className="space-y-3">
-                  <li><Link href="/builder/demo" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Resume Builder</Link></li>
-                  <li><Link href="/templates" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Premium Templates</Link></li>
-                  <li><Link href="/pricing" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Pricing Plans</Link></li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <p className="text-[11px] font-black text-zinc-950 uppercase tracking-[0.25em]">Company</p>
-                <ul className="space-y-3">
-                  <li><Link href="/privacy" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Privacy Policy</Link></li>
-                  <li><Link href="/terms" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Terms of Service</Link></li>
-                  <li><Link href="/cookies" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Cookie Policy</Link></li>
-                </ul>
-              </div>
-              <div className="space-y-4">
-                <p className="text-[11px] font-black text-zinc-950 uppercase tracking-[0.25em]">Support</p>
-                <ul className="space-y-3">
-                  <li><Link href="/contact" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Contact Us</Link></li>
-                  <li><Link href="/faq" className="text-[14px] text-zinc-500 hover:text-emerald-600 transition-colors duration-300">Help Center</Link></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
 
+
+
+      <AIConcierge />
     </div>
   );
 }

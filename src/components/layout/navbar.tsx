@@ -20,60 +20,59 @@ export function Navbar() {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-1 group">
+          <Link href="/" className="flex items-center gap-2 group">
             <span className="text-xl font-black text-zinc-900 tracking-tighter">
-              CVLetters<span className="text-emerald-500">AI</span>
+              CVLetter<span className="text-emerald-500">AI</span>
             </span>
           </Link>
 
-          {/* Desktop nav */}
-          <nav className="hidden md:flex items-center gap-1">
-            <Link href="/contact" className="px-3 py-2 text-sm text-zinc-600 hover:text-zinc-900 rounded-md hover:bg-zinc-100 transition-colors">
-              Contact Us
-            </Link>
-          </nav>
+          {/* Desktop nav - Hidden as requested to move items to the right */}
+          <div className="hidden md:block flex-1" />
 
           {/* Right side */}
           <div className="flex items-center gap-4">
-            {!isLoaded ? (
-              <div className="h-8 w-24 animate-pulse rounded-lg bg-zinc-100" />
-            ) : !isSignedIn ? (
-              <>
-                <SignInButton mode="modal">
-                  <button className="text-sm text-zinc-600 hover:text-zinc-900 transition-colors px-3 py-2 rounded-md hover:bg-zinc-100 font-medium">
-                    Log In
-                  </button>
-                </SignInButton>
-                <Link href="/onboarding">
-                  <Button size="sm" className="bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg px-4">
-                    Start Free
-                  </Button>
-                </Link>
-              </>
-            ) : (
-              <>
-                <Link
-                  href="/dashboard"
-                  className="hidden sm:flex items-center gap-2 px-3 py-2 text-sm text-zinc-600 hover:text-zinc-900 rounded-md hover:bg-zinc-100 transition-colors font-medium"
-                >
-                  <LayoutDashboard className="h-4 w-4" />
-                  Dashboard
-                </Link>
-                <UserButton 
-                  appearance={{
-                    elements: {
-                      userButtonAvatarBox: "h-9 w-9 rounded-xl",
-                      userButtonTrigger: "rounded-xl border border-zinc-200 p-0.5"
-                    }
-                  }}
-                />
-              </>
-            )}
+            <div className="flex items-center gap-3">
+              <Link 
+                href="/contact" 
+                className="hidden sm:block text-sm font-bold text-zinc-900 hover:text-black transition-all px-4 py-2"
+              >
+                Contact Us
+              </Link>
+
+              {!isSignedIn ? (
+                <div className="cursor-pointer">
+                  <SignInButton mode="modal">
+                    <Button className="bg-zinc-950 hover:bg-black text-white font-bold rounded-xl px-6 h-10 shadow-md transition-all active:scale-95">
+                      Log In
+                    </Button>
+                  </SignInButton>
+                </div>
+              ) : (
+                <div className="flex items-center gap-3">
+                  <Link
+                    href="/dashboard"
+                    className="hidden sm:flex items-center gap-2 px-4 py-2 text-sm font-bold text-zinc-900 hover:bg-zinc-100 rounded-xl transition-all"
+                  >
+                    <LayoutDashboard className="h-4 w-4" />
+                    Dashboard
+                  </Link>
+                  <UserButton 
+                    appearance={{
+                      elements: {
+                        userButtonAvatarBox: "h-9 w-9 rounded-xl shadow-sm",
+                        userButtonTrigger: "rounded-xl border border-zinc-200 p-0.5 hover:bg-zinc-50 transition-all"
+                      }
+                    }}
+                  />
+                </div>
+              )}
+            </div>
 
             {/* Mobile hamburger */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded-md text-zinc-500 hover:text-zinc-900 hover:bg-zinc-100 transition-colors"
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
             >
               {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
             </button>
@@ -86,13 +85,23 @@ export function Navbar() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t border-zinc-200/60 py-3 space-y-1 px-2"
+            className="md:hidden border-t border-zinc-200/60 py-3 space-y-1 px-2 bg-white/80 backdrop-blur-md"
           >
-            <Link href="/contact" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 rounded-md transition-colors">Contact Us</Link>
+            <Link href="/contact" onClick={() => setMobileOpen(false)} className="block px-3 py-3 text-base font-bold text-zinc-900 hover:bg-zinc-50 rounded-xl transition-all">
+              Contact Us
+            </Link>
             {isSignedIn ? (
-              <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm text-zinc-700 hover:bg-zinc-50 rounded-md transition-colors">Dashboard</Link>
+              <Link href="/dashboard" onClick={() => setMobileOpen(false)} className="block px-3 py-3 text-base font-bold text-zinc-900 hover:bg-zinc-50 rounded-xl transition-all">
+                Dashboard
+              </Link>
             ) : (
-              <Link href="/sign-in" onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-emerald-600 hover:bg-emerald-50 rounded-md transition-colors">Log In</Link>
+              <div className="cursor-pointer">
+                <SignInButton mode="modal">
+                  <button onClick={() => setMobileOpen(false)} className="w-full text-left block px-3 py-3 text-base font-bold text-zinc-900 hover:bg-zinc-50 rounded-xl transition-all">
+                    Log In
+                  </button>
+                </SignInButton>
+              </div>
             )}
           </motion.div>
         )}

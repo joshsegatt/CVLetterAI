@@ -3,7 +3,7 @@ import { z } from "zod";
 import { env } from "@/env";
 
 export const inngest = new Inngest({
-  id: "executive-studio",
+  id: "cvletterai",
   schemas: {
     "document/generate": {
       data: z.object({

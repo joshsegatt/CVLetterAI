@@ -11,6 +11,7 @@ interface WizardState {
       email: string;
       phone: string;
       location: string;
+      photo?: string;
     };
     experience: any[];
     education: any[];

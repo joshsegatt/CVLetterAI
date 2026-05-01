@@ -111,7 +111,15 @@ export function DashboardOverview({ user, recentDocs, applications, subscription
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, delay: 0.15 }}
         >
-          <Card className="p-6 lg:p-8 border-none shadow-float transition-all hover:shadow-float-lg h-full">
+          <Card className={cn(
+            "p-6 lg:p-8 border-none shadow-float transition-all hover:shadow-float-lg h-full relative overflow-hidden",
+            subscription?.status === "active" && "ring-2 ring-emerald-500/20"
+          )}>
+            {subscription?.status === "active" && (
+              <div className="absolute top-0 right-0 p-1 px-3 bg-emerald-500 text-[10px] text-white font-black uppercase tracking-widest rounded-bl-xl">
+                Premium
+              </div>
+            )}
             <CardContent className="p-0 space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-semibold text-zinc-600 uppercase tracking-wider">Active Plan</span>
@@ -120,13 +128,20 @@ export function DashboardOverview({ user, recentDocs, applications, subscription
                 </Badge>
               </div>
               {creditsRemaining === 0 ? (
-                <Button asChild size="lg" className="w-full mt-2">
-                  <Link href="/pricing">Upgrade now</Link>
+                <Button asChild size="lg" className="w-full mt-2 bg-indigo-600 hover:bg-indigo-700">
+                  <Link href="/dashboard/billing">Get More Credits</Link>
                 </Button>
               ) : (
-                <p className="text-xs text-zinc-400 font-medium leading-relaxed">
-                  {subscription?.status === "active" ? "Premium features unlocked" : "5 free credits included"}
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xs text-zinc-400 font-medium leading-relaxed">
+                    {subscription?.status === "active" ? "Elite features unlocked" : "Basic access active"}
+                  </p>
+                  {subscription?.status !== "active" && (
+                    <Link href="/dashboard/billing" className="text-[11px] font-bold text-indigo-600 hover:underline">
+                      Upgrade for unlimited →
+                    </Link>
+                  )}
+                </div>
               )}
             </CardContent>
           </Card>
