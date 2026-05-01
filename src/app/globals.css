@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), Inter, system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: #ffffff;
+  --foreground: #09090b;
+  --muted: #f4f4f5;
+  --muted-foreground: #71717a;
+  --border: #e4e4e7;
+  --ring: #6366f1;
+  --primary: #4f46e5;
+  --primary-foreground: #ffffff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+/* Floating card shadow system */
+.shadow-float {
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04), 0 10px 24px -2px rgba(0,0,0,0.06);
+}
+.shadow-float-lg {
+  box-shadow: 0 8px 16px -2px rgba(0,0,0,0.05), 0 20px 48px -4px rgba(0,0,0,0.08);
+}
+
+/* Glassmorphism */
+.glass {
+  background: rgba(255,255,255,0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.6);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 50%, #a855f7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Page fade-in animation */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 0.5s ease-out both;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #e4e4e7;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #d4d4d8;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CVLetterAI 🚀 | The Elite AI Career Architect
 
-## Getting Started
+> **Transform Your Career in Seconds.**  
+> Crafted for professionals who demand excellence. CVLetterAI is not just a builder; it's your personal career strategist powered by cutting-edge AI.
 
-First, run the development server:
+![Hero Image](public/hero.png)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 💎 Silicon Valley Elite Design
+CVLetterAI features a premium, dark-themed interface built with **Next.js 16**, **Tailwind CSS**, and **Framer Motion**. It’s fast, responsive, and designed to impress.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## ✨ Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **🧠 Multi-Agent AI Engine**: Our specialized AI agents work in parallel to parse your experience, optimize your content, and craft compelling narratives.
+- **📝 Live Executive Preview**: Real-time rendering of your documents with a sophisticated "Executive Preview" engine.
+- **📄 Premium Templates**: Access exclusive, B2B-optimized templates that pass ATS and wow hiring managers.
+- **⚡ Inngest-Powered Pipelines**: Durable background processing for document generation, optimization, and real-time updates.
+- **💳 Seamless Billing**: Integrated with Stripe for professional-grade subscription management and secure payments.
+- **🔐 Enterprise-Grade Auth**: Powered by Clerk for a secure and seamless authentication experience.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Technical Stack
 
-## Learn More
+- **Framework**: Next.js 16 (App Router + Turbopack)
+- **Language**: TypeScript (Strict Type Safety)
+- **Database**: PostgreSQL (via Drizzle ORM & Neon)
+- **Auth**: Clerk
+- **AI**: Anthropic Claude & OpenAI GPT-4o
+- **Jobs**: Inngest
+- **Payments**: Stripe
+- **Styling**: Tailwind CSS & Lucide Icons
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/joshsegatt/CVLetterAI.git
+   cd cvletterai
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Set up environment variables**:
+   Create a `.env.local` file based on the provided `.env.example`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📜 License
+
+© 2026 CVLetterAI. All rights reserved. 
+Designed for high-performance careers.
+
+---
+
+*Built with passion for the next generation of leaders.*
