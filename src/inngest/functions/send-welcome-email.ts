@@ -4,13 +4,12 @@ import { env } from "@/env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export const sendWelcomeEmail = (inngest as any).createFunction(
+export const sendWelcomeEmail = inngest.createFunction(
   {
     id: "send-welcome-email",
     name: "Send Welcome Email",
-    retries: 3,
+    triggers: [{ event: "user/welcome" }],
   },
-  { event: "user/welcome" },
   async ({ event, step }: any) => {
     const { userId, email, name } = event.data;
 

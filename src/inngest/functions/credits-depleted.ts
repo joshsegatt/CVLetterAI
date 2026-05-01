@@ -7,13 +7,8 @@ import { env } from "@/env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export const creditsDepleted = (inngest as any).createFunction(
-  {
-    id: "credits-depleted",
-    name: "Handle Credits Depleted",
-    retries: 2,
-  },
-  { event: "user/credits.depleted" },
+export const creditsDepleted = inngest.createFunction(
+  { id: "credits-depleted", name: "Handle Credits Depleted", triggers: [{ event: "user/credits.depleted" }] },
   async ({ event, step }: any) => {
     const { userId } = event.data;
 

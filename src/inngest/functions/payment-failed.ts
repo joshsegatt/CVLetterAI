@@ -7,13 +7,13 @@ import { env } from "@/env";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export const paymentFailed = (inngest as any).createFunction(
+export const paymentFailed = inngest.createFunction(
   {
     id: "payment-failed",
     name: "Handle Payment Failed",
     retries: 3,
+    triggers: [{ event: "billing/invoice.payment_failed" }],
   },
-  { event: "billing/invoice.payment_failed" },
   async ({ event, step }: any) => {
     const { stripeCustomerId, invoiceId, attemptCount } = event.data;
 

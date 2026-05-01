@@ -5,13 +5,13 @@ import { openai } from "@ai-sdk/openai";
 import { generateText } from "ai";
 import { eq } from "drizzle-orm";
 
-export const optimizeDocument = (inngest as any).createFunction(
+export const optimizeDocument = inngest.createFunction(
   {
     id: "optimize-document",
     name: "Optimize Document",
     retries: 2,
+    triggers: [{ event: "document/optimize" }],
   },
-  { event: "document/optimize" },
   async ({ event, step }: any) => {
     const { documentId, userId, optimizationType, jobDescription } = event.data;
 

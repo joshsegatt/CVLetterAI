@@ -4,9 +4,8 @@ import { db } from "@/db";
 import { documents, generationJobs, users, userProfiles } from "@/db/schema";
 import { CareerOrchestrator } from "@/lib/ai/orchestrator";
 
-export const generateDocument = (inngest as any).createFunction(
-  { id: "generate-document", name: "Ultra-Elite Document Generator" },
-  { event: "document/generate" },
+export const generateDocument = inngest.createFunction(
+  { id: "generate-document", name: "Ultra-Elite Document Generator", triggers: [{ event: "document/generate" }] },
   async ({ event, step }: any) => {
     const { documentId, userId, jobDescription: overrideJd } = event.data;
 

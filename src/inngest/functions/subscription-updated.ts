@@ -8,13 +8,13 @@ import { getPlanFromPriceId } from "@/lib/stripe";
 
 const resend = new Resend(env.RESEND_API_KEY);
 
-export const subscriptionUpdated = (inngest as any).createFunction(
+export const subscriptionUpdated = inngest.createFunction(
   {
     id: "subscription-updated",
     name: "Handle Subscription Updated",
     retries: 3,
+    triggers: [{ event: "user/subscription.updated" }],
   },
-  { event: "user/subscription.updated" },
   async ({ event, step }: any) => {
     const { userId, stripeSubscriptionId, status, priceId, currentPeriodEnd } =
       event.data;
