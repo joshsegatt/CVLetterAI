@@ -40,13 +40,11 @@ export function Navbar() {
               </Link>
 
               {!isSignedIn ? (
-                <div className="cursor-pointer">
-                  <SignInButton mode="modal">
-                    <Button className="bg-zinc-950 hover:bg-black text-white font-bold rounded-xl px-6 h-10 shadow-md transition-all active:scale-95">
-                      Log In
-                    </Button>
-                  </SignInButton>
-                </div>
+                <SignInButton mode="modal">
+                  <button className="bg-zinc-950 hover:bg-black text-white font-bold rounded-xl px-6 h-10 shadow-md transition-all active:scale-95 flex items-center justify-center">
+                    Log In
+                  </button>
+                </SignInButton>
               ) : (
                 <div className="flex items-center gap-3">
                   <Link
@@ -95,13 +93,14 @@ export function Navbar() {
                 Dashboard
               </Link>
             ) : (
-              <div className="cursor-pointer">
-                <SignInButton mode="modal">
-                  <button onClick={() => setMobileOpen(false)} className="w-full text-left block px-3 py-3 text-base font-bold text-zinc-900 hover:bg-zinc-50 rounded-xl transition-all">
-                    Log In
-                  </button>
-                </SignInButton>
-              </div>
+              <SignInButton mode="modal">
+                <button 
+                  onClick={() => setMobileOpen(false)} 
+                  className="w-full text-left block px-3 py-3 text-base font-bold text-zinc-900 hover:bg-zinc-50 rounded-xl transition-all"
+                >
+                  Log In
+                </button>
+              </SignInButton>
             )}
           </motion.div>
         )}
